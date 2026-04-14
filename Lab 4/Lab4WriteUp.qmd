@@ -1,0 +1,610 @@
+---
+title: Lab Four -- Programming in R # Title of the document
+
+# Bibliography Details
+bibliography: Lab4References.bib  # Name of bib file in the same folder 
+bibliographystyle: apa            # Bibliography style
+
+execute:               # Default settings for code blocks
+  warning: false       # Do not print warnings
+  message: false       # Do not print messages
+  size: "scriptsize"   # Set code size to script size
+
+# Below will do html by default. To render the entire project
+# Use the following code:
+# quarto::quarto_render("Lab4WriteUp.qmd")
+format:
+  html:       # Specify HTML formatting options 
+    number-sections: true      # Number Sections
+    code-fold: true            # Button to show code
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables and figures
+  pdf:        # Specify .pdf formatting options 
+    documentclass: article     # Document Class
+    number-sections: true      # Number Sections
+    reference-section-title: "References" # Title for reference section
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables 
+    geometry:
+      - top=0.75in
+      - left=0.75in
+      - bottom=0.75in
+      - right=0.75in
+format-links: [pdf]
+---
+```{r}
+#| echo: false
+
+default_chunk_hook  <- knitr::knit_hooks$get("chunk")
+
+latex_font_size <- c("Huge", "huge", "LARGE", "Large", 
+                     "large", "normalsize", "small", 
+                     "footnotesize", "scriptsize", "tiny")
+
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- default_chunk_hook(x, options)
+  if(options$size %in% latex_font_size) {
+    paste0("\n \\", options$size, "\n\n", 
+      x, 
+      "\n\n \\normalsize"
+    )
+  } else {
+    x
+  }
+})
+
+```
+
+```{r}
+#| label: load-packages
+#| include: false
+library(tidyverse)
+```
+
+* Complete the tasks below. Make sure to start your solutions in on a new line that starts with "**Solution**:".
+* Make sure to use the Quarto Cheatsheet. This will make completing and writing up the lab *much* easier.
+
+In this lab, we will build a mealkit recipe generator. I created a small website of about 40 recipes. We will scrape recipes from that website, randomly select three meals, and print a grocery list with recipe cards.
+
+# Preliminaries 
+
+## Part a
+Below, I create a numeric vector filled with random observations. Ask for the 3rd item.<br/> 
+**Note**: The `set.seed(7272)` portion ensures we all get the same answer.
+
+```{r}
+#| size: "scriptsize"
+set.seed(7272) # sets the randomization seed for replication
+x <- sample(x=1:10,          # sample from 1, 2, 3, ..., 10 
+            size=10,         # sample of 10
+            replace = TRUE)  # allowed to sample the same item multiple times
+```
+
+**Solution** 
+```{r}
+(x[3])
+```
+
+## Part b
+
+Below, I create a data frame filled with random observations.
+
+```{r}
+set.seed(7272) # sets the randomization seed for replication
+df <- data.frame(x1 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 
+                             size=10,         # sample of 10
+                             replace = TRUE), # allowed to sample the same item multiple times
+                 x2 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 
+                             size=10,         # sample of 10
+                             replace = TRUE), # allowed to sample the same item multiple times
+                 x3 = sample(x=1:10,          # sample from 1, 2, 3, ..., 10 
+                             size=10,         # sample of 10
+                             replace = TRUE)  # allowed to sample the same item multiple times,
+)
+```
+
+## Part b 
+Use the `head(...)` function to peek at the data frame.
+
+**Solution**
+```{r}
+head(df)
+```
+
+## Part c
+Ask for the column `x1`.
+
+**Solution**
+```{r}
+df[ ,1]
+```
+
+## Part d
+Ask for the fifth row of the data frame.
+
+**Solution**
+```{r}
+df[5, ]
+```
+
+## Part e
+Ask for the the value of `x1` in the fifth row of the data frame.
+
+**Solution**
+```{r}
+df[5, 1]
+```
+
+## Part f
+Ask for the the value of in the third column and the fifth row of the data frame.
+
+**Solution**
+```{r}
+df[5, 3]
+```
+
+## Part g
+Create a sequence from 1 to 10 by 2 and use it to print the odd rows of the data frame.
+
+**Solution**
+```{r}
+df[0:4*2+1, ]
+```
+
+## Part h
+Below, I create an empty column called `x12`. Fill in the details of the `for(...)` loop to ensure `x12` is the product of `x1` and `x2`.
+
+**Solution** 
+```{r}
+#| size: "scriptsize"
+n <- 10                 # How many rows to we have to fill?
+df$x12 <- rep(NA, 10)   # Create an empty column for x12
+for(i in 1:10){
+ df$x12[i] = df$x1[i]*df$x2[i]
+}
+print(df)
+```
+
+
+
+## Part i
+Write a function called `calculate.score(...)` that takes three arguments representing `x1`, `x2`, and `x3`) and returns a single value based on the formula:
+$$Score = (x_1 \times 2) + x_2 - x_3$$
+Use your function to create a new column `total.score` in our data frame `df`.
+
+**Solution**
+```{r}
+#| size: "scriptsize"
+n <- 10                 # How many rows to we have to fill?
+df$total.score <- rep(NA, 10)   # Create an empty column for total.score
+for(i in 1:10){
+  calculate.score = (df$x1[i]*2)+df$x2[i]-df$x3[i]
+  df$total.score[i] = calculate.score
+}
+print(df)
+```
+
+## Part j
+Create a function called `evaluate.row(...)` that takes one argument and returns "low" when the argument is less than 4, "mid" when the argument is between 4 and 7 (inclusive), and "high" when the arguement is 8 or larger. Then, use `sapply(...)` to apply it to column `x1`.
+
+**Solution**
+```{r}
+#| size: "scriptsize"
+evaluate.row = function(n){
+  if (n < 4){
+    return("low")
+  } 
+  if (4 <= n & n <= 7){
+    return("mid")
+  } 
+  if (n >= 8){
+    return("high")
+  }
+}
+
+
+sapply(df$x1, evaluate.row)
+```
+
+## Part k
+Did we need to use loops or functions in (h.)-(j.)? That is, can we use vectorization to attain the same results in 1 line each? Where it is possible, write the line of code. Where it is not, explain why.
+
+**Solution**
+
+### Part h
+```{r}
+(df$x12 = df$x1 * df$x2)
+```
+
+A loop was not actually needed here to form column x12 (alone), although we cannot replicate it inside the data frame. Since data frames are vectorized, you can use vectorization to multiply x1 and x2 by element. 
+
+### Part i
+```{r}
+(df$total.score = (df$x1 * 2) + df$x2 - df$x3)
+```
+
+A loop was not needed here either to form column total.score (alone), although we cannot replicate it inside the data frame. Since data frames are vectorized, you can use vectorization to perform the arithmetic, applying the function to every row. 
+
+### Part j
+
+```{r}
+evaluate.row = function(n){
+  ifelse(n < 4, "low",
+      ifelse(n <= 7, "mid", "high"))
+}
+(evaluate.row(df$x1))
+```
+
+if() statements in R are not vectorized and require a single logical value. Therefore, there is no way to apply if() statements to a whole column of a data frame without using sapply(). We could have, however, used an ifelse() statement which is vectorized and can apply the evaluate.row function to the whole column of x1.
+
+# Complete Tasks for One Recipe
+
+## Part a
+
+Install and load the `rvest` package [@rvest].
+
+**Solution** 
+```{r}
+#| eval: false
+install.packages("rvest")
+```
+
+```{r}
+library("rvest")
+```
+
+
+## Part b
+
+Load the html of the `website/KimchiGrilledCheese.html` using the `read_html()` function. We will use the Kimchi Grilled Cheese recipe as our prototype and extend this workflow to all recipes, so try to be as general as possible. If you do look at it, you'll notice it contains the html we saw in the developer tools in class.<br/>
+**Hint**: You can use `read_html(...)` like `read.csv(...)`. Don't forget you can use the documentation to help use it.
+
+**Solution** 
+```{r}
+library("rvest")
+recipe.item = read_html("website/KimchiGrilledCheese.html")
+```
+
+
+## Part c
+
+Open the html file in a web browser and open developer tools. In chrome-based browsers, you can do this by pressing the three verticle dots in the upper-right corner, clicking "more tools", then "developer tools".
+
+Find the name of the Ingredients section of the website and pull the HTML of the function using `html_element(...)` and save the results to an object called `ingredients.section`. <br/>
+**Hint**: You can ask for elements by id using a preceeding "\#". See `?html_element(...)` for a helpful example. 
+
+**Solution**
+```{r}
+ingredients.section = html_element(recipe.item, "#ingredients")
+```
+
+
+## Part d
+Now, we want to obtain all of the itemized items. Find the element type the individual ingredients and pull all of them from `ingredients.section` using `html_elements(...)` (note the added s) and save the results to an object called `ingredients`.<br/>
+**Hint**: You can ask for elements by type by simply specifying the tag (e.g., "p" for paragraph). See `?html_element for a helpful example.
+
+**Solution**
+```{r}
+ingredients = html_elements(ingredients.section, "li")
+```
+
+## Part e
+Similar to Part c. Find the name of the Instructions section of the website and pull the HTML of the function using `html_element(...)` and save the results to an object called `instructions.section`.<br/>
+
+**Solution**
+```{r}
+instructions.section = html_element(recipe.item, "#instructions")
+```
+
+
+## Part f
+Now, we want to obtain all of the enumerated items. Find the element type the individual instructions and pull all of them from `instructions.section` using `html_elements(...)` (note the added s) and save the results to an object called `instructions`.
+
+**Solution**
+```{r}
+instructions = html_elements(instructions.section, "li")
+```
+
+## Part g
+Find the class of the recipe image and pull the HTML using `html_element(...)` and save the results to an object called `image.element`. <br/>
+**Hint**: You can ask for elements by class using a preceeding ".". See `?html_element(...)` for a helpful example. Further, note that HTML elements may have more than one class (separated by a space). When that is the case, you need to choose one.
+
+**Solution**
+```{r}
+image.element = html_element(recipe.item, ".figure-img")
+```
+
+## Part h
+Use the `html_attr(...)` function to pull the source link ("src"). Then, use `paste(...)` to prepend the source link with "website/" so we have the full link.<br/>
+**Note**: This would be like adding "https://www.website.com" to get the absolute link.
+
+**Solution**
+```{r}
+image.url = html_attr(image.element, "src")
+image.url = paste("website/", image.url, sep = "")
+```
+
+## Part i
+Now that we have all the things we need, let's try to print the recipe. Below, I have written code to print from the objects. One by one, remove `#| eval: false` from the YAML header and add `#| echo: false` and `#| results: 'asis'`, and test. Let me know if you're stuck!
+**Image**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+# width="50%" shrinks the image for printing
+title = html_element(recipe.item, "h1") |> html_text()
+
+cat("# ", title, "\n\n")
+cat(paste("![](", image.url, "){width=50%}\n", sep = ""))
+```
+
+**Ingredients**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("-", html_text(ingredients))
+cat(formatted_list, sep = "\n")
+```
+
+**Instructions**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n") 
+```
+
+# Complete a Full Menu!
+Open `Menu.qmd` and add code to complete the following.
+
+1. Randomly select three dinner recipes and one breakfast recipe at random.<br/>
+**Hint:** Use the `sample(...)` function.
+2. Pull the image, ingredients, and instructions for each selected recipe.
+3. Combine all of the ingredients into a grocery list on the first page.
+4. Print the image, ingredients, and instructions for each receipe on the subsequent pages.
+
+When you render this document, no code should be visible. Instead, you should see a five-page document as described above.
+
+**Solution**
+```{r}
+#| echo: false
+breakfasts = c("website/BerryMelonSmoothie.html",
+                "website/BiscuitsAndGravy.html",
+                "website/BreakfastCheesecake.html",
+                "website/BreakfastMuffins.html",
+                "website/ChiaParfait.html",
+                "website/GardenTomatoQuiche.html",
+                "website/OvernightOats.html",
+                "website/PumpkinToast.html",
+                "website/TropicalSmoothie.html")
+dinner = c("website/AfricanPeanutSoup.html",
+            "website/Alfredo.html",
+            "website/ArugulaPasta.html",
+            "website/AutumnGrainBowl.html",
+            "website/BakedZiti.html",
+            "website/BBQChili.html",
+            "website/Bibimbap.html",
+            "website/BLTSalad.html",
+            "website/Burgers.html",
+            "website/CapreseSandwiches.html",
+            "website/EggplantParmesan.html",
+            "website/Enchiladas.html",
+            "website/FloridaRolls.html",
+            "website/KimchiGrilledCheese.html",
+            "website/Lasagna.html",
+            "website/LatinBowl.html",
+            "website/Meatloaf.html",
+            "website/PadThai.html",
+            "website/PastaAndPeas.html",
+            "website/Pizza.html",
+            "website/RedWineRagu.html",
+            "website/SalmonChowder.html",
+            "website/Shakshuka.html")
+selected.breakfast = sample(breakfasts, 1)
+selected.dinners   = sample(dinner, 3)
+(selected.files = c(selected.breakfast, selected.dinners))
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+library("rvest")
+breakfast.item = read_html("website/GardenTomatoQuiche.html")
+ingredients.section = html_element(breakfast.item, "#ingredients")
+ingredients = html_elements(ingredients.section, "li")
+instructions.section = html_element(breakfast.item, "#instructions")
+instructions = html_elements(instructions.section, "li")
+image.element = html_element(breakfast.item, ".figure-img")
+image.url = html_attr(image.element, "src")
+image.url = paste("website/", image.url, sep = "")
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+# width="50%" shrinks the image for printing
+title = html_element(breakfast.item, "h1") |> html_text()
+
+cat("# ", title, "\n\n")
+cat(paste("![](", image.url, "){width=50%}\n", sep = ""))
+```
+
+**Ingredients**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("-", html_text(ingredients))
+cat(formatted_list, sep = "\n")
+```
+
+**Instructions**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n") 
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+library("rvest")
+bbq.item = read_html("website/BBQChili.html")
+ingredients.section = html_element(bbq.item, "#ingredients")
+ingredients = html_elements(ingredients.section, "li")
+instructions.section = html_element(bbq.item, "#instructions")
+instructions = html_elements(instructions.section, "li")
+image.element = html_element(bbq.item, ".figure-img")
+image.url = html_attr(image.element, "src")
+image.url = paste("website/", image.url, sep = "")
+```
+
+
+```{r}
+#| echo: false
+#| results: 'asis'
+# width="50%" shrinks the image for printing
+title = html_element(bbq.item, "h1") |> html_text()
+
+cat("# ", title, "\n\n")
+cat(paste0("![](", image.url, "){width=50%}"))
+```
+
+**Ingredients**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("-", html_text(ingredients))
+cat(formatted_list, sep = "\n")
+```
+
+**Instructions**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n") 
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+library("rvest")
+ziti.item = read_html("website/BakedZiti.html")
+ingredients.section = html_element(ziti.item, "#ingredients")
+ingredients = html_elements(ingredients.section, "li")
+instructions.section = html_element(ziti.item, "#instructions")
+instructions = html_elements(instructions.section, "li")
+image.element = html_element(ziti.item, ".figure-img")
+image.url = html_attr(image.element, "src")
+image.url = paste("website/", image.url, sep = "")
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+# width="50%" shrinks the image for printing
+title = html_element(ziti.item, "h1") |> html_text()
+
+cat("# ", title, "\n\n")
+cat(paste("![](", image.url, "){width=50%}\n", sep = ""))
+```
+
+**Ingredients**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("-", html_text(ingredients))
+cat(formatted_list, sep = "\n")
+```
+
+**Instructions**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n") 
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+library("rvest")
+pasta.item = read_html("website/PastaAndPeas.html")
+ingredients.section = html_element(pasta.item, "#ingredients")
+ingredients = html_elements(ingredients.section, "li")
+instructions.section = html_element(pasta.item, "#instructions")
+instructions = html_elements(instructions.section, "li")
+image.element = html_element(pasta.item, ".figure-img")
+image.url = html_attr(image.element, "src")
+image.url = paste("website/", image.url, sep = "")
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+# width="50%" shrinks the image for printing
+title = html_element(pasta.item, "h1") |> html_text()
+
+cat("# ", title, "\n\n")
+cat(paste("![](", image.url, "){width=50%}\n", sep = ""))
+```
+
+**Ingredients**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("-", html_text(ingredients))
+cat(formatted_list, sep = "\n")
+```
+
+**Instructions**
+
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\n") 
+```
+
+# Describe your work!
+
+## Why a fake website?
+Read [https://www.scrapingbee.com/blog/is-web-scraping-legal/](Is Web Sraping Legal?). Originally, I conceived doing this with recipes from Purple Carrot (my favorite subscription service). Being a large company, their terms of service are *very* long and precluded us from copying their recipes. We also checked a few smaller recipe websites we like and even they had terms of service that restricted automated collection of data.
+
+## Conditionals
+Did you use conditional statements in your code? If yes, how. If not, are there places you could have used them but did something else?
+
+**Solution**
+
+Yes, I used conditional statements in part j of part 1. I used if() statements to return "low", "mid", and "high" for their corresponding n values (using logicals, and return()). I did this combined with the function evaluate.row which is a function of n, that later was applied to all of column x1 using sapply.
+
+## Loops
+Did you use loops in your code? If yes, how. If not, are there places you could have used them but did something else? 
+
+**Solution**
+
+Yes, I used loops in parts h and i of part 1. In part h, I used a loop to repeat the multiplication of x1 and x2 accross all 10 rows without rewriting the code. This works creating an empty column for x12, then using a for loop for i in $1:10$ and applying the formula throughout. In part i I used a loop in a similar manner by, again, creating an empty column called total score, then using a for loop for i in $1:10$ that applies the calculate.score function to all 10 rows, storing the answers in the total.score column. Part k shows additional ways the x12 and total.score columns could be generated without using loops.
+
+## Functions
+Did you use functions in your code? If yes, how. If not, are there places you could have used them but did something else?
+
+**Solution**
+
+I used functions several times throughout the lab. I used functions in parts i and j of part 1, parts b-h of part 2, and in the similar sections of part 3 (plus the sample() function part). Functions were very useful in this lab, especially for storing functions as objects to keep using them later on. This is because a lot of these activities built on each other, so being able to reference earlier functions easily was necessary.
+
+# Citations
+The [@rvest] package was crucial in creating this fake website. This package is used to "scrape" websites, extracting the information for closer review or for cleaning data. This is a key part of the larger Tidyverse package.
+
+# Discussion
+This lab required a wide variety of different R skills. Activities built on each other, starting with basic navigating of data frames like referencing cells/columns and using the head() function. Then, more advanced skills such as using for loops and conditional statements was required at the end of part 1 to create new columns and interact in more advanced ways with the data frame. Lastly, parts 2 and 3 got into the main task of the lab, recreating the recipe pages. In part 2, the functions read_html, html_element, and html_elements interacted with each other, to pull the different sections of the recipes before printing them. The html_attr and paste functions were used similarly to paste the images specifically. Part 3 was the same except the sample function was used first, storing the breakfast and dinner recipes as vectors and sampling 1 and 3 recipes respectively.
+

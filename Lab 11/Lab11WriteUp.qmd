@@ -1,0 +1,434 @@
+---
+title: Lab Eleven -- Point Estimation and Resampling # Title of the document
+
+# Bibliography Details
+bibliography: Lab11References.bib  # Name of bib file in the same folder 
+bibliographystyle: apa            # Bibliography style
+
+execute:               # Default settings for code blocks
+  warning: false       # Do not print warnings
+  message: false       # Do not print messages
+  size: "scriptsize"   # Set code size to script size
+
+# Below will do html by default. To render the entire project
+# Use the following code:
+# quarto::quarto_render("Lab10WriteUp.qmd")
+format:
+  pdf:        # Specify .pdf formatting options 
+    documentclass: article     # Document Class
+    number-sections: true      # Number Sections
+    reference-section-title: "References" # Title for reference section
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables 
+    geometry:
+      - top=0.75in
+      - left=0.75in
+      - bottom=0.75in
+      - right=0.75in
+  html:       # Specify HTML formatting options 
+    number-sections: true      # Number Sections
+    code-fold: true            # Button to show code
+    code-line-numbers: true    # Line numbers printed in code
+    cap-location: top          # Captions at the top of tables and figures
+format-links: [pdf]
+---
+```{r}
+#| echo: false
+
+default_chunk_hook  <- knitr::knit_hooks$get("chunk")
+
+latex_font_size <- c("Huge", "huge", "LARGE", "Large", 
+                     "large", "normalsize", "small", 
+                     "footnotesize", "scriptsize", "tiny")
+
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- default_chunk_hook(x, options)
+  if(options$size %in% latex_font_size) {
+    paste0("\n \\", options$size, "\n\n", 
+      x, 
+      "\n\n \\normalsize"
+    )
+  } else {
+    x
+  }
+})
+```
+
+```{r}
+#| label: load-packages
+#| include: false
+library(tidyverse)
+library(patchwork)
+```
+
+**Tips**
+
+* Complete the tasks below. Make sure to start your solutions in on a new line that starts with "**Solution**:".
+* Make sure to use the Quarto Cheatsheet. This will make completing and writing up the lab *much* easier.
+* Make sure to use "enter" to make your code readable, so it doesn't run off the page. I switched the Quarto document to automatically render to .pdf, so you can see what you're submitting by default. You can switch back for the highlighting by moving the html block above the pdf block in the YAML header.
+* Don't forget that you can copy-and-paste code when you're doing something similar as we did in class!
+* Make sure to plot all computed probabilities. This is good `ggplot` practice AND will help make sure you don't make a mistake when computing the probability.
+
+
+# Introduction
+When performing point estimation, there isn't just one *right* answer. For example, the Method of Moments (MOM) and Maximum Likelihood Estimates (MLEs) aren't always the same.
+
+One question that comes up, is why we calculate the sample variance as
+$$S_{n-1}^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i -\bar{X})^2,$$
+when it is supposed to be the ``average squared distance from the mean, i.e., 
+$$S_n^2 = \frac{1}{n} \sum_{i=1}^n (X_i -\bar{X})^2.$$
+
+
+# Comparing Estimators
+
+## Initial Simulation
+In this lab, we will explore why we use $S_{n-1}^2$ and not $S_n^2$. To do this, we will generate data from four known distributions:
+
+* Poisson$(\lambda=2)$
+* Binomial$\left(n=50, p=\frac{5-\sqrt{21}}{10}\right)$
+* Normal$(\mu=0, \sigma=\sqrt{2})$
+* Exponential$\left(\lambda = \frac{1}{\sqrt{2}}\right).$
+
+**Remark**: Note that I have selected the parameters so that the true variance for all four models is 2.
+
+For each distribution, write a loop that completes the following 1000 times. Put `set.seed(7272)` at the top of your code chunk.
+
+* Generate a sample of size $n$ from the distribution.
+* Calculate and save $S_{n-1}^2$ and $S_n^2.$
+
+Start with $n=20$. Is there evidence that $S_{n-1}^2$ is a better estimator than $S_n^2$?
+
+Create a plot or combination of plots (using patchwork) to show the results across all four distributions. Make sure to create a corresponding table that numerically summarizes the results of the simulation. You should include
+\begin{align*}
+\textrm{Bias} &= \textrm{Average of Estimates} - \textrm{True Value}\\
+\textrm{Precision} &= \frac{1}{\textrm{Variance of Estimates}}\\
+\textrm{Mean Square Error} &= \textrm{Bias}^2 + \textrm{Variance of Estimates}.
+\end{align*}
+
+**Solution**
+```{r}
+set.seed(7272)
+
+library(ggplot2)
+library(dplyr)
+library(patchwork)
+
+#Simulation Function
+simulate.variance = function(generator.fn, n, n.sim = 1000) {
+  s_n1 = numeric(n.sim)
+  s_n  = numeric(n.sim)
+  
+  for (i in 1:n.sim) {
+    x = generator.fn(n)
+    
+    s_n1[i] = var(x)                 # S_(n-1)^2
+    s_n[i]  = mean((x - mean(x))^2) # S_n^2
+  }
+  
+  tibble(s_n1 = s_n1, s_n = s_n)
+}
+```
+
+```{r}
+#Generate data for each distribution
+gen.pois  = function(n) rpois(n, 2)
+gen.binom = function(n) rbinom(n, 50, (5 - sqrt(21))/10)
+gen.norm  = function(n) rnorm(n, 0, sqrt(2))
+gen.exp   = function(n) rexp(n, rate = 1/sqrt(2))
+
+#Simulations when n = 20
+n = 20
+
+pois.data  = simulate.variance(gen.pois, n)
+binom.data = simulate.variance(gen.binom, n)
+norm.data  = simulate.variance(gen.norm, n)
+exp.data   = simulate.variance(gen.exp, n)
+```
+
+```{r}
+#Summary Function
+summarize.results = function(data, dist.name) {
+  true.var = 2
+  
+  tibble(
+    Distribution = dist.name,
+    Estimator = c("S_{n-1}^2", "S_n^2"),
+    Bias = c(mean(data$s_n1) - true.var,
+             mean(data$s_n)  - true.var),
+    Variance = c(var(data$s_n1),
+                 var(data$s_n)),
+    Precision = c(1 / var(data$s_n1),
+                  1 / var(data$s_n)),
+    MSE = c(
+      (mean(data$s_n1) - true.var)^2 + var(data$s_n1),
+      (mean(data$s_n)  - true.var)^2 + var(data$s_n)
+    )
+  )
+}
+```
+
+```{r}
+#| label: tbl-diff-variance-estimators
+#| tbl-cap: "Comparison of Variance Estimators Using Bias, Variance, Precision, and MSE"
+#| tbl-align: "center"
+#| size: scriptsize
+
+results.table = bind_rows( 
+  summarize.results(pois.data,  "Poisson"),
+  summarize.results(binom.data, "Binomial"),
+  summarize.results(norm.data,  "Normal"),
+  summarize.results(exp.data,   "Exponential")
+) 
+results.table |>
+   knitr::kable(digits = 2)
+```
+
+```{r}
+#| label: fig-comp-variance-estimators
+#| fig-cap: "Comparison of Variance Estimators (n = 20)"
+#| fig-width: 10
+#| fig-height: 5
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+
+#Plot Function
+make.plot = function(sim.data, title) {
+  df.plot = tibble(
+    value = c(sim.data$s_n1, sim.data$s_n),
+    estimator = rep(c("S_(n-1)^2", "S_n^2"), each = nrow(sim.data))
+  )
+ #Plot 
+  ggplot(df.plot, aes(x = value, fill = estimator)) +
+    geom_density(alpha = 0.5) +
+    geom_vline(xintercept = 2, linetype = "dashed") +
+    labs(x = "Estimated Variance") +
+    theme_bw()
+}
+
+p1 = make.plot(pois.data,  "Poisson(λ = 2)")
+p2 = make.plot(binom.data, "Binomial(n=50, p=(5-√21)/10)")
+p3 = make.plot(norm.data,  "Normal(0, √2)")
+p4 = make.plot(exp.data,   "Exponential(λ = 1/√2)")
+
+# Combine plots
+(p1 | p2) / (p3 | p4) 
+```
+
+Across all four distributions, S_(n-1)^2 is approximately unbiased (-0.04 to 0) while S_n^2 shows systematically more bias and no significant differences in variance, precision, or MSE.
+
+## Simulation over various sample sizes
+Consider the effect of the sample size have on these results. Provide a graphical and numerical summary of what happens as $n$ increases -- say $n=20$, $n=50$, $n=100$, and $n=500$. Does the result in your initial simulation hold across samples? Or, do things change as the sample size changes? Ensure to set your randomization seed.
+
+**Solution**
+```{r}
+set.seed(7272)
+sample.sizes = c(20, 50, 100, 500) #store sample sizes in a vector
+
+summarize.results.n = function(data, dist.name, n) {
+  true.var = 2
+  
+  tibble(
+    Distribution = dist.name,
+    n = n,
+    Estimator = c("S_(n-1)^2", "S_n^2"),
+    Bias = c(mean(data$s_n1) - true.var,
+             mean(data$s_n)  - true.var),
+    Variance = c(var(data$s_n1),
+                 var(data$s_n)),
+    Precision = c(1 / var(data$s_n1),
+                  1 / var(data$s_n)),
+    MSE = c(
+      (mean(data$s_n1) - true.var)^2 + var(data$s_n1),
+      (mean(data$s_n)  - true.var)^2 + var(data$s_n)
+    )
+  )
+}
+```
+
+```{r}
+#| label: tbl-diff-variance-estimators-over-sample-sizes
+#| tbl-cap: "Bias, Variance, Precision, MSE of Variance Estimators across Sample Sizes"
+#| tbl-align: "center"
+#| size: scriptsize
+
+all.results = list()
+
+#loop simulation function over sample sizes
+for (n in sample.sizes) {
+  pois.data  = simulate.variance(gen.pois, n)
+  binom.data = simulate.variance(gen.binom, n)
+  norm.data  = simulate.variance(gen.norm, n)
+  exp.data   = simulate.variance(gen.exp, n)
+
+all.results[[as.character(n)]] = bind_rows( 
+  summarize.results.n(pois.data,  "Poisson", n),
+  summarize.results.n(binom.data, "Binomial", n),
+  summarize.results.n(norm.data,  "Normal", n),
+  summarize.results.n(exp.data,   "Exponential", n)
+) 
+}
+results.all.n = bind_rows(all.results)
+
+results.all.n |>
+   knitr::kable(digits = 2)
+```
+
+```{r}
+#| label: fig-mse-variance-estimators-diff-n
+#| fig-cap: "MSE of Variance Estimators vs Sample Size"
+#| fig-width: 10
+#| fig-height: 5
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+
+ggplot(results.all.n, aes(x = n, y = MSE, color = Estimator)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ Distribution) +
+  labs(x = "Sample Size (n)") +
+  theme_bw()
+```
+
+```{r}
+#| label: fig-bias-diff-n
+#| fig-cap: "Bias vs Sample Size"
+#| fig-width: 10
+#| fig-height: 5
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+
+ggplot(results.all.n, aes(x = n, y = Bias, color = Estimator)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ Distribution) + #facet by distribution
+  labs(x = "Sample Size (n)") +
+  theme_bw()
+```
+
+As the sample size increases, bias for S_n^2 dcreases, while S_(n-1)^2 remains unbiased. It is especially noticeable that bias is approximately 0 for all n=500 samples. Variance and MSE also decreased for both as sample size increased, and precision increased. As sample size increases, it is less apparent which estimator is better. However, across sample sizes S_n^2 systematically underestimates the true variance, whereas S_(n-1)^2 does not.
+
+## Simulation
+You have written code to draw a random sample of various sizes from each distribution, and to calculate and store the calculated estimates. Rework your code to produce a density plot of the $s_{n-1}^2$ and $s_{n}^2$. Do you have a guess about their distribution? Ensure to set your randomization seed. 
+
+**Solution**
+```{r}
+set.seed(7272)
+
+n = 50 #random n
+
+pois.data  = simulate.variance(gen.pois, n)
+binom.data = simulate.variance(gen.binom, n)
+norm.data  = simulate.variance(gen.norm, n)
+exp.data   = simulate.variance(gen.exp, n)
+```
+
+```{r}
+#Plot function
+make.density.plot = function(sim.data, title) {
+  df.plot = tibble(
+    value = c(sim.data$s_n1, sim.data$s_n),
+    estimator = rep(c("S_(n-1)^2", "S_n^2"), each = nrow(sim.data))
+  )
+
+#Plot
+  ggplot(df.plot, aes(x = value, fill = estimator)) +
+    geom_density(alpha = 0.5) +
+    geom_vline(xintercept = 2, linetype = "dashed") +
+    labs(title = title, x = "Estimated Variance") +
+    theme_bw()
+}
+```
+
+```{r}
+#| label: fig-sampling-distr-of-variance-estimators
+#| fig-cap: "Sampling Distributions of Variance Estimators"
+#| fig-width: 10
+#| fig-height: 5
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+
+library(patchwork)
+
+p1 = make.density.plot(pois.data,  "Poisson")
+p2 = make.density.plot(binom.data, "Binomial")
+p3 = make.density.plot(norm.data,  "Normal")
+p4 = make.density.plot(exp.data,   "Exponential")
+
+(p1 | p2) / (p3 | p4) #Combine plots
+```
+
+All four ditributions appear to be slightly right skewed (even the normal distribution). This indicates that the skewness is a property of the variance estimators themselves rather than the original data distribution. While S_n^2 is slightly shifted to the left due to its negative bias, both estimators show similar overall shapes. As the sample size increases, these distributions would be expected to become more symmetric and concentrated around the true variance (2). 
+
+## Bootstrap
+Now, take *one* sample from each distribution. Instead of drawing a random sample at each iteration, sample *with replacement* from the one sample. Produce a density plot of the $s_{n-1}^2$ and $s_{n}^2$. Do we get roughly the same information as we do in the full simulation? Try this over several seeds -- what do you notice? Ensure to set your randomization seed.
+
+**Solution**
+```{r}
+#Create bootstrap function
+bootstrap.variance = function(x, n.boot = 1000) { 
+  n = length(x)
+  
+  s_n1 = numeric(n.boot)
+  s_n  = numeric(n.boot)
+  
+  for (i in 1:n.boot) { #loop sample
+    x.sample = sample(x, size = n, replace = TRUE)  # bootstrap sample (replacement)
+    
+    s_n1[i] = var(x.sample)
+    s_n[i]  = mean((x.sample - mean(x.sample))^2)
+  }
+  
+  tibble(s_n1 = s_n1, s_n = s_n)
+}
+```
+
+```{r}
+#Take one random sample from each distribution
+set.seed(7272)
+
+n = 50
+
+x.pois  = rpois(n, 2)
+x.binom = rbinom(n, 50, (5 - sqrt(21))/10)
+x.norm  = rnorm(n, 0, sqrt(2))
+x.exp   = rexp(n, rate = 1/sqrt(2))
+
+pois.boot  = bootstrap.variance(x.pois)
+binom.boot = bootstrap.variance(x.binom)
+norm.boot  = bootstrap.variance(x.norm)
+exp.boot   = bootstrap.variance(x.exp)
+```
+
+```{r}
+#| label: fig-bootstrap
+#| fig-cap: "Sampling Distributions of Variance Estimators Using Bootstrapping"
+#| fig-width: 10
+#| fig-height: 5
+#| scale: "80%"
+#| fig-align: "center"
+#| size: scriptsize
+
+p1 = make.density.plot(pois.boot,  "Poisson (Bootstrap)")
+p2 = make.density.plot(binom.boot, "Binomial (Bootstrap)")
+p3 = make.density.plot(norm.boot,  "Normal (Bootstrap)")
+p4 = make.density.plot(exp.boot,   "Exponential (Bootstrap)")
+
+(p1 | p2) / (p3 | p4) #combine plots
+```
+
+The bootstrap distributions of S_(n-1)^2 and S_n^2 have similar shapes to those observed in the full simulation, including right-skewness and decreasing spread. This supports that bootstrapping is a useful method for approximating the sampling distribution using only one sample. However, the bootstrap distributions are centered around the sample variance rather than the population variance, so results can vary depending on the initial sample. When using different seeds, the overall shape remains similar, but the location and spread may change, reflecting variability in the original samples.
+
+# Executive Summary
+Summarize the work you've done here to provide a brief (200-300 word) summary of the simulation and the results using your work in Lab 11. Your summary should be professional, clear, and all claims should be corroborated with statistical support.
+
+**Solution**
+This lab investigated the properties of two variance estimators, S_(n-1)^2 and S_n^2, through simulation and bootstrapping across four distributions. Using the Poisson, Binomial, Normal, and Exponential models, which were all parameterized to have true variance 2, I repeatedly generated samples and computed both estimators. The results consistently showed that S_(n-1)^2 is approximately unbiased, with mean estimates very close to the true value of 2, while S_n^2 systematically underestimates the true variance. This bias was evident in the simulation summaries and density plots, where the distribution of S_n^2 was shifted slightly left of 2.
+
+As sample size increased from n=20 to n=500, the variance and MSE of both estimators decreased, indicating improved precision. While the bias of S_n^2 diminished with larger n, it remained consistently negative. Consequently, the difference in performance between the two estimators was negligible for larger samples, though S_(n-1)^2 was unbiased for all sample sizes and did not exhibit persistent negative bias like S_n^2 did.
+
+Density plots revealed that both estimators have right-skewed sampling distributions for small 
+n, becoming more symmetric as n increases. Bootstrapping from a single sample produced similar distributional shapes, demonstrating that resampling can approximate the sampling distribution. However, bootstrap results were centered around the sample variance and varied across seeds, reflecting differences in the initial samples and potential inaccuracy with respect to the overall data. Overall, the simulations confirm the stated preference of using S_(n-1)^2, especially in smaller samples.
