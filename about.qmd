@@ -2,4 +2,21 @@
 title: "About"
 ---
 
-About this site
+---
+title: "Kirsten Phang - Work for Computational Statistics at Colgate Univeristy"
+about:
+  template: jolla
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/kphang-lang?tab=repositories
+---
+
+I made this website to compile all of the lab work I have done for my computational statistics course this semester. Labs 1-11 are laid out in this website to show skills I have learned in R and statistics more broadly. 
+
+## Education
+
+Colgate Univeristy | August 2024 - present
+
+Mathematical Economics Major, Political Science Minor
+

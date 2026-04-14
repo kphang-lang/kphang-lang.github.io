@@ -2,12 +2,20 @@ project:
   type: website
 
 website:
-  title: "TEST"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+title: "Portfolio" sidebar:
+style: "docked" search: false
+1
+contents:
+- href: index.qmd
+text: Home
+- about.qmd
+- 02-Lab-ObjectsInR/Lab2WriteUp.qmd
+- 03-Lab-ObjectsInR2/Lab3WriteUp.qmd
+- 04-Lab-Programming/Lab4WriteUp.qmd
+- 05-Lab-DataWrangling/Lab5WriteUp.qmd
+- 08-Lab-probability/Lab8WriteUp.qmd
+- 10-Lab-pointestimation/Lab10WriteUp.qmd 
+- 11-Lab-Estimation/Lab11WriteUp.qmd
 
 format:
   html:
@@ -17,5 +25,7 @@ format:
     css: styles.css
     toc: true
 
+execute: 
+  freeze: auto
 
 
