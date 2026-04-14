@@ -1,0 +1,15 @@
+{
+  "hash": "d4a88e3e258f919d279740924292fc6a",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\nexecute:               # Default settings for code blocks\n  warning: false       # Do not print warnings\n  message: false       # Do not print messages\n  size: \"scriptsize\"   # Set code size to script size\n\nformat:\n  pdf:        # Specify .pdf formatting options \n    documentclass: article     # Document Class\n    number-sections: true      # Number Sections\n    reference-section-title: \"References\" # Title for reference section\n    code-line-numbers: true    # Line numbers printed in code\n    cap-location: top          # Captions at the top of tables \n    geometry:\n      - top=0.75in\n      - left=0.75in\n      - bottom=0.75in\n      - right=0.75in\nformat-links: [pdf]\n---\n\n \\normalsize\n\n\n::: {.cell}\n\n:::\n\n\n \\normalsize\n\n\n\n<!-- Code For Building Menu Here -->\n\n\n# Ingredients\n\n\\newpage\n\n# Recipe One\n\n\\newpage\n\n# Recipe Two\n\n\\newpage\n\n# Recipe Three\n\n\\newpage\n\n# Breakfast Recipe\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": null,
+    "postProcess": false
+  }
+}
