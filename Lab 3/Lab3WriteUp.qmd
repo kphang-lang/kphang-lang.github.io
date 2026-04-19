@@ -116,8 +116,7 @@ $$\mathbf{M} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}.$$
 Let's transform $\mathbf{M}$ to demonstrate an interesting linear algebra property.
 
 ```{r}
-(M=matrix(data=c(1, 0, 0, 1), nrow=2, ncol=2, byrow=T))
-# storing M to use for part b
+(M=matrix(data=c(1, 0, 0, 1), nrow=2, ncol=2, byrow=T)) # storing M to use for part b
 ```
 
 ## Part a
@@ -126,7 +125,7 @@ $$\mathbf{A} = \begin{bmatrix} 1 & -7 \\ 5 & 9 \end{bmatrix}$$
 
 **Solution**
 ```{r}
-(A = matrix(data=c(1, -7, 5, 9), nrow=2, ncol=2, byrow=T))
+(A = matrix(data=c(1, -7, 5, 9), nrow=2, ncol=2, byrow=T)) 
 ```
 
 ## Part b
@@ -143,7 +142,7 @@ Create `basis.vector.1` (first column of `T`) and `basis.vector.2` (second colum
 
 **Solution**
 ```{r}
-(basis.vector1 = T[ , 1])
+(basis.vector1 = T[ , 1]) # Select columns of T
 (basis.vector2 = T[ , 2])
 ```
 
@@ -152,10 +151,10 @@ Compute the points $p_0$, $p_1$, $p_2$, and $p_3$.
 
 **Solution**
 ```{r}
-(p0 = c(0, 0))
+(p0 = c(0, 0)) 
 (p1 = c(1, 5))
 (p2 = c(-6, 14))
-(p3 = c(-7, 9))
+(p3 = c(-7, 9)) # Store points as vectors
 ```
 
 ## Part e
@@ -178,7 +177,7 @@ ggplot() +
   theme_bw() +
   # xlim(-15, 15) +
   # ylim(-5, 25) +
-  labs(x = "x", y = "y")
+  labs(x = "x", y = "y") #Plot unit square based on new points in part d
 ```
 
 ## Part f
@@ -216,7 +215,7 @@ Create `basis.vector.1` (first column of `T`) and `basis.vector.2` (second colum
 **Solution**
 ```{r}
 (basis.vector1 = T[ , 1])
-(basis.vector2 = T[ , 2])
+(basis.vector2 = T[ , 2]) # Select columns of T
 ```
 
 ## Part d
@@ -227,7 +226,7 @@ Compute the points $p_0$, $p_1$, $p_2$, and $p_3$.
 (p0 = c(0, 0))
 (p1 = c(1, 2))
 (p2 = c(3, 6))
-(p3 = c(2, 4))
+(p3 = c(2, 4)) # Store points as vectors
 ```
 
 ## Part e
@@ -250,7 +249,7 @@ ggplot() +
   theme_bw() +
   # xlim(-15, 15) +
   # ylim(-5, 25) +
-  labs(x = "x", y = "y")
+  labs(x = "x", y = "y") # Plot unit square with points from part d
 ```
 
 ## Part f
@@ -284,16 +283,16 @@ $$\mathbf{M}_v = \begin{bmatrix} 1 & k=0.5 \\ 0 & 1 \end{bmatrix} ~~~~~ \textrm{
 ```{r}
 M = matrix(data = c(1, 0.5, 0, 1), nrow=2, ncol=2, byrow=T)
 A = matrix(data = c(1, -7, 5, 9), nrow=2, ncol=2, byrow=T)
-(T = A%*%M)
+(T = A%*%M) #Matrix multiplication
 ```
 ```{r}
-det(T)
+det(T) # Calculate area
 ```
 ```{r}
 (p0 = c(0, 0))
 (p1 = c(1, 5))
 (p2 = c(-5.5, 16.5))
-(p3 = c(-6.5, 11.5))
+(p3 = c(-6.5, 11.5)) # Store points as vectors
 ```
 
 ```{r}
@@ -312,7 +311,7 @@ ggplot() +
   theme_bw() +
   # xlim(-15, 15) +
   # ylim(-5, 25) +
-  labs(x = "x", y = "y")
+  labs(x = "x", y = "y") # Plot unit square after vertical shearing
 ```
 The area of this shape is the same as the area of the shape in question 1, although it looks different. Through a vertical shear, the longer sides of this shape have been stretched, while the shorter sides have become shorter, distorting the parallelogram a bit.
 
@@ -325,16 +324,16 @@ $$ \mathbf{M}_h = \begin{bmatrix} 1 & 0 \\ k=0.5 & 1 \end{bmatrix}~~~~~ \textrm{
 
 ```{r}
 M = matrix(data = c(1, 0, 0.5, 1), nrow=2, ncol=2, byrow=T)
-(T = A%*%M)
+(T = A%*%M) # Matrix multiplication 
 ```
 ```{r}
-det(T)
+det(T) # Calculate area
 ```
 ```{r}
 (p0 = c(0, 0))
 (p1 = c(-2.5, 9.5))
 (p2 = c(-9.5, 18.5))
-(p3 = c(-7, 9))
+(p3 = c(-7, 9)) # Store the points as vectors
 ```
 
 ```{r}
@@ -353,9 +352,9 @@ ggplot() +
   theme_bw() +
   # xlim(-15, 15) +
   # ylim(-5, 25) +
-  labs(x = "x", y = "y")
+  labs(x = "x", y = "y") # Plot the unit square with a horizontal shear
 ```
-The area of this shape is the same as the area of the shape in question 1 and the vertical shear in part a, although it looks different. This time the shorter sides of this shape have been stretched, while the longer sides have become shorter, stretching the parallelogram in the opposite way.
+The area of this shape is the same as the area of the shape in question 1 and the vertical shear in part a, although it looks different. This time, through a horizontal shear, the shorter sides of this shape have been stretched, while the longer sides have become shorter, stretching the parallelogram in the opposite way.
 
 ## Part c
 Can we shear vertically and horizontally at the same time? Use the following to generate a new shape. Compare the shape and its area to your answers in parts (a) and (b).
@@ -366,17 +365,17 @@ $$\mathbf{M}_{vh} = \begin{bmatrix} 1 & k=0.5 \\ k=0.5 & 1 \end{bmatrix} ~~~~~ \
 
 ```{r}
 M = matrix(data = c(1, 0.5, 0.5, 1), nrow=2, ncol=2, byrow=T)
-(T = A%*%M)
+(T = A%*%M) # Matrix Multiplication
 ```
 ```{r}
-det(T)
+det(T) # Calculate area
 ```
-
+Area does not equal 44 this time (has changed!)
 ```{r}
 (p0 = c(0, 0))
 (p1 = c(-2.5, 9.5))
 (p2 = c(-9, 21))
-(p3 = c(-6.5, 11.5))
+(p3 = c(-6.5, 11.5)) # Store the points as vectors
 ```
 
 ```{r}
@@ -395,7 +394,7 @@ ggplot() +
   theme_bw() +
   # xlim(-15, 15) +
   # ylim(-5, 25) +
-  labs(x = "x", y = "y")
+  labs(x = "x", y = "y") # Plot the unit square with both a horizontal and vertical shear
 ```
 This time both the area of the shape and its appearance have changed. Since we applied both a vertical and horizontal shear, both the short and long sides have been shortened. The shape therefore looks very compressed, and the area changed from 44 (in question 1 and parts a and b) to 33.
 
@@ -421,10 +420,10 @@ Create a data frame `ladder` with the following data. Note your data frame shoul
 **Solution**
 
 ```{r}
-x = c(0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1)
+x = c(0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1) 
 y = c(0,20,0,20,2,2,4,4,6,6,8,8,10,10,12,12,14,14,16,16,18,18)
-group = rep(1:11, each =2)
-ladder = data.frame(col1 = x, col2 = y, col3 = group)
+group = rep(1:11, each =2) # Store the data in vectors
+ladder = data.frame(x, y, group) # Create a data frame
 ```
 
 ## Part b
@@ -453,7 +452,7 @@ ggplot() +
                    y=0, yend = 0)) +
   theme_bw() +
   xlim(-2,22) +
-  ylim(-2,22)
+  ylim(-2,22) # Plot the ladder
 ```
 
 ## Part c
@@ -465,7 +464,7 @@ and use $k=0.5.$
 
 **Solution**
 ```{r}
-A = as.matrix(ladder[, c("col1", "col2")])
+A = as.matrix(ladder[, c("x", "y")]) # Make matrix using column one and two of the data frame
 M = matrix(data = c(1, 0, 0.5, 1), nrow=2, ncol=2, byrow=T)
 (T = A%*%M)
 ```
@@ -477,8 +476,8 @@ Create a data frame `leaning.ladder` with the `x` and `y` equal to the first and
 
 ```{r}
 x = T[ , 1]
-y = T[ , 2]
-leaning.ladder = data.frame(col1 = x, col2 = y, col3 = group)
+y = T[ , 2] # Select columns of T
+leaning.ladder = data.frame(x, y, group) # Data frame with new values of x and y
 ```
 ## Part e
 Remove `eval: false` in the code below. The result should look like a ladder and a very rectangular house if part a is correct. The new leaning ladder should look like it is leaning on the house.
@@ -509,11 +508,11 @@ ggplot() +
   theme_bw() +
   xlim(-2,22) +
   ylim(-2,22) +
-  scale_color_manual("", values=c("darkred", "grey"))
+  scale_color_manual("", values=c("darkred", "grey")) # Plot leaning ladder
 ```
 
 ## Discussion
-From questions 1 to 4 we see the capabilities of R in creating and altering images using matrices, data frames, and more. Starting from doing basic matrix formation, multiplication, and determinants we moved to shearing in question 3. Here, we see how changing the identity matrix, M, slightly can stretch resulting shapes through matrix multiplication (whether that is vertically, horizontally, or both). Lastly, in question 4, a data frame was used to create the ladder in figure 7 from the table values given in part a. Interestingly, by then storing the columns of x and y from the table as columns in a $22x2$ matrix, we could then use shearing again to alter the original ladder to slant and look as if it is leaning (figure 8).
+From questions 1 to 4 we see the capabilities of R in creating and altering images using matrices, data frames, and more. Starting from doing basic matrix formation, multiplication, and determinants we moved to shearing in question 3. Here, we see how changing the identity matrix, M, slightly can stretch resulting shapes through matrix multiplication (whether that is vertically, horizontally, or both). Lastly, in question 4, a data frame was used to create the ladder in figure 7 from the table values given in part a. Interestingly, by then storing the columns of x and y from the table as columns in a $22$ by $2$ matrix, we could then use shearing again to alter the original ladder to slant and look as if it is leaning without changing its area (figure 8).
 
 ## Citations
 Only used @R and related packages for this assignment.

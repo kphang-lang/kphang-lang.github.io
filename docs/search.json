@@ -14,7 +14,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-a",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "1.1 Part a",
-    "text": "1.1 Part a\nCreate the matrix A in R. \\[\\mathbf{A} = \\begin{bmatrix} 1 & -7 \\\\ 5 & 9 \\end{bmatrix}\\]\nSolution\n\n\n\nCode\n(A = matrix(data=c(1, -7, 5, 9), nrow=2, ncol=2, byrow=T))\n\n\n     [,1] [,2]\n[1,]    1   -7\n[2,]    5    9",
+    "text": "1.1 Part a\nCreate the matrix A in R. \\[\\mathbf{A} = \\begin{bmatrix} 1 & -7 \\\\ 5 & 9 \\end{bmatrix}\\]\nSolution\n\n\n\nCode\n(A = matrix(data=c(1, -7, 5, 9), nrow=2, ncol=2, byrow=T)) \n\n\n     [,1] [,2]\n[1,]    1   -7\n[2,]    5    9",
     "crumbs": [
       "Lab 3"
     ]
@@ -34,7 +34,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-c",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "1.3 Part c",
-    "text": "1.3 Part c\nCreate basis.vector.1 (first column of T) and basis.vector.2 (second column of T) in R.\nSolution\n\n\n\nCode\n(basis.vector1 = T[ , 1])\n\n\n[1] 1 5\n\n\nCode\n(basis.vector2 = T[ , 2])\n\n\n[1] -7  9",
+    "text": "1.3 Part c\nCreate basis.vector.1 (first column of T) and basis.vector.2 (second column of T) in R.\nSolution\n\n\n\nCode\n(basis.vector1 = T[ , 1]) # Select columns of T\n\n\n[1] 1 5\n\n\nCode\n(basis.vector2 = T[ , 2])\n\n\n[1] -7  9",
     "crumbs": [
       "Lab 3"
     ]
@@ -44,7 +44,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-d",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "1.4 Part d",
-    "text": "1.4 Part d\nCompute the points \\(p_0\\), \\(p_1\\), \\(p_2\\), and \\(p_3\\).\nSolution\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(1, 5))\n\n\n[1] 1 5\n\n\nCode\n(p2 = c(-6, 14))\n\n\n[1] -6 14\n\n\nCode\n(p3 = c(-7, 9))\n\n\n[1] -7  9",
+    "text": "1.4 Part d\nCompute the points \\(p_0\\), \\(p_1\\), \\(p_2\\), and \\(p_3\\).\nSolution\n\n\n\nCode\n(p0 = c(0, 0)) \n\n\n[1] 0 0\n\n\nCode\n(p1 = c(1, 5))\n\n\n[1] 1 5\n\n\nCode\n(p2 = c(-6, 14))\n\n\n[1] -6 14\n\n\nCode\n(p3 = c(-7, 9)) # Store points as vectors\n\n\n[1] -7  9",
     "crumbs": [
       "Lab 3"
     ]
@@ -54,7 +54,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-e",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "1.5 Part e",
-    "text": "1.5 Part e\nCopy and paste the code for the unit square. Edit the code to draw the segments that form the boundary based on the points in Part d.\nSolution\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\")\n\n\n\n\n\nFigure 2: Shape 2.",
+    "text": "1.5 Part e\nCopy and paste the code for the unit square. Edit the code to draw the segments that form the boundary based on the points in Part d.\nSolution\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\") #Plot unit square based on new points in part d\n\n\n\n\n\nFigure 2: Shape 2.",
     "crumbs": [
       "Lab 3"
     ]
@@ -94,7 +94,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-c-1",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "2.3 Part c",
-    "text": "2.3 Part c\nCreate basis.vector.1 (first column of T) and basis.vector.2 (second column of T) in R.\nSolution\n\n\n\nCode\n(basis.vector1 = T[ , 1])\n\n\n[1] 1 2\n\n\nCode\n(basis.vector2 = T[ , 2])\n\n\n[1] 2 4",
+    "text": "2.3 Part c\nCreate basis.vector.1 (first column of T) and basis.vector.2 (second column of T) in R.\nSolution\n\n\n\nCode\n(basis.vector1 = T[ , 1])\n\n\n[1] 1 2\n\n\nCode\n(basis.vector2 = T[ , 2]) # Select columns of T\n\n\n[1] 2 4",
     "crumbs": [
       "Lab 3"
     ]
@@ -104,7 +104,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-d-1",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "2.4 Part d",
-    "text": "2.4 Part d\nCompute the points \\(p_0\\), \\(p_1\\), \\(p_2\\), and \\(p_3\\).\nSolution\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(1, 2))\n\n\n[1] 1 2\n\n\nCode\n(p2 = c(3, 6))\n\n\n[1] 3 6\n\n\nCode\n(p3 = c(2, 4))\n\n\n[1] 2 4",
+    "text": "2.4 Part d\nCompute the points \\(p_0\\), \\(p_1\\), \\(p_2\\), and \\(p_3\\).\nSolution\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(1, 2))\n\n\n[1] 1 2\n\n\nCode\n(p2 = c(3, 6))\n\n\n[1] 3 6\n\n\nCode\n(p3 = c(2, 4)) # Store points as vectors\n\n\n[1] 2 4",
     "crumbs": [
       "Lab 3"
     ]
@@ -114,7 +114,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-e-1",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "2.5 Part e",
-    "text": "2.5 Part e\nCopy and paste the code for plotting the unit square. Edit the code to draw the segments that form the boundary based on the points in Part d.\nSolution\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\")\n\n\n\n\n\nFigure 3: Shape 3.",
+    "text": "2.5 Part e\nCopy and paste the code for plotting the unit square. Edit the code to draw the segments that form the boundary based on the points in Part d.\nSolution\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\") # Plot unit square with points from part d\n\n\n\n\n\nFigure 3: Shape 3.",
     "crumbs": [
       "Lab 3"
     ]
@@ -134,7 +134,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-a-2",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "3.1 Part a",
-    "text": "3.1 Part a\nUse the following to generate a new shape. Compare the shape and its area to your answer in Question 1. \\[\\mathbf{M}_v = \\begin{bmatrix} 1 & k=0.5 \\\\ 0 & 1 \\end{bmatrix} ~~~~~ \\textrm{and} ~~~~~\n  \\mathbf{A}   = \\begin{bmatrix} 1 & -7 \\\\ 5 & 9 \\end{bmatrix}\\]\nSolution\n\n\n\nCode\nM = matrix(data = c(1, 0.5, 0, 1), nrow=2, ncol=2, byrow=T)\nA = matrix(data = c(1, -7, 5, 9), nrow=2, ncol=2, byrow=T)\n(T = A%*%M)\n\n\n     [,1] [,2]\n[1,]    1 -6.5\n[2,]    5 11.5\n\n\n\n\n\n\nCode\ndet(T)\n\n\n[1] 44\n\n\n\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(1, 5))\n\n\n[1] 1 5\n\n\nCode\n(p2 = c(-5.5, 16.5))\n\n\n[1] -5.5 16.5\n\n\nCode\n(p3 = c(-6.5, 11.5))\n\n\n[1] -6.5 11.5\n\n\n\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\")\n\n\n\n\n\nFigure 4: Shape 4.\n\n\n\n\n\n\n\n\n The area of this shape is the same as the area of the shape in question 1, although it looks different. Through a vertical shear, the longer sides of this shape have been stretched, while the shorter sides have become shorter, distorting the parallelogram a bit.",
+    "text": "3.1 Part a\nUse the following to generate a new shape. Compare the shape and its area to your answer in Question 1. \\[\\mathbf{M}_v = \\begin{bmatrix} 1 & k=0.5 \\\\ 0 & 1 \\end{bmatrix} ~~~~~ \\textrm{and} ~~~~~\n  \\mathbf{A}   = \\begin{bmatrix} 1 & -7 \\\\ 5 & 9 \\end{bmatrix}\\]\nSolution\n\n\n\nCode\nM = matrix(data = c(1, 0.5, 0, 1), nrow=2, ncol=2, byrow=T)\nA = matrix(data = c(1, -7, 5, 9), nrow=2, ncol=2, byrow=T)\n(T = A%*%M) #Matrix multiplication\n\n\n     [,1] [,2]\n[1,]    1 -6.5\n[2,]    5 11.5\n\n\n\n\n\n\nCode\ndet(T) # Calculate area\n\n\n[1] 44\n\n\n\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(1, 5))\n\n\n[1] 1 5\n\n\nCode\n(p2 = c(-5.5, 16.5))\n\n\n[1] -5.5 16.5\n\n\nCode\n(p3 = c(-6.5, 11.5)) # Store points as vectors\n\n\n[1] -6.5 11.5\n\n\n\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\") # Plot unit square after vertical shearing\n\n\n\n\n\nFigure 4: Shape 4.\n\n\n\n\n\n\n\n\n The area of this shape is the same as the area of the shape in question 1, although it looks different. Through a vertical shear, the longer sides of this shape have been stretched, while the shorter sides have become shorter, distorting the parallelogram a bit.",
     "crumbs": [
       "Lab 3"
     ]
@@ -144,7 +144,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-b-2",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "3.2 Part b",
-    "text": "3.2 Part b\nUse the following to generate a new shape. Compare the shape and its area to your answer in Questions 1 and the vertical shear transform in part (a). \\[ \\mathbf{M}_h = \\begin{bmatrix} 1 & 0 \\\\ k=0.5 & 1 \\end{bmatrix}~~~~~ \\textrm{and} ~~~~~\n  \\mathbf{A}   = \\begin{bmatrix} 1 & -7 \\\\ 5 & 9 \\end{bmatrix}\\]\nSolution\n\n\n\nCode\nM = matrix(data = c(1, 0, 0.5, 1), nrow=2, ncol=2, byrow=T)\n(T = A%*%M)\n\n\n     [,1] [,2]\n[1,] -2.5   -7\n[2,]  9.5    9\n\n\n\n\n\n\nCode\ndet(T)\n\n\n[1] 44\n\n\n\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(-2.5, 9.5))\n\n\n[1] -2.5  9.5\n\n\nCode\n(p2 = c(-9.5, 18.5))\n\n\n[1] -9.5 18.5\n\n\nCode\n(p3 = c(-7, 9))\n\n\n[1] -7  9\n\n\n\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\")\n\n\n\n\n\nFigure 5: Shape 5.\n\n\n\n\n\n\n\n\n The area of this shape is the same as the area of the shape in question 1 and the vertical shear in part a, although it looks different. This time the shorter sides of this shape have been stretched, while the longer sides have become shorter, stretching the parallelogram in the opposite way.",
+    "text": "3.2 Part b\nUse the following to generate a new shape. Compare the shape and its area to your answer in Questions 1 and the vertical shear transform in part (a). \\[ \\mathbf{M}_h = \\begin{bmatrix} 1 & 0 \\\\ k=0.5 & 1 \\end{bmatrix}~~~~~ \\textrm{and} ~~~~~\n  \\mathbf{A}   = \\begin{bmatrix} 1 & -7 \\\\ 5 & 9 \\end{bmatrix}\\]\nSolution\n\n\n\nCode\nM = matrix(data = c(1, 0, 0.5, 1), nrow=2, ncol=2, byrow=T)\n(T = A%*%M) # Matrix multiplication \n\n\n     [,1] [,2]\n[1,] -2.5   -7\n[2,]  9.5    9\n\n\n\n\n\n\nCode\ndet(T) # Calculate area\n\n\n[1] 44\n\n\n\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(-2.5, 9.5))\n\n\n[1] -2.5  9.5\n\n\nCode\n(p2 = c(-9.5, 18.5))\n\n\n[1] -9.5 18.5\n\n\nCode\n(p3 = c(-7, 9)) # Store the points as vectors\n\n\n[1] -7  9\n\n\n\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\") # Plot the unit square with a horizontal shear\n\n\n\n\n\nFigure 5: Shape 5.\n\n\n\n\n\n\n\n\n The area of this shape is the same as the area of the shape in question 1 and the vertical shear in part a, although it looks different. This time, through a horizontal shear, the shorter sides of this shape have been stretched, while the longer sides have become shorter, stretching the parallelogram in the opposite way.",
     "crumbs": [
       "Lab 3"
     ]
@@ -154,7 +154,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-c-2",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "3.3 Part c",
-    "text": "3.3 Part c\nCan we shear vertically and horizontally at the same time? Use the following to generate a new shape. Compare the shape and its area to your answers in parts (a) and (b). \\[\\mathbf{M}_{vh} = \\begin{bmatrix} 1 & k=0.5 \\\\ k=0.5 & 1 \\end{bmatrix} ~~~~~ \\textrm{and} ~~~~~\n  \\mathbf{A}   = \\begin{bmatrix} 1 & -7 \\\\ 5 & 9 \\end{bmatrix}\\]\nSolution\n\n\n\nCode\nM = matrix(data = c(1, 0.5, 0.5, 1), nrow=2, ncol=2, byrow=T)\n(T = A%*%M)\n\n\n     [,1] [,2]\n[1,] -2.5 -6.5\n[2,]  9.5 11.5\n\n\n\n\n\n\nCode\ndet(T)\n\n\n[1] 33\n\n\n\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(-2.5, 9.5))\n\n\n[1] -2.5  9.5\n\n\nCode\n(p2 = c(-9, 21))\n\n\n[1] -9 21\n\n\nCode\n(p3 = c(-6.5, 11.5))\n\n\n[1] -6.5 11.5\n\n\n\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\")\n\n\n\n\n\nFigure 6: Shape 6.\n\n\n\n\n\n\n\n\n This time both the area of the shape and its appearance have changed. Since we applied both a vertical and horizontal shear, both the short and long sides have been shortened. The shape therefore looks very compressed, and the area changed from 44 (in question 1 and parts a and b) to 33.",
+    "text": "3.3 Part c\nCan we shear vertically and horizontally at the same time? Use the following to generate a new shape. Compare the shape and its area to your answers in parts (a) and (b). \\[\\mathbf{M}_{vh} = \\begin{bmatrix} 1 & k=0.5 \\\\ k=0.5 & 1 \\end{bmatrix} ~~~~~ \\textrm{and} ~~~~~\n  \\mathbf{A}   = \\begin{bmatrix} 1 & -7 \\\\ 5 & 9 \\end{bmatrix}\\]\nSolution\n\n\n\nCode\nM = matrix(data = c(1, 0.5, 0.5, 1), nrow=2, ncol=2, byrow=T)\n(T = A%*%M) # Matrix Multiplication\n\n\n     [,1] [,2]\n[1,] -2.5 -6.5\n[2,]  9.5 11.5\n\n\n\n\n\n\nCode\ndet(T) # Calculate area\n\n\n[1] 33\n\n\n Area does not equal 44 this time (has changed!)\n\n\n\nCode\n(p0 = c(0, 0))\n\n\n[1] 0 0\n\n\nCode\n(p1 = c(-2.5, 9.5))\n\n\n[1] -2.5  9.5\n\n\nCode\n(p2 = c(-9, 21))\n\n\n[1] -9 21\n\n\nCode\n(p3 = c(-6.5, 11.5)) # Store the points as vectors\n\n\n[1] -6.5 11.5\n\n\n\n\n\n\nCode\nggplot() +\n  geom_segment(aes(x = p0[1], y = p0[2], xend = p1[1], yend = p1[2])) +\n  geom_segment(aes(x = p1[1], y = p1[2], xend = p2[1], yend = p2[2])) +\n  geom_segment(aes(x = p2[1], y = p2[2], xend = p3[1], yend = p3[2])) +\n  geom_segment(aes(x = p3[1], y = p3[2], xend = p0[1], yend = p0[2])) +\n  theme_bw() +\n  # xlim(-15, 15) +\n  # ylim(-5, 25) +\n  labs(x = \"x\", y = \"y\") # Plot the unit square with both a horizontal and vertical shear\n\n\n\n\n\nFigure 6: Shape 6.\n\n\n\n\n\n\n\n\n This time both the area of the shape and its appearance have changed. Since we applied both a vertical and horizontal shear, both the short and long sides have been shortened. The shape therefore looks very compressed, and the area changed from 44 (in question 1 and parts a and b) to 33.",
     "crumbs": [
       "Lab 3"
     ]
@@ -164,7 +164,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-a-3",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "4.1 Part a",
-    "text": "4.1 Part a\nCreate a data frame ladder with the following data. Note your data frame should have three columns; I split it to save vertical space here.\n\n\n\nx\ny\ngroup\nx\ny\ngroup\n\n\n\n\n0\n0\n1\n1\n8\n6\n\n\n0\n20\n1\n0\n10\n7\n\n\n1\n0\n2\n1\n10\n7\n\n\n1\n20\n2\n0\n12\n8\n\n\n0\n2\n3\n1\n12\n8\n\n\n1\n2\n3\n0\n14\n9\n\n\n0\n4\n4\n1\n14\n9\n\n\n1\n4\n4\n0\n16\n10\n\n\n0\n6\n5\n1\n16\n10\n\n\n1\n6\n5\n0\n18\n11\n\n\n0\n8\n6\n1\n18\n11\n\n\n\nSolution\n\n\n\nCode\nx = c(0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1)\ny = c(0,20,0,20,2,2,4,4,6,6,8,8,10,10,12,12,14,14,16,16,18,18)\ngroup = rep(1:11, each =2)\nladder = data.frame(col1 = x, col2 = y, col3 = group)",
+    "text": "4.1 Part a\nCreate a data frame ladder with the following data. Note your data frame should have three columns; I split it to save vertical space here.\n\n\n\nx\ny\ngroup\nx\ny\ngroup\n\n\n\n\n0\n0\n1\n1\n8\n6\n\n\n0\n20\n1\n0\n10\n7\n\n\n1\n0\n2\n1\n10\n7\n\n\n1\n20\n2\n0\n12\n8\n\n\n0\n2\n3\n1\n12\n8\n\n\n1\n2\n3\n0\n14\n9\n\n\n0\n4\n4\n1\n14\n9\n\n\n1\n4\n4\n0\n16\n10\n\n\n0\n6\n5\n1\n16\n10\n\n\n1\n6\n5\n0\n18\n11\n\n\n0\n8\n6\n1\n18\n11\n\n\n\nSolution\n\n\n\nCode\nx = c(0,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1) \ny = c(0,20,0,20,2,2,4,4,6,6,8,8,10,10,12,12,14,14,16,16,18,18)\ngroup = rep(1:11, each =2) # Store the data in vectors\nladder = data.frame(x, y, group) # Create a data frame",
     "crumbs": [
       "Lab 3"
     ]
@@ -174,7 +174,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-b-3",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "4.2 Part b",
-    "text": "4.2 Part b\nRemove #|eval: false in the code below. The result should look like a ladder and a very rectangular house if part a is correct.\nSolution\n\n\n\nCode\nggplot() +\n  geom_path(data = ladder, \n              aes(x = x, y = y, group = group)) +\n                  geom_segment(aes(x = 10, xend = 10,\n                   y=0, yend = 20))+\n  geom_segment(aes(x = 10, xend = 20,\n                   y=20, yend = 20))+\n  geom_segment(aes(x = 20, xend = 20,\n                   y=0, yend = 20))+\n  geom_segment(aes(x = 10, xend = 20,\n                   y=0, yend = 0)) +\n  theme_bw() +\n  xlim(-2,22) +\n  ylim(-2,22)\n\n\n\n\n\nFigure 7: A ladder.",
+    "text": "4.2 Part b\nRemove #|eval: false in the code below. The result should look like a ladder and a very rectangular house if part a is correct.\nSolution\n\n\n\nCode\nggplot() +\n  geom_path(data = ladder, \n              aes(x = x, y = y, group = group)) +\n                  geom_segment(aes(x = 10, xend = 10,\n                   y=0, yend = 20))+\n  geom_segment(aes(x = 10, xend = 20,\n                   y=20, yend = 20))+\n  geom_segment(aes(x = 20, xend = 20,\n                   y=0, yend = 20))+\n  geom_segment(aes(x = 10, xend = 20,\n                   y=0, yend = 0)) +\n  theme_bw() +\n  xlim(-2,22) +\n  ylim(-2,22) # Plot the ladder\n\n\n\n\n\nFigure 7: A ladder.",
     "crumbs": [
       "Lab 3"
     ]
@@ -184,7 +184,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-c-3",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "4.3 Part c",
-    "text": "4.3 Part c\nUse as.matrix() to create a \\(22 \\times 2\\) matrix \\(\\mathbf{A}\\) containing the x and y observations from the ladder data frame. Use matrix multiplication to compute \\[\\mathbf{T} = \\mathbf{A} \\mathbf{M}_h.\\] Recall, \\[\\mathbf{M}_h = \\begin{bmatrix} 1 & 0 \\\\ k & 1 \\end{bmatrix}\\] and use \\(k=0.5.\\)\nSolution\n\n\n\nCode\nA = as.matrix(ladder[, c(\"col1\", \"col2\")])\nM = matrix(data = c(1, 0, 0.5, 1), nrow=2, ncol=2, byrow=T)\n(T = A%*%M)\n\n\n      [,1] [,2]\n [1,]    0    0\n [2,]   10   20\n [3,]    1    0\n [4,]   11   20\n [5,]    1    2\n [6,]    2    2\n [7,]    2    4\n [8,]    3    4\n [9,]    3    6\n[10,]    4    6\n[11,]    4    8\n[12,]    5    8\n[13,]    5   10\n[14,]    6   10\n[15,]    6   12\n[16,]    7   12\n[17,]    7   14\n[18,]    8   14\n[19,]    8   16\n[20,]    9   16\n[21,]    9   18\n[22,]   10   18",
+    "text": "4.3 Part c\nUse as.matrix() to create a \\(22 \\times 2\\) matrix \\(\\mathbf{A}\\) containing the x and y observations from the ladder data frame. Use matrix multiplication to compute \\[\\mathbf{T} = \\mathbf{A} \\mathbf{M}_h.\\] Recall, \\[\\mathbf{M}_h = \\begin{bmatrix} 1 & 0 \\\\ k & 1 \\end{bmatrix}\\] and use \\(k=0.5.\\)\nSolution\n\n\n\nCode\nA = as.matrix(ladder[, c(\"x\", \"y\")]) # Make matrix using column one and two of the data frame\nM = matrix(data = c(1, 0, 0.5, 1), nrow=2, ncol=2, byrow=T)\n(T = A%*%M)\n\n\n      [,1] [,2]\n [1,]    0    0\n [2,]   10   20\n [3,]    1    0\n [4,]   11   20\n [5,]    1    2\n [6,]    2    2\n [7,]    2    4\n [8,]    3    4\n [9,]    3    6\n[10,]    4    6\n[11,]    4    8\n[12,]    5    8\n[13,]    5   10\n[14,]    6   10\n[15,]    6   12\n[16,]    7   12\n[17,]    7   14\n[18,]    8   14\n[19,]    8   16\n[20,]    9   16\n[21,]    9   18\n[22,]   10   18",
     "crumbs": [
       "Lab 3"
     ]
@@ -194,7 +194,7 @@
     "href": "Lab 3/Lab3WriteUp.html#part-d-2",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "4.4 Part d",
-    "text": "4.4 Part d\nCreate a data frame leaning.ladder with the x and y equal to the first and second column of \\(\\mathbf{T}\\), respectively, and the same values of group from ladder.\nSolution\n\n\n\nCode\nx = T[ , 1]\ny = T[ , 2]\nleaning.ladder = data.frame(col1 = x, col2 = y, col3 = group)\n\n\n ## Part e Remove eval: false in the code below. The result should look like a ladder and a very rectangular house if part a is correct. The new leaning ladder should look like it is leaning on the house.\nSolution\n\n\n\nCode\nggplot() +\n  geom_path(data = ladder, \n              aes(x = x, y = y, group = group, color = \"Starting Ladder\")) +\n  geom_path(data = leaning.ladder, \n              aes(x = x, y = y, group = group, color = \"Leaning Ladder\")) +\n  geom_segment(aes(x = 10, xend = 10,\n                   y=0, yend = 20))+\n  geom_segment(aes(x = 10, xend = 20,\n                   y=20, yend = 20))+\n  geom_segment(aes(x = 20, xend = 20,\n                   y=0, yend = 20))+\n  geom_segment(aes(x = 10, xend = 20,\n                   y=0, yend = 0)) +\n  theme_bw() +\n  xlim(-2,22) +\n  ylim(-2,22) +\n  scale_color_manual(\"\", values=c(\"darkred\", \"grey\"))\n\n\n\n\n\nFigure 8: A ladder and a leaning ladder.",
+    "text": "4.4 Part d\nCreate a data frame leaning.ladder with the x and y equal to the first and second column of \\(\\mathbf{T}\\), respectively, and the same values of group from ladder.\nSolution\n\n\n\nCode\nx = T[ , 1]\ny = T[ , 2] # Select columns of T\nleaning.ladder = data.frame(x, y, group) # Data frame with new values of x and y\n\n\n ## Part e Remove eval: false in the code below. The result should look like a ladder and a very rectangular house if part a is correct. The new leaning ladder should look like it is leaning on the house.\nSolution\n\n\n\nCode\nggplot() +\n  geom_path(data = ladder, \n              aes(x = x, y = y, group = group, color = \"Starting Ladder\")) +\n  geom_path(data = leaning.ladder, \n              aes(x = x, y = y, group = group, color = \"Leaning Ladder\")) +\n  geom_segment(aes(x = 10, xend = 10,\n                   y=0, yend = 20))+\n  geom_segment(aes(x = 10, xend = 20,\n                   y=20, yend = 20))+\n  geom_segment(aes(x = 20, xend = 20,\n                   y=0, yend = 20))+\n  geom_segment(aes(x = 10, xend = 20,\n                   y=0, yend = 0)) +\n  theme_bw() +\n  xlim(-2,22) +\n  ylim(-2,22) +\n  scale_color_manual(\"\", values=c(\"darkred\", \"grey\")) # Plot leaning ladder\n\n\n\n\n\nFigure 8: A ladder and a leaning ladder.",
     "crumbs": [
       "Lab 3"
     ]
@@ -204,7 +204,7 @@
     "href": "Lab 3/Lab3WriteUp.html#discussion",
     "title": "Lab Three – Matrices and Data Frames in R",
     "section": "4.5 Discussion",
-    "text": "4.5 Discussion\nFrom questions 1 to 4 we see the capabilities of R in creating and altering images using matrices, data frames, and more. Starting from doing basic matrix formation, multiplication, and determinants we moved to shearing in question 3. Here, we see how changing the identity matrix, M, slightly can stretch resulting shapes through matrix multiplication (whether that is vertically, horizontally, or both). Lastly, in question 4, a data frame was used to create the ladder in figure 7 from the table values given in part a. Interestingly, by then storing the columns of x and y from the table as columns in a \\(22x2\\) matrix, we could then use shearing again to alter the original ladder to slant and look as if it is leaning (figure 8).",
+    "text": "4.5 Discussion\nFrom questions 1 to 4 we see the capabilities of R in creating and altering images using matrices, data frames, and more. Starting from doing basic matrix formation, multiplication, and determinants we moved to shearing in question 3. Here, we see how changing the identity matrix, M, slightly can stretch resulting shapes through matrix multiplication (whether that is vertically, horizontally, or both). Lastly, in question 4, a data frame was used to create the ladder in figure 7 from the table values given in part a. Interestingly, by then storing the columns of x and y from the table as columns in a \\(22\\) by \\(2\\) matrix, we could then use shearing again to alter the original ladder to slant and look as if it is leaning without changing its area (figure 8).",
     "crumbs": [
       "Lab 3"
     ]
@@ -741,7 +741,7 @@
     "href": "Lab 2/Lab2WriteUp.html#part-d",
     "title": "Lab Two – Basic Tasks in R",
     "section": "1.4 Part d",
-    "text": "1.4 Part d\nIs a demo or vignette available for the esquisse package for R? Report the code below, ensuring to set the eval option to false, using “#| eval: false”, so that the you don’t get errors when you compile your Quarto document.\nSolution\n\n\n\nCode\ndemo(\"esquisse\")\nvignette(\"esquisse\")\n\n\n No demo or vignette is available for the esquisse package for R.",
+    "text": "1.4 Part d\nIs a demo or vignette available for the esquisse package for R? Report the code below, ensuring to set the eval option to false, using “#| eval: false”, so that the you don’t get errors when you compile your Quarto document.\nSolution\n\n\n\nCode\ndemo(\"vignette\")\n\n\n\n\n\n\nCode\nvignette(package = \"esquisse\", lib.loc = NULL, all = TRUE)\n\n\n\nNo demo is available for the esquisse package, but there are two vignettes: get-started and shint-usage.",
     "crumbs": [
       "Lab 2"
     ]
@@ -771,7 +771,7 @@
     "href": "Lab 2/Lab2WriteUp.html#part-a-1",
     "title": "Lab Two – Basic Tasks in R",
     "section": "2.1 Part a",
-    "text": "2.1 Part a\nThe Fibonacci Sequence is a recursive formula: \\[F_n = F_{n-1} + F_{n-2}\\] where \\(F_0=0\\) and \\(F_1=1\\).\nCreate a vector of the first 10 Fibonacci numbers.\nSolution\n\n\n(fibonacci &lt;- c(0, 1, 1, 2, 3, 5, 8, 13, 21, 34))\n\n [1]  0  1  1  2  3  5  8 13 21 34\n\n\n I used c() to form this vector manually, because there is no regular pattern that rep() or seq() could use to easily form the vector.",
+    "text": "2.1 Part a\nThe Fibonacci Sequence is a recursive formula: \\[F_n = F_{n-1} + F_{n-2}\\] where \\(F_0=0\\) and \\(F_1=1\\).\nCreate a vector of the first 10 Fibonacci numbers.\nSolution\n\n\n(fibonacci = c(0, 1, 1, 2, 3, 5, 8, 13, 21, 34))\n\n [1]  0  1  1  2  3  5  8 13 21 34\n\n\n I used c() to form this vector manually, because there is no regular pattern that rep() or seq() could use to easily form the vector.",
     "crumbs": [
       "Lab 2"
     ]
@@ -781,7 +781,7 @@
     "href": "Lab 2/Lab2WriteUp.html#part-b-1",
     "title": "Lab Two – Basic Tasks in R",
     "section": "2.2 Part b",
-    "text": "2.2 Part b\nTriangular Numbers are the cumulative sums of natural numbers: \\[F_n = \\frac{n(n+1)}{2}.\\]\nCreate a vector of the first 10 Triangular Numbers.\nSolution\n\n\nn &lt;- 1:10\n(triangular &lt;- n * (n + 1) / 2)\n\n [1]  1  3  6 10 15 21 28 36 45 55\n\n\n Here, I made \\(n = 1:10\\), along with the equation \\(n*(n+1)/2\\) to easily generate the first 10 terms that follow the given pattern of triangular numbers.\n\n\n(triangular &lt;- c(1, 3, 6, 10, 15, 21, 28, 36, 45, 55))\n\n [1]  1  3  6 10 15 21 28 36 45 55\n\n\n Alternatively, you could use c() to form this vector manually (like above), but this becomes impractical if we were trying to generate a larger vector.",
+    "text": "2.2 Part b\nTriangular Numbers are the cumulative sums of natural numbers: \\[F_n = \\frac{n(n+1)}{2}.\\]\nCreate a vector of the first 10 Triangular Numbers.\nSolution\n\n\nn = 1:10\n(triangular = n * (n + 1) / 2)\n\n [1]  1  3  6 10 15 21 28 36 45 55\n\n\n Here, I made \\(n = 1:10\\), along with the equation \\(n*(n+1)/2\\) to easily generate the first 10 terms that follow the given pattern of triangular numbers.\n\n\n(triangular = c(1, 3, 6, 10, 15, 21, 28, 36, 45, 55))\n\n [1]  1  3  6 10 15 21 28 36 45 55\n\n\n Alternatively, you could use c() to form this vector manually (like above), but this becomes impractical if we were trying to generate a larger vector.",
     "crumbs": [
       "Lab 2"
     ]
@@ -791,7 +791,7 @@
     "href": "Lab 2/Lab2WriteUp.html#part-c-1",
     "title": "Lab Two – Basic Tasks in R",
     "section": "2.3 Part c",
-    "text": "2.3 Part c\nSuppose I were designing a repeated meausres experiment with three treatment conditions. Each of \\(n=10\\) participants (with ID 1 to 10) will receive all experimental conditions, call them “Control”, “Treatment A”, and “Treatment B”.\nConsider setting up data entry for this experiment.\n\nCreate a vector containing each ID repeated three times, once for each treatment.\nCreate a vector containing each Treatment repeated for each participant ID.\n\nSolution\n\n\n(id.repeating.seq &lt;- rep((1:10), times=3))\n\n [1]  1  2  3  4  5  6  7  8  9 10  1  2  3  4  5  6  7  8  9 10  1  2  3  4  5\n[26]  6  7  8  9 10\n\n\n\n\n\n(treatment.repeating.seq &lt;- rep(c(\"Control\", \"Treatment A\", \"Treatment B\"), each=10))\n\n [1] \"Control\"     \"Control\"     \"Control\"     \"Control\"     \"Control\"    \n [6] \"Control\"     \"Control\"     \"Control\"     \"Control\"     \"Control\"    \n[11] \"Treatment A\" \"Treatment A\" \"Treatment A\" \"Treatment A\" \"Treatment A\"\n[16] \"Treatment A\" \"Treatment A\" \"Treatment A\" \"Treatment A\" \"Treatment A\"\n[21] \"Treatment B\" \"Treatment B\" \"Treatment B\" \"Treatment B\" \"Treatment B\"\n[26] \"Treatment B\" \"Treatment B\" \"Treatment B\" \"Treatment B\" \"Treatment B\"\n\n\n For part i it is sufficient to use repeating.seq from 1 to 10 to show how each ID received 3 treatments. Part ii, then, assigns the 3 treatments to the corresponding participants using each.seq, but this function needs to do each 10 times to match the 30 IDs.",
+    "text": "2.3 Part c\nSuppose I were designing a repeated meausres experiment with three treatment conditions. Each of \\(n=10\\) participants (with ID 1 to 10) will receive all experimental conditions, call them “Control”, “Treatment A”, and “Treatment B”.\nConsider setting up data entry for this experiment.\n\nCreate a vector containing each ID repeated three times, once for each treatment.\nCreate a vector containing each Treatment repeated for each participant ID.\n\nSolution\n\n\n(id.repeating.seq = rep((1:10), times=3))\n\n [1]  1  2  3  4  5  6  7  8  9 10  1  2  3  4  5  6  7  8  9 10  1  2  3  4  5\n[26]  6  7  8  9 10\n\n\n\n\n\n(treatment.repeating.seq = rep(c(\"Control\", \"Treatment A\", \"Treatment B\"), each=10))\n\n [1] \"Control\"     \"Control\"     \"Control\"     \"Control\"     \"Control\"    \n [6] \"Control\"     \"Control\"     \"Control\"     \"Control\"     \"Control\"    \n[11] \"Treatment A\" \"Treatment A\" \"Treatment A\" \"Treatment A\" \"Treatment A\"\n[16] \"Treatment A\" \"Treatment A\" \"Treatment A\" \"Treatment A\" \"Treatment A\"\n[21] \"Treatment B\" \"Treatment B\" \"Treatment B\" \"Treatment B\" \"Treatment B\"\n[26] \"Treatment B\" \"Treatment B\" \"Treatment B\" \"Treatment B\" \"Treatment B\"\n\n\n\nFor part i it is sufficient to use a repeating sequence from 1 to 10 to show how each ID received 3 treatments. Part ii, then, assigns the 3 treatments to the corresponding participants using each, but this function needs to do each 10 times to match the 30 IDs.",
     "crumbs": [
       "Lab 2"
     ]
@@ -801,7 +801,7 @@
     "href": "Lab 2/Lab2WriteUp.html#part-d-1",
     "title": "Lab Two – Basic Tasks in R",
     "section": "2.4 Part d",
-    "text": "2.4 Part d\nCreate a vector containing the character “MATH” and the numeric 240. What is the resulting class? Explain why in a sentence.\nSolution\n\n\n(course.name &lt;- c(\"MATH\", 240))\n\n[1] \"MATH\" \"240\" \n\n\n The result shows both “MATH” and 240 as characters, since this is the rightmost class of objects. This is because vectors are atomic and will only report one class type. Characters are the only class type that could kind of fit the data inputted here, so R will return both “MATH” and 240 as characters.",
+    "text": "2.4 Part d\nCreate a vector containing the character “MATH” and the numeric 240. What is the resulting class? Explain why in a sentence.\nSolution\n\n\n(course.name = c(\"MATH\", 240))\n\n[1] \"MATH\" \"240\" \n\n\n\nThe result shows both “MATH” and 240 as characters, since this is the rightmost class of objects. This is because vectors are atomic and will only report one class type. Characters are the only class type that could kind of fit the data inputted here, so R will return both “MATH” and 240 as characters.",
     "crumbs": [
       "Lab 2"
     ]

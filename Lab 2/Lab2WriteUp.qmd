@@ -107,10 +107,15 @@ Is a demo or vignette available for the  `esquisse` package for `R`? Report the 
 **Solution**
 ```{r}
 #| eval: false
-demo("esquisse")
-vignette("esquisse")
+demo("vignette")
 ```
-No demo or vignette is available for the esquisse package for R.
+
+```{r}
+#| eval: false
+vignette(package = "esquisse", lib.loc = NULL, all = TRUE)
+```
+
+No demo is available for the esquisse package, but there are two vignettes: get-started and shint-usage.
 
 ## Part e
 Add the BibTeX citation for `esquisse` package for `R` to your `.bib` file and cite it in a sentence describing what the package does below. Note you can reference a citation named `esquisse` using "[@\hspace{-0em}esquisse]".
@@ -188,7 +193,7 @@ Create a vector of the first 10 Fibonacci numbers.
 ```{r}
 #| size: "scriptsize"
 #| code-fold: FALSE
-(fibonacci <- c(0, 1, 1, 2, 3, 5, 8, 13, 21, 34))
+(fibonacci = c(0, 1, 1, 2, 3, 5, 8, 13, 21, 34))
 ```
 I used c() to form this vector manually, because there is no regular pattern that rep() or seq() could use to easily form the vector.
 
@@ -202,14 +207,14 @@ Create a vector of the first 10 Triangular Numbers.
 ```{r}
 #| size: "scriptsize"
 #| code-fold: FALSE
-n <- 1:10
-(triangular <- n * (n + 1) / 2)
+n = 1:10
+(triangular = n * (n + 1) / 2)
 ```
 Here, I made $n = 1:10$, along with the equation $n*(n+1)/2$ to easily generate the first 10 terms that follow the given pattern of triangular numbers.
 ```{r}
 #| size: "scriptsize"
 #| code-fold: FALSE
-(triangular <- c(1, 3, 6, 10, 15, 21, 28, 36, 45, 55))
+(triangular = c(1, 3, 6, 10, 15, 21, 28, 36, 45, 55))
 ```
 Alternatively, you could use c() to form this vector manually (like above), but this becomes impractical if we were trying to generate a larger vector.
 
@@ -225,15 +230,16 @@ ii. Create a vector containing each `Treatment` repeated for each participant ID
 ```{r}
 #| size: "scriptsize"
 #| code-fold: FALSE
-(id.repeating.seq <- rep((1:10), times=3))
+(id.repeating.seq = rep((1:10), times=3))
 ```
 
 ```{r}
 #| size: "scriptsize"
 #| code-fold: FALSE
-(treatment.repeating.seq <- rep(c("Control", "Treatment A", "Treatment B"), each=10))
+(treatment.repeating.seq = rep(c("Control", "Treatment A", "Treatment B"), each=10))
 ```
-For part i it is sufficient to use repeating.seq from 1 to 10 to show how each ID received 3 treatments. Part ii, then, assigns the 3 treatments to the corresponding participants using each.seq, but this function needs to do each 10 times to match the 30 IDs.
+
+For part i it is sufficient to use a repeating sequence from 1 to 10 to show how each ID received 3 treatments. Part ii, then, assigns the 3 treatments to the corresponding participants using each, but this function needs to do each 10 times to match the 30 IDs.
 
 ## Part d
 Create a vector containing the `character` "MATH" and the `numeric` 240. What is the resulting class? Explain why in a sentence.
@@ -242,12 +248,13 @@ Create a vector containing the `character` "MATH" and the `numeric` 240. What is
 ```{r}
 #| size: "scriptsize"
 #| code-fold: FALSE
-(course.name <- c("MATH", 240))
+(course.name = c("MATH", 240))
 ```
+
 The result shows both "MATH" and 240 as characters, since this is the rightmost class of objects. This is because vectors are atomic and will only report one class type. Characters are the only class type that could kind of fit the data inputted here, so R will return both "MATH" and 240 as characters.
 
 ## Citations
 I used R for the entirety of this assignment [@R]. The primes [@primes] package was used for specific vector functions with prime numbers and the esquisse package [@esquisse] was used to create and analyze the histogram.
 
 ## Discussion
-I used different strategies of creating vectors to form the vectors in parts a through d. At times, vectors needed to be created manually, while others could be made more efficiently using rep() functions or further object assignments. Questions such as part c where there is a lot of repetitive data cater much better to the rep() function, and questions such as part d show the necessity of class type agreement in a vector. The vector in part d gave back two characters, rather than a character and a number, because vectors are atomic and return the class type furtherst right in the progression. The vectors in parts a and b, were short and followed less regular patterns, so in this case, it was easiest to create them manually, although in part b a short cut could be used to make this code more effective especially if we had wanted to make a vector with more entries. Then, as for the initial histogram question, I used esquisser() along with the palmerpenguins package to observe the distribution of 3 different species of penguin's body masses and explained what I saw above. Each part here clearly shows some different basic functions of R.
+I used different strategies of creating vectors to form the vectors in parts a through d. At times, vectors needed to be created manually, while others could be made more efficiently using rep() functions or further object assignments. Questions such as part c where there is a lot of repetitive data cater much better to the rep() function, and questions such as part d show the necessity of class type agreement in a vector. The vector in part d gave back two characters, rather than a character and a number, because vectors are atomic and return the class type furtherst right in the progression. The vectors in parts a and b, were short and followed less regular patterns, so in this case, it was easiest to create them manually, although in part b a short cut could be used to make this code more effective especially if we had wanted to make a vector with more entries. Then, as for the initial histogram question, I used esquisser along with the palmerpenguins package to observe the distribution of 3 different species of penguin's body masses and explained what I saw above. Each part here clearly shows some different basic functions of R.
