@@ -116,7 +116,7 @@ Ask for the column `x1`.
 
 **Solution**
 ```{r}
-df[ ,1]
+df$x1
 ```
 
 ## Part d
@@ -132,7 +132,7 @@ Ask for the the value of `x1` in the fifth row of the data frame.
 
 **Solution**
 ```{r}
-df[5, 1]
+df$x1[5]
 ```
 
 ## Part f
@@ -148,7 +148,7 @@ Create a sequence from 1 to 10 by 2 and use it to print the odd rows of the data
 
 **Solution**
 ```{r}
-df[0:4*2+1, ]
+df[seq(1, 10, 2), ] 
 ```
 
 ## Part h
@@ -157,9 +157,9 @@ Below, I create an empty column called `x12`. Fill in the details of the `for(..
 **Solution** 
 ```{r}
 #| size: "scriptsize"
-n <- 10                 # How many rows to we have to fill?
-df$x12 <- rep(NA, 10)   # Create an empty column for x12
-for(i in 1:10){
+n = 10                 # How many rows to we have to fill?
+df$x12 = rep(NA, 10)   # Create an empty column for x12
+for(i in 1:10){ # Loop
  df$x12[i] = df$x1[i]*df$x2[i]
 }
 print(df)
@@ -175,13 +175,17 @@ Use your function to create a new column `total.score` in our data frame `df`.
 **Solution**
 ```{r}
 #| size: "scriptsize"
-n <- 10                 # How many rows to we have to fill?
-df$total.score <- rep(NA, 10)   # Create an empty column for total.score
-for(i in 1:10){
-  calculate.score = (df$x1[i]*2)+df$x2[i]-df$x3[i]
-  df$total.score[i] = calculate.score
+
+calculate.score = function(x1, x2, x3){
+  return((x1 * 2) + x2 - x3)
 }
-print(df)
+df$total.score = rep(NA, nrow(df))
+
+for(i in 1:nrow(df)){
+  df$total.score[i] = calculate.score(df$x1[i], df$x2[i], df$x3[i])
+}
+
+ print(df)
 ```
 
 ## Part j
@@ -193,15 +197,12 @@ Create a function called `evaluate.row(...)` that takes one argument and returns
 evaluate.row = function(n){
   if (n < 4){
     return("low")
-  } 
-  if (4 <= n & n <= 7){
+  } else if (n <= 7){
     return("mid")
-  } 
-  if (n >= 8){
+  } else {
     return("high")
   }
 }
-
 
 sapply(df$x1, evaluate.row)
 ```
@@ -261,7 +262,6 @@ Load the html of the `website/KimchiGrilledCheese.html` using the `read_html()` 
 
 **Solution** 
 ```{r}
-library("rvest")
 recipe.item = read_html("website/KimchiGrilledCheese.html")
 ```
 
@@ -343,7 +343,7 @@ cat(paste("![](", image.url, "){width=50%}\n", sep = ""))
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("-", html_text(ingredients))
+formatted_list = paste("-", html_text(ingredients))
 cat(formatted_list, sep = "\n")
 ```
 
@@ -352,7 +352,7 @@ cat(formatted_list, sep = "\n")
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("1.", html_text(instructions))
+formatted_list = paste("1.", html_text(instructions))
 cat(formatted_list, sep = "\n") 
 ```
 
@@ -403,7 +403,7 @@ dinner = c("website/AfricanPeanutSoup.html",
             "website/SalmonChowder.html",
             "website/Shakshuka.html")
 selected.breakfast = sample(breakfasts, 1)
-selected.dinners   = sample(dinner, 3)
+selected.dinners   = sample(dinner, 3) #store sampled breakfasts and dinners in vectors
 (selected.files = c(selected.breakfast, selected.dinners))
 ```
 
@@ -436,7 +436,7 @@ cat(paste("![](", image.url, "){width=50%}\n", sep = ""))
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("-", html_text(ingredients))
+formatted_list = paste("-", html_text(ingredients))
 cat(formatted_list, sep = "\n")
 ```
 
@@ -445,7 +445,7 @@ cat(formatted_list, sep = "\n")
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("1.", html_text(instructions))
+formatted_list = paste("1.", html_text(instructions))
 cat(formatted_list, sep = "\n") 
 ```
 
@@ -479,7 +479,7 @@ cat(paste0("![](", image.url, "){width=50%}"))
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("-", html_text(ingredients))
+formatted_list = paste("-", html_text(ingredients))
 cat(formatted_list, sep = "\n")
 ```
 
@@ -488,7 +488,7 @@ cat(formatted_list, sep = "\n")
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("1.", html_text(instructions))
+formatted_list = paste("1.", html_text(instructions))
 cat(formatted_list, sep = "\n") 
 ```
 
@@ -521,7 +521,7 @@ cat(paste("![](", image.url, "){width=50%}\n", sep = ""))
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("-", html_text(ingredients))
+formatted_list = paste("-", html_text(ingredients))
 cat(formatted_list, sep = "\n")
 ```
 
@@ -563,7 +563,7 @@ cat(paste("![](", image.url, "){width=50%}\n", sep = ""))
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("-", html_text(ingredients))
+formatted_list = paste("-", html_text(ingredients))
 cat(formatted_list, sep = "\n")
 ```
 
@@ -572,7 +572,7 @@ cat(formatted_list, sep = "\n")
 ```{r}
 #| echo: false
 #| results: 'asis'
-formatted_list <- paste("1.", html_text(instructions))
+formatted_list = paste("1.", html_text(instructions))
 cat(formatted_list, sep = "\n") 
 ```
 

@@ -821,7 +821,7 @@
     "href": "Lab 2/Lab2WriteUp.html#discussion",
     "title": "Lab Two – Basic Tasks in R",
     "section": "2.6 Discussion",
-    "text": "2.6 Discussion\nI used different strategies of creating vectors to form the vectors in parts a through d. At times, vectors needed to be created manually, while others could be made more efficiently using rep() functions or further object assignments. Questions such as part c where there is a lot of repetitive data cater much better to the rep() function, and questions such as part d show the necessity of class type agreement in a vector. The vector in part d gave back two characters, rather than a character and a number, because vectors are atomic and return the class type furtherst right in the progression. The vectors in parts a and b, were short and followed less regular patterns, so in this case, it was easiest to create them manually, although in part b a short cut could be used to make this code more effective especially if we had wanted to make a vector with more entries. Then, as for the initial histogram question, I used esquisser() along with the palmerpenguins package to observe the distribution of 3 different species of penguin’s body masses and explained what I saw above. Each part here clearly shows some different basic functions of R.",
+    "text": "2.6 Discussion\nI used different strategies of creating vectors to form the vectors in parts a through d. At times, vectors needed to be created manually, while others could be made more efficiently using rep() functions or further object assignments. Questions such as part c where there is a lot of repetitive data cater much better to the rep() function, and questions such as part d show the necessity of class type agreement in a vector. The vector in part d gave back two characters, rather than a character and a number, because vectors are atomic and return the class type furtherst right in the progression. The vectors in parts a and b, were short and followed less regular patterns, so in this case, it was easiest to create them manually, although in part b a short cut could be used to make this code more effective especially if we had wanted to make a vector with more entries. Then, as for the initial histogram question, I used esquisser along with the palmerpenguins package to observe the distribution of 3 different species of penguin’s body masses and explained what I saw above. Each part here clearly shows some different basic functions of R.",
     "crumbs": [
       "Lab 2"
     ]
@@ -871,7 +871,7 @@
     "href": "Lab 4/Lab4WriteUp.html#part-c",
     "title": "Lab Four – Programming in R",
     "section": "1.4 Part c",
-    "text": "1.4 Part c\nAsk for the column x1.\nSolution\n\n\n\nCode\ndf[ ,1]\n\n\n [1] 8 3 5 3 2 3 1 2 6 2",
+    "text": "1.4 Part c\nAsk for the column x1.\nSolution\n\n\n\nCode\ndf$x1\n\n\n [1] 8 3 5 3 2 3 1 2 6 2",
     "crumbs": [
       "Lab 4"
     ]
@@ -891,7 +891,7 @@
     "href": "Lab 4/Lab4WriteUp.html#part-e",
     "title": "Lab Four – Programming in R",
     "section": "1.6 Part e",
-    "text": "1.6 Part e\nAsk for the the value of x1 in the fifth row of the data frame.\nSolution\n\n\n\nCode\ndf[5, 1]\n\n\n[1] 2",
+    "text": "1.6 Part e\nAsk for the the value of x1 in the fifth row of the data frame.\nSolution\n\n\n\nCode\ndf$x1[5]\n\n\n[1] 2",
     "crumbs": [
       "Lab 4"
     ]
@@ -911,7 +911,7 @@
     "href": "Lab 4/Lab4WriteUp.html#part-g",
     "title": "Lab Four – Programming in R",
     "section": "1.8 Part g",
-    "text": "1.8 Part g\nCreate a sequence from 1 to 10 by 2 and use it to print the odd rows of the data frame.\nSolution\n\n\n\nCode\ndf[0:4*2+1, ]\n\n\n  x1 x2 x3\n1  8  1  8\n3  5  3  3\n5  2  2  3\n7  1 10  1\n9  6  2 10",
+    "text": "1.8 Part g\nCreate a sequence from 1 to 10 by 2 and use it to print the odd rows of the data frame.\nSolution\n\n\n\nCode\ndf[seq(1, 10, 2), ] \n\n\n  x1 x2 x3\n1  8  1  8\n3  5  3  3\n5  2  2  3\n7  1 10  1\n9  6  2 10",
     "crumbs": [
       "Lab 4"
     ]
@@ -921,7 +921,7 @@
     "href": "Lab 4/Lab4WriteUp.html#part-h",
     "title": "Lab Four – Programming in R",
     "section": "1.9 Part h",
-    "text": "1.9 Part h\nBelow, I create an empty column called x12. Fill in the details of the for(...) loop to ensure x12 is the product of x1 and x2.\nSolution\n\n\n\nCode\nn &lt;- 10                 # How many rows to we have to fill?\ndf$x12 &lt;- rep(NA, 10)   # Create an empty column for x12\nfor(i in 1:10){\n df$x12[i] = df$x1[i]*df$x2[i]\n}\nprint(df)\n\n\n   x1 x2 x3 x12\n1   8  1  8   8\n2   3  7  2  21\n3   5  3  3  15\n4   3  6  2  18\n5   2  2  3   4\n6   3  8 10  24\n7   1 10  1  10\n8   2  6  1  12\n9   6  2 10  12\n10  2  4  1   8",
+    "text": "1.9 Part h\nBelow, I create an empty column called x12. Fill in the details of the for(...) loop to ensure x12 is the product of x1 and x2.\nSolution\n\n\n\nCode\nn = 10                 # How many rows to we have to fill?\ndf$x12 = rep(NA, 10)   # Create an empty column for x12\nfor(i in 1:10){ # Loop\n df$x12[i] = df$x1[i]*df$x2[i]\n}\nprint(df)\n\n\n   x1 x2 x3 x12\n1   8  1  8   8\n2   3  7  2  21\n3   5  3  3  15\n4   3  6  2  18\n5   2  2  3   4\n6   3  8 10  24\n7   1 10  1  10\n8   2  6  1  12\n9   6  2 10  12\n10  2  4  1   8",
     "crumbs": [
       "Lab 4"
     ]
@@ -931,7 +931,7 @@
     "href": "Lab 4/Lab4WriteUp.html#part-i",
     "title": "Lab Four – Programming in R",
     "section": "1.10 Part i",
-    "text": "1.10 Part i\nWrite a function called calculate.score(...) that takes three arguments representing x1, x2, and x3) and returns a single value based on the formula: \\[Score = (x_1 \\times 2) + x_2 - x_3\\] Use your function to create a new column total.score in our data frame df.\nSolution\n\n\n\nCode\nn &lt;- 10                 # How many rows to we have to fill?\ndf$total.score &lt;- rep(NA, 10)   # Create an empty column for total.score\nfor(i in 1:10){\n  calculate.score = (df$x1[i]*2)+df$x2[i]-df$x3[i]\n  df$total.score[i] = calculate.score\n}\nprint(df)\n\n\n   x1 x2 x3 x12 total.score\n1   8  1  8   8           9\n2   3  7  2  21          11\n3   5  3  3  15          10\n4   3  6  2  18          10\n5   2  2  3   4           3\n6   3  8 10  24           4\n7   1 10  1  10          11\n8   2  6  1  12           9\n9   6  2 10  12           4\n10  2  4  1   8           7",
+    "text": "1.10 Part i\nWrite a function called calculate.score(...) that takes three arguments representing x1, x2, and x3) and returns a single value based on the formula: \\[Score = (x_1 \\times 2) + x_2 - x_3\\] Use your function to create a new column total.score in our data frame df.\nSolution\n\n\n\nCode\ncalculate.score = function(x1, x2, x3){\n  return((x1 * 2) + x2 - x3)\n}\ndf$total.score = rep(NA, nrow(df))\n\nfor(i in 1:nrow(df)){\n  df$total.score[i] = calculate.score(df$x1[i], df$x2[i], df$x3[i])\n}\n\n print(df)\n\n\n   x1 x2 x3 x12 total.score\n1   8  1  8   8           9\n2   3  7  2  21          11\n3   5  3  3  15          10\n4   3  6  2  18          10\n5   2  2  3   4           3\n6   3  8 10  24           4\n7   1 10  1  10          11\n8   2  6  1  12           9\n9   6  2 10  12           4\n10  2  4  1   8           7",
     "crumbs": [
       "Lab 4"
     ]
@@ -941,7 +941,7 @@
     "href": "Lab 4/Lab4WriteUp.html#part-j",
     "title": "Lab Four – Programming in R",
     "section": "1.11 Part j",
-    "text": "1.11 Part j\nCreate a function called evaluate.row(...) that takes one argument and returns “low” when the argument is less than 4, “mid” when the argument is between 4 and 7 (inclusive), and “high” when the arguement is 8 or larger. Then, use sapply(...) to apply it to column x1.\nSolution\n\n\n\nCode\nevaluate.row = function(n){\n  if (n &lt; 4){\n    return(\"low\")\n  } \n  if (4 &lt;= n & n &lt;= 7){\n    return(\"mid\")\n  } \n  if (n &gt;= 8){\n    return(\"high\")\n  }\n}\n\n\nsapply(df$x1, evaluate.row)\n\n\n [1] \"high\" \"low\"  \"mid\"  \"low\"  \"low\"  \"low\"  \"low\"  \"low\"  \"mid\"  \"low\"",
+    "text": "1.11 Part j\nCreate a function called evaluate.row(...) that takes one argument and returns “low” when the argument is less than 4, “mid” when the argument is between 4 and 7 (inclusive), and “high” when the arguement is 8 or larger. Then, use sapply(...) to apply it to column x1.\nSolution\n\n\n\nCode\nevaluate.row = function(n){\n  if (n &lt; 4){\n    return(\"low\")\n  } else if (n &lt;= 7){\n    return(\"mid\")\n  } else {\n    return(\"high\")\n  }\n}\n\nsapply(df$x1, evaluate.row)\n\n\n [1] \"high\" \"low\"  \"mid\"  \"low\"  \"low\"  \"low\"  \"low\"  \"low\"  \"mid\"  \"low\"",
     "crumbs": [
       "Lab 4"
     ]
@@ -971,7 +971,7 @@
     "href": "Lab 4/Lab4WriteUp.html#part-b-2",
     "title": "Lab Four – Programming in R",
     "section": "2.2 Part b",
-    "text": "2.2 Part b\nLoad the html of the website/KimchiGrilledCheese.html using the read_html() function. We will use the Kimchi Grilled Cheese recipe as our prototype and extend this workflow to all recipes, so try to be as general as possible. If you do look at it, you’ll notice it contains the html we saw in the developer tools in class. Hint: You can use read_html(...) like read.csv(...). Don’t forget you can use the documentation to help use it.\nSolution\n\n\n\nCode\nlibrary(\"rvest\")\nrecipe.item = read_html(\"website/KimchiGrilledCheese.html\")",
+    "text": "2.2 Part b\nLoad the html of the website/KimchiGrilledCheese.html using the read_html() function. We will use the Kimchi Grilled Cheese recipe as our prototype and extend this workflow to all recipes, so try to be as general as possible. If you do look at it, you’ll notice it contains the html we saw in the developer tools in class. Hint: You can use read_html(...) like read.csv(...). Don’t forget you can use the documentation to help use it.\nSolution\n\n\n\nCode\nrecipe.item = read_html(\"website/KimchiGrilledCheese.html\")",
     "crumbs": [
       "Lab 4"
     ]

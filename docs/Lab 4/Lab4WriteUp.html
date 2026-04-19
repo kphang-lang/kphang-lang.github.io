@@ -406,7 +406,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>df[ ,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>df<span class="sc">$</span>x1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 8 3 5 3 2 3 1 2 6 2</code></pre>
@@ -439,7 +439,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>df[<span class="dv">5</span>, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>df<span class="sc">$</span>x1[<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
@@ -471,7 +471,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>df[<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">*</span><span class="dv">2</span><span class="sc">+</span><span class="dv">1</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>df[<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">2</span>), ] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  x1 x2 x3
@@ -492,9 +492,9 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>                 <span class="co"># How many rows to we have to fill?</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>df<span class="sc">$</span>x12 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">10</span>)   <span class="co"># Create an empty column for x12</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>n <span class="ot">=</span> <span class="dv">10</span>                 <span class="co"># How many rows to we have to fill?</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>df<span class="sc">$</span>x12 <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">10</span>)   <span class="co"># Create an empty column for x12</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){ <span class="co"># Loop</span></span>
 <span id="cb17-4"><a href="#cb17-4"></a> df<span class="sc">$</span>x12[i] <span class="ot">=</span> df<span class="sc">$</span>x1[i]<span class="sc">*</span>df<span class="sc">$</span>x2[i]</span>
 <span id="cb17-5"><a href="#cb17-5"></a>}</span>
 <span id="cb17-6"><a href="#cb17-6"></a><span class="fu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -523,13 +523,16 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span>                 <span class="co"># How many rows to we have to fill?</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>df<span class="sc">$</span>total.score <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">10</span>)   <span class="co"># Create an empty column for total.score</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
-<span id="cb19-4"><a href="#cb19-4"></a>  calculate.score <span class="ot">=</span> (df<span class="sc">$</span>x1[i]<span class="sc">*</span><span class="dv">2</span>)<span class="sc">+</span>df<span class="sc">$</span>x2[i]<span class="sc">-</span>df<span class="sc">$</span>x3[i]</span>
-<span id="cb19-5"><a href="#cb19-5"></a>  df<span class="sc">$</span>total.score[i] <span class="ot">=</span> calculate.score</span>
-<span id="cb19-6"><a href="#cb19-6"></a>}</span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="fu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>calculate.score <span class="ot">=</span> <span class="cf">function</span>(x1, x2, x3){</span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">return</span>((x1 <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span> x2 <span class="sc">-</span> x3)</span>
+<span id="cb19-3"><a href="#cb19-3"></a>}</span>
+<span id="cb19-4"><a href="#cb19-4"></a>df<span class="sc">$</span>total.score <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(df))</span>
+<span id="cb19-5"><a href="#cb19-5"></a></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df)){</span>
+<span id="cb19-7"><a href="#cb19-7"></a>  df<span class="sc">$</span>total.score[i] <span class="ot">=</span> <span class="fu">calculate.score</span>(df<span class="sc">$</span>x1[i], df<span class="sc">$</span>x2[i], df<span class="sc">$</span>x3[i])</span>
+<span id="cb19-8"><a href="#cb19-8"></a>}</span>
+<span id="cb19-9"><a href="#cb19-9"></a></span>
+<span id="cb19-10"><a href="#cb19-10"></a> <span class="fu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   x1 x2 x3 x12 total.score
@@ -558,17 +561,14 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>evaluate.row <span class="ot">=</span> <span class="cf">function</span>(n){</span>
 <span id="cb21-2"><a href="#cb21-2"></a>  <span class="cf">if</span> (n <span class="sc">&lt;</span> <span class="dv">4</span>){</span>
 <span id="cb21-3"><a href="#cb21-3"></a>    <span class="fu">return</span>(<span class="st">"low"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4"></a>  } </span>
-<span id="cb21-5"><a href="#cb21-5"></a>  <span class="cf">if</span> (<span class="dv">4</span> <span class="sc">&lt;=</span> n <span class="sc">&amp;</span> n <span class="sc">&lt;=</span> <span class="dv">7</span>){</span>
-<span id="cb21-6"><a href="#cb21-6"></a>    <span class="fu">return</span>(<span class="st">"mid"</span>)</span>
-<span id="cb21-7"><a href="#cb21-7"></a>  } </span>
-<span id="cb21-8"><a href="#cb21-8"></a>  <span class="cf">if</span> (n <span class="sc">&gt;=</span> <span class="dv">8</span>){</span>
-<span id="cb21-9"><a href="#cb21-9"></a>    <span class="fu">return</span>(<span class="st">"high"</span>)</span>
-<span id="cb21-10"><a href="#cb21-10"></a>  }</span>
-<span id="cb21-11"><a href="#cb21-11"></a>}</span>
-<span id="cb21-12"><a href="#cb21-12"></a></span>
-<span id="cb21-13"><a href="#cb21-13"></a></span>
-<span id="cb21-14"><a href="#cb21-14"></a><span class="fu">sapply</span>(df<span class="sc">$</span>x1, evaluate.row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-4"><a href="#cb21-4"></a>  } <span class="cf">else</span> <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">7</span>){</span>
+<span id="cb21-5"><a href="#cb21-5"></a>    <span class="fu">return</span>(<span class="st">"mid"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6"></a>  } <span class="cf">else</span> {</span>
+<span id="cb21-7"><a href="#cb21-7"></a>    <span class="fu">return</span>(<span class="st">"high"</span>)</span>
+<span id="cb21-8"><a href="#cb21-8"></a>  }</span>
+<span id="cb21-9"><a href="#cb21-9"></a>}</span>
+<span id="cb21-10"><a href="#cb21-10"></a></span>
+<span id="cb21-11"><a href="#cb21-11"></a><span class="fu">sapply</span>(df<span class="sc">$</span>x1, evaluate.row)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "high" "low"  "mid"  "low"  "low"  "low"  "low"  "low"  "mid"  "low" </code></pre>
@@ -662,8 +662,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">library</span>(<span class="st">"rvest"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2"></a>recipe.item <span class="ot">=</span> <span class="fu">read_html</span>(<span class="st">"website/KimchiGrilledCheese.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>recipe.item <span class="ot">=</span> <span class="fu">read_html</span>(<span class="st">"website/KimchiGrilledCheese.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p></p>
