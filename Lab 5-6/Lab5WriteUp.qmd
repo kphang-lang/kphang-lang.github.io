@@ -98,7 +98,7 @@ Describe the process -- do not leave out any steps -- for how you can load the d
 **Solution**
 ```{r}
 dat.kitsberg = read_csv("Fig 3B(Sheet1)-2.csv")
-dat.kitsberg <- dat.kitsberg[, -c(3, 4, 5, 6)]  # Getting rid of empty columns
+dat.kitsberg = dat.kitsberg[, -c(3, 4, 5, 6)]  # Getting rid of empty columns
 ```
 
 I first went to the source data on the website. I downloaded the source data into Excel in an xls file and went to figure 3b. I then reorganized the data into two columns: sample and virus with nucleus to make it symmetric for a tibble, and then I downloaded the file as a csv to make it easier to use in R. I uploaded the csv in Positron to my lab 5-6 materials and then used read_csv to read the tibble using tidyverse.
@@ -110,7 +110,11 @@ The data need to be cleaned. Note that the sample type (Healthy Donor or THP-1),
 
 **Solution**
 ```{r}
-dat.kitsberg.cleaned = separate(dat.kitsberg, col = sample, into = c("SampleType", "CellType", "Treatment"), sep = "_")
+dat.kitsberg.cleaned = dat.kitsberg |> 
+  separate(col = sample, 
+           into = c("SampleType", "CellType", "Treatment"),
+           sep = "_",
+           remove = TRUE)
 ```
 
 ### Part C
@@ -187,34 +191,34 @@ In an `R` code block, combine your answers into one code block that completes th
 **Solution**
 ```{r}
 dat.kitsberg.cleaned = dat.kitsberg |>
-  separate(col = sample, into = c("SampleType", "CellType", "Treatment"), sep = "_") |>
-  filter(Treatment == "12hpi") |>
+  separate(col = sample, into = c("SampleType", "CellType", "Treatment"), sep = "_") |> # Separate sample column into 3 columns
+  filter(Treatment == "12hpi") |> # Keep only infected samples
   mutate(
     CellType = case_when(
-       CellType == "MDM" ~ "mac", 
+       CellType == "MDM" ~ "mac", # Change MDM labels to "mac"
        TRUE ~ CellType
     ) 
   ) |>
-  filter(CellType %in% c("mac", "mono")) |>
+  filter(CellType %in% c("mac", "mono")) |> # Keep only mac and mono cell types
   mutate(
     SampleType = case_when(
-      SampleType == "primary" ~ "Healthy Donor",
+      SampleType == "primary" ~ "Healthy Donor", #Renaming sample types
       SampleType == "THP1" ~ "THP-1",
       TRUE ~ SampleType
     ),
     CellType = case_when(
-      CellType == "mac" ~ "Macrophages",
+      CellType == "mac" ~ "Macrophages", # Renaming cell types without abbreviations
       CellType == "mono" ~ "Monocytes",
       TRUE ~ CellType
     ),
     Treatment = case_when(
-      Treatment == "12hpi" ~ "12 Hours Post-Infection",
+      Treatment == "12hpi" ~ "12 Hours Post-Infection", # Renaming treatments without abbreviations
       Treatment == "uninfected" ~ "Uninfected",
       TRUE ~ Treatment
     )
   ) |>
   rename(
-    VirusesWithinNucleus = `viruses within nucleus`
+    VirusesWithinNucleus = `viruses within nucleus` # Rename column
   )
 ```
 
@@ -229,19 +233,19 @@ Recreate Figure 3b as depicted in the paper (see [https://www.nature.com/article
 ```{r}
 #| label: fig-3b
 #| fig-cap: "Figure 3b."
-#| fig-width: 5
+#| fig-width: 6
 #| fig-height: 3
 #| scale: "80%"
 #| fig-align: "center"
 #| size: scriptsize
 ggplot(dat.kitsberg.cleaned) +
   geom_violin(aes(x = CellType,
-    y = VirusesWithinNucleus, fill = CellType),
-    fill = "lightgrey", alpha=0.5) +  
+    y = VirusesWithinNucleus, fill = CellType)
+    , alpha=0.5) +  
   geom_boxplot(aes(x = CellType,
-                y = VirusesWithinNucleus, fill = CellType),
+                y = VirusesWithinNucleus, fill = CellType), # Fill by cell type to show both
                 width = 0.1)+
-    facet_wrap(~ SampleType) +
+    facet_wrap(~ SampleType) + # Facet by sample type, puts them side by side
     theme_bw() +
     labs(x = NULL,
         y = "HCMV Genomes in the Nucleus",
@@ -256,26 +260,25 @@ Compute a table containing relevant numerical summaries for Figure 3b.
 
 **Solution**
 ```{r}
-#| size: scriptsize
-fig3b.summary <- dat.kitsberg.cleaned |>
-  group_by(CellType, SampleType, Treatment) |>
-  summarize(
-    n = n(),
-    Mean = mean(VirusesWithinNucleus, na.rm = T),
-    SD = sd(VirusesWithinNucleus, na.rm = T),
-    Median = median(VirusesWithinNucleus, na.rm = T),
-    IQR = IQR(VirusesWithinNucleus, na.rm = T)
-  ) 
-```
-
-```{r}
 #| label: tbl-nsum-billlength
 #| tbl-cap: "Bill length (mm) by species."
 #| tbl-align: "center"
 #| echo: false
-fig3b.summary |>
-  knitr::kable(digits = 2)
+
+(fig3b.summary = dat.kitsberg.cleaned |>
+  group_by(CellType, SampleType, Treatment) |> # group by to increase readability
+  summarize(
+    n = n(),
+    Mean = mean(VirusesWithinNucleus, na.rm = TRUE),
+    SD = sd(VirusesWithinNucleus, na.rm = TRUE),
+    Median = median(VirusesWithinNucleus, na.rm = TRUE),
+    IQR = IQR(VirusesWithinNucleus, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  knitr::kable(digits = 2))
 ```
+
+Virus counts in the nucleus vary across CellType and SampleType, with differences in central tendency (mean and median) suggesting condition-dependent infection levels. The variability within groups (SD and IQR) indicates heterogeneous infection across cells, consistent with the broad distributions observed in the violin plots.
 
 # Ship Valuation
 
@@ -319,10 +322,10 @@ The authors recorded the country that each Supramax or Ultramax ship was built i
 ```{r}
 dat.bal.cleaned = dat.bal.cleaned |>
   mutate(
-    OriginCountry = case_when(
-       Japan == 1 ~ "Japan",
+    OriginCountry = case_when( # Create new column
+       `Japan` == 1 ~ "Japan", # Change country names to be clearer, =1 to make sure you keep only ships where that is the country of origin
        `China, People's Republic Of` == 1 ~ "China",
-       Philippines == 1 ~ "Philippines",
+       `Philippines` == 1 ~ "Philippines",
        `Korea, South` == 1 ~ "SouthKorea",
        `Others Country Build` == 1 ~ "Other",
         TRUE ~ NA_character_
@@ -340,11 +343,11 @@ The authors recorded each Supramax and Ultramax ship's main engine manufacturer 
 ```{r}
 dat.bal.cleaned = dat.bal.cleaned |>
   mutate(
-    Manufacturer = case_when(
-       Caterpillar == 1 ~ "Caterpillar",
+    Manufacturer = case_when( # Make new column
+       `Caterpillar` == 1 ~ "Caterpillar", # =1 to keep only ships that have that manufacturer
        `MAN-B&W` == 1 ~ "MAN-B&W",
-       Wartsila == 1 ~ "Wartsila",
-       Mitsubishi == 1 ~ "Mitsubishi",
+       `Wartsila` == 1 ~ "Wartsila",
+       `Mitsubishi` == 1 ~ "Mitsubishi",
         TRUE ~ NA_character_
     )
   )
@@ -361,9 +364,9 @@ The authors recorded P&I clubs in the columns `Japan P&I Club`, `Gard`,	`West of
 ```{r}
 dat.bal.cleaned = dat.bal.cleaned |>
   mutate(
-    PI.club = case_when(
-       `Japan P&I Club` == 1 ~ "Japan P&I Club",
-       Gard == 1 ~ "Gard",
+    PI.club = case_when( # Make new column
+       `Japan P&I Club` == 1 ~ "Japan P&I Club", # =1 to make sure you keep only ships that are insured by each company 
+       `Gard` == 1 ~ "Gard",
        `West of England` == 1 ~ "West of England",
         `North of England` == 1 ~ "North of England",
         `UK P&I` == 1 ~ "UK P&I",
@@ -371,8 +374,8 @@ dat.bal.cleaned = dat.bal.cleaned |>
         `London P&I Club` == 1 ~ "London P&I Club",
         `Skuld` == 1 ~ "Skuld",
         `Steamship Mutual` == 1 ~ "Steamship Mutual",
-        Others == 1 ~ "Others",
-        Unknown == 1 ~ "Unknown",
+        `Others` == 1 ~ "Others",
+        `Unknown` == 1 ~ "Unknown",
         TRUE ~ NA_character_
     )
   )
@@ -389,8 +392,8 @@ The authors recorded class society in the columns `Nippon Kaiji Kyokai (IACS)`, 
 ```{r}
 dat.bal.cleaned = dat.bal.cleaned |>
   mutate(
-    Class = case_when(
-       `Nippon Kaiji Kyokai (IACS)` == 1 ~ "Nippon Kaiji Kyokai (IACS)",
+    Class = case_when( # Create new column
+       `Nippon Kaiji Kyokai (IACS)` == 1 ~ "Nippon Kaiji Kyokai (IACS)", # =1 to keep only ships that are of that class
        `Lloyd's Register` == 1 ~ "Lloyd's Register",
        `Bureau Veritas (IACS)` == 1 ~ "Bureau Veritas (IACS)",
         `Det Norske Veritas (IACS)` == 1 ~ "Det Norske Veritas (IACS)",
@@ -414,8 +417,8 @@ The authors recorded flag states in the columns `Panama`, `Marshall Islands`,	`L
 ```{r}
 dat.bal.cleaned = dat.bal.cleaned |>
   mutate(
-    FlagState = case_when(
-       Panama == 1 ~ "Panama",
+    FlagState = case_when(  # Create new column
+       Panama == 1 ~ "Panama", # =1 to keep only ships that have that flag state
        `Marshall Islands` == 1 ~ "Marshall Islands",
        Liberia == 1 ~ "Liberia",
        Malta == 1 ~ "Malta",
@@ -440,28 +443,28 @@ dat.bal = read_csv("ShipValuation-Bal25.csv")
 dat.bal.cleaned = dat.bal |>
   mutate(price = 10^SPLog/1000000) |>
   mutate(
-    OriginCountry = case_when(
-       Japan == 1 ~ "Japan",
+    OriginCountry = case_when( # Create new column
+       `Japan` == 1 ~ "Japan", # Change country names to be clearer, =1 to make sure you keep only ships where that is the country of origin
        `China, People's Republic Of` == 1 ~ "China",
-       Philippines == 1 ~ "Philippines",
+       `Philippines` == 1 ~ "Philippines",
        `Korea, South` == 1 ~ "SouthKorea",
        `Others Country Build` == 1 ~ "Other",
         TRUE ~ NA_character_
     )
   ) |>
   mutate(
-    Manufacturer = case_when(
-       Caterpillar == 1 ~ "Caterpillar",
+    Manufacturer = case_when( # Make new column
+       `Caterpillar` == 1 ~ "Caterpillar", # =1 to keep only ships that have that manufacturer
        `MAN-B&W` == 1 ~ "MAN-B&W",
-       Wartsila == 1 ~ "Wartsila",
-       Mitsubishi == 1 ~ "Mitsubishi",
+       `Wartsila` == 1 ~ "Wartsila",
+       `Mitsubishi` == 1 ~ "Mitsubishi",
         TRUE ~ NA_character_
     )
   ) |>
     mutate(
-    PI.club = case_when(
-       `Japan P&I Club` == 1 ~ "Japan P&I Club",
-       Gard == 1 ~ "Gard",
+    PI.club = case_when( # Make new column
+       `Japan P&I Club` == 1 ~ "Japan P&I Club", # =1 to make sure you keep only ships that are insured by each company 
+       `Gard` == 1 ~ "Gard",
        `West of England` == 1 ~ "West of England",
         `North of England` == 1 ~ "North of England",
         `UK P&I` == 1 ~ "UK P&I",
@@ -469,14 +472,14 @@ dat.bal.cleaned = dat.bal |>
         `London P&I Club` == 1 ~ "London P&I Club",
         `Skuld` == 1 ~ "Skuld",
         `Steamship Mutual` == 1 ~ "Steamship Mutual",
-        Others == 1 ~ "Others",
-        Unknown == 1 ~ "Unknown",
+        `Others` == 1 ~ "Others",
+        `Unknown` == 1 ~ "Unknown",
         TRUE ~ NA_character_
     )
   ) |>
-      mutate(
-    Class = case_when(
-       `Nippon Kaiji Kyokai (IACS)` == 1 ~ "Nippon Kaiji Kyokai (IACS)",
+   mutate(
+    Class = case_when( # Create new column
+       `Nippon Kaiji Kyokai (IACS)` == 1 ~ "Nippon Kaiji Kyokai (IACS)", # =1 to keep only ships that are of that class
        `Lloyd's Register` == 1 ~ "Lloyd's Register",
        `Bureau Veritas (IACS)` == 1 ~ "Bureau Veritas (IACS)",
         `Det Norske Veritas (IACS)` == 1 ~ "Det Norske Veritas (IACS)",
@@ -487,9 +490,9 @@ dat.bal.cleaned = dat.bal |>
         TRUE ~ NA_character_
     )
   ) |>
-    mutate(
-    FlagState = case_when(
-       Panama == 1 ~ "Panama",
+  mutate(
+    FlagState = case_when(  # Create new column
+       Panama == 1 ~ "Panama", # =1 to keep only ships that have that flag state
        `Marshall Islands` == 1 ~ "Marshall Islands",
        Liberia == 1 ~ "Liberia",
        Malta == 1 ~ "Malta",
@@ -546,29 +549,26 @@ ggplot(dat.bal.cleaned) +
 ```
 
 ```{r}
-#| size: scriptsize
-fig4.summary <- dat.bal.cleaned |>
-  filter(!is.na(Class), !is.na(price)) |> # get rid of NAs
-  group_by(Class) |>
-  summarize(
-    n = n(),
-    Mean = mean(price, na.rm = T),
-    SD = sd(price, na.rm = T),
-    Median = median(price, na.rm = T),
-    IQR = IQR(price, na.rm = T)
-  )
-```
-
-```{r}
 #| label: tbl-fig-box-shipclasses
 #| tbl-cap: "How Ship Prices Vary Across Classes"
 #| tbl-align: "center"
 #| echo: false
-fig4.summary |>
-  knitr::kable(digits = 2)
+
+(fig4.summary <- dat.bal.cleaned |>
+  filter(!is.na(Class), !is.na(price)) |>
+  group_by(Class) |>
+  summarize(
+    n = n(),
+    Mean = mean(price, na.rm = TRUE),
+    SD = sd(price, na.rm = TRUE),
+    Median = median(price, na.rm = TRUE),
+    IQR = IQR(price, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  knitr::kable(digits = 2))
 ```
 
-
+Ship prices vary systematically across classes, however a lot of ship classes actually have similar mean prices between 15 and 18. Prices of disclassed and others class ships are much lower though (7.73 and 13.17 respectively). However, the distributions also show substantial within-class variation, indicated by relatively wide interquartile ranges and standard deviations. This suggests that while ship class is an important determinant of price, it is not the sole factor explaining variation in vessel value. Overall, the results indicate some relationship but not perfectly deterministic relationship between ship size class and market price.
 
 ### Part B
 Choose a quantitative variable. Create a plot and corresponding numerical summary to assess whether or how ship prices vary with the selected quantitative variable.  
@@ -596,22 +596,20 @@ geom_point(aes(x = Yas,
 ```
 
 ```{r}
-#| size: scriptsize
-fig5.summary = dat.bal.cleaned |>
-  summarize(
-    n = sum(!is.na(Yas) & !is.na(price)), 
-    correlation = cor(Yas, price, method = "pearson", use = "complete.obs") #complete.obs gets rid of NAs
-  )
-```
-
-```{r}
 #| label: tbl-fig-box-shipages
 #| tbl-cap: "How Ship Prices Vary with Ship Age"
 #| tbl-align: "center"
 #| echo: false
-fig5.summary |>
-  knitr::kable(digits = 2)
+(fig5.summary = dat.bal.cleaned |>
+  summarize(
+    n = sum(!is.na(Yas) & !is.na(price)), 
+    correlation = cor(Yas, price, method = "pearson", use = "complete.obs") #complete.obs gets rid of NAs
+  ) |>
+  knitr::kable(digits = 2))
 ```
+
+There is a negative relationship between ship age and price, meaning that older ships tend to be less valuable than newer ones. This is visible in the downward slope of the fitted linear regression line.
+The Pearson correlation coefficient confirms this pattern (-0.51), indicating a moderate negative relationship between age and price. However, the relationship is not perfectly strong, indicating that other factors also play a substantial role in determining price. The scatter in the data shows considerable variation in prices at any given age, reinforcing this point.
 
 # Discussion
 This lab required an extensive use of Tidyverse tools to clean two data sets. Initially we were given a messy data set in Excel (kitsberg data) that had to be manually edited to be symmetric and easier to use in R. Once this was converted into a csv file, we could use read_csv and store the data as an object (tibble) to keep using and clean. Functions like mutate(), filter(), and separate() were very important to reorganize and rename columns or other labels throughout the tibbles. Then, different figures such as violin plots, box plots, and scatter plots were used to most effectively plot qualitative and quantitative data. Sometimes tools such as facet_wrap were used to make the data easier to visualize and group things side by side. Lastly, summary() was used to create numerical summaries of the results from the plots, and I put these summaries into tables that are easy to interpret.
