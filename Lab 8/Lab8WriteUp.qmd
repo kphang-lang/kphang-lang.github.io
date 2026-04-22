@@ -110,11 +110,12 @@ There are eight possible outcomes for Player A:
 n = 3
 p = 0.70 #define parameters
 
-ggdat <- tibble(x = 0:3,
+ggdat = tibble(x = 0:3,
                 PMF = dbinom(x, n, p),
                 CDF = pbinom(x, n, p)) #plot PMF and CDF
-PMF.plot <- ggplot(ggdat) +
+PMF.plot = ggplot(ggdat) +
   geom_linerange(aes(x = x, ymin = 0, ymax = PMF)) +
+  geom_point(aes(x = x, y = PMF)) +
   geom_linerange(data = ggdat |> filter(x >= 2),
                  aes(x = x, ymin = 0, ymax = PMF),
                  color = "darkorchid2", linewidth = 1.5) +
@@ -122,7 +123,7 @@ PMF.plot <- ggplot(ggdat) +
   theme_bw() +
   labs(x = "Number of Legs Won", y = "Probability")
 
-CDF.plot <- ggplot(ggdat) +
+CDF.plot = ggplot(ggdat) +
   geom_step(aes(x = x, y = CDF)) +
   geom_point(aes(x = x, y = CDF)) +
   geom_hline(yintercept = 0) +
@@ -136,6 +137,8 @@ PMF.plot | CDF.plot #plot PMF and CDF side by side
 ```{r}
 1 - pbinom(1, size = 3, prob = 0.7) #Probability that X>=2
 ```
+
+Probability statement: $P(win)=P(X≥2)=P(X=2)+P(X=3)$, this can also be written as: $P(X≥2)=1−P(X≤1)$.
 
 
 ## The Negative Binomial Distribution
@@ -156,11 +159,12 @@ In intermediate courses, we learn the Negative Binomial distribution that we use
 r = 2
 p = 0.7 #define parameters
 
-ggdat <- tibble(x = -0:3) |>
+ggdat = tibble(x = 0:3) |>
   mutate(PMF = dnbinom(x, size=r, prob=p),
          CDF = pnbinom(x, size=r, prob=p)) #compute PMF and CDF
-PMF.plot <- ggplot(ggdat) +
+PMF.plot = ggplot(ggdat) +
   geom_linerange(aes(x = x, ymin = 0, ymax = PMF)) +
+  geom_point(aes(x = x, y = PMF)) +
   geom_linerange(data = ggdat |> filter(x <= 1),
                  aes(x = x, ymin = 0, ymax = PMF),
                  color = "darkorchid2", linewidth = 1.5) +
@@ -168,7 +172,7 @@ PMF.plot <- ggplot(ggdat) +
   theme_bw() +
   labs(x = "Losses Before Two Wins", y = "Probability")
 
-CDF.plot <- ggplot(ggdat) +
+CDF.plot = ggplot(ggdat) +
   geom_step(aes(x = x, y = CDF)) +
   geom_point(aes(x = x, y = CDF), size = 1) +
   geom_hline(yintercept = 0) +
@@ -182,7 +186,8 @@ PMF.plot | CDF.plot #plot PMF and CDF side by side
 pnbinom(1, size = 2, prob = 0.7) #Probability that X<=1
 ```
 
-The probability using the Binomial and Negative Binomial Distributions is the same. The Binomial Distribution measures how many wins occur in a given number of trials (3 trials), and looks for outcomes where at least 2 wins occur (won the match). The Negative Binomial Distribution goes from the opposite direction, and measures the number of losses before the desired event occurs (a win). r is 2, because a win needs to occur in the first 2 trials.
+Probability statement: $P(X≤1)=P(X=0)+P(X=1)$
+The probability using the Binomial and Negative Binomial Distributions is the same. The Binomial Distribution measures how many wins occur in a given number of trials (3 trials), and looks for outcomes where at least 2 wins occur (won the match). The Negative Binomial Distribution goes from the opposite direction, and measures the number of losses before the desired event occurs (a win). $r=2$ because Player A must achieve 2 total wins to win the match.
 
 # The Beta Binomial Distribution
 One approach to generalize this modeling is to use a Beta-Binomial distribution. This distribution arrises when we let $p$ be a random variable that follows a Beta distribution:
@@ -211,11 +216,11 @@ The primary benefit is that the Beta-Binomial enables us to specify some uncerta
 alpha = 7
 beta = 3 #define parameters
 
-ggdat <- tibble(x = seq(0, 1, length.out = 1000)) |>
+ggdat = tibble(x = seq(0, 1, length.out = 1000)) |>
   mutate(PDF = dbeta(x, shape1 = alpha, shape2 = beta), 
           CDF = pbeta(x, shape1 = alpha, shape2 = beta)) #compute PDF and CDF
 
-PDF.plot <- ggplot() +
+PDF.plot = ggplot() +
   geom_line(data = ggdat,
                  aes(x = x, y = PDF)) +
   geom_ribbon(data=ggdat |> filter(x >= 0.7), #p is around 0.7, beta distribution allows for uncertainty
@@ -225,7 +230,7 @@ PDF.plot <- ggplot() +
   theme_bw() +
   labs(x = "Number of Wins", y = "Density")
 
-CDF.plot <- ggplot() +
+CDF.plot = ggplot() +
   geom_line(data = ggdat,
               aes(x = x, y = CDF)) +
   geom_hline(yintercept = 0) +
@@ -245,20 +250,24 @@ The Beta distribution shows us how likely different win probabilities, p, are fo
 
 **Solution**
 ```{r}
-alpha = 7
-beta = 3 #define parameters
+alpha = 7 # define parameters
+beta = 3
 
-f_P = function(p) dbeta(p, shape1 = alpha, shape2 = beta) #function for PDF to make calculating the mean and variance simpler
-
-(E_P = integrate(function(p) p * f_P(p), lower = 0, upper = 1)$value) #Mean
-(Var_P = integrate(function(p) (p - E_P)^2 * f_P(p), lower = 0, upper = 1)$value) #Variance
+E_P = alpha / (alpha + beta) # compute mean
+Var_P = (alpha * beta) / ((alpha + beta)^2 * (alpha + beta + 1)) # compute variance
 ```
+
 
 1. **What is the probability that Player A has a win probability of exactly 0.70?  Make sure write out your probability statement and work to write it in terms of the distribution function (PDF/CDF) to plot the probability using `ggplot`.**\
 **Hint:** Think carefully about the properties of continuous distributions here.
 
 **Solution**
-The probability that Player A has a win probability of exactly 0.70 is 0. This is because the PDF does not calculate probability, and is 0 at any single point (property of continuous distributions).
+
+```{r}
+dbeta(0.7, shape1 = 7, shape2 = 3)
+```
+
+This value represents the height of the probability density function at $p=0.70$, not the probability itself. For continuous distributions, the probability at any single point is zero, even though the density at that point may be positive.
 
 1. **What is the probability that Player A has a win probability of at least 0.50?  Make sure write out your probability statement and work to write it in terms of the distribution function (PDF/CDF) to plot the probability using `ggplot`.**
 
@@ -269,6 +278,8 @@ beta = 3
 1 - pbeta(q=0.50, shape1 = alpha, shape2 = beta) #Probability of at least 0.50
 ```
 
+Probability statement: $P(P≥0.50)=1−P(P≤0.50)=1−F(0.50)$
+
 1. **What is the 90th percentile of Player A's win probability based on this Beta distribution? Make sure write out your probability statement and work to write it in terms of the distribution function (PDF/CDF) to plot the percentile using `ggplot`.**
 
 **Solution**
@@ -277,6 +288,8 @@ alpha = 7
 beta = 3
 qbeta(0.9, shape1 = alpha, shape2 = beta) #Inverse CDF
 ```
+
+Probability statement: $F^-1(0.9​)$
 
 ## The Beta-Binomial Part
 **Compute the probability that Player A wins the match. Compare your result to the Binomial and Negative Binomial results. Make sure write out your probability statement and work to write it in terms of the distribution function (PMF/CDF) to plot the probability using `ggplot`**
