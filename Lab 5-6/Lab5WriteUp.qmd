@@ -231,8 +231,8 @@ Recreate Figure 3b as depicted in the paper (see [https://www.nature.com/article
 
 **Solution**
 ```{r}
-#| label: fig-3b
-#| fig-cap: "Figure 3b."
+#| label: fig-viruses-in-nucleus
+#| fig-cap: "Viruses Within Nucleus Based on Cell Type"
 #| fig-width: 6
 #| fig-height: 3
 #| scale: "80%"
@@ -260,8 +260,8 @@ Compute a table containing relevant numerical summaries for Figure 3b.
 
 **Solution**
 ```{r}
-#| label: tbl-nsum-billlength
-#| tbl-cap: "Bill length (mm) by species."
+#| label: tbl-nsum-viruses
+#| tbl-cap: "Viruses in the Nucleus Based on Cell Type"
 #| tbl-align: "center"
 #| echo: false
 
@@ -278,7 +278,7 @@ Compute a table containing relevant numerical summaries for Figure 3b.
   knitr::kable(digits = 2))
 ```
 
-Virus counts in the nucleus vary across CellType and SampleType, with differences in central tendency (mean and median) suggesting condition-dependent infection levels. The variability within groups (SD and IQR) indicates heterogeneous infection across cells, consistent with the broad distributions observed in the violin plots.
+Virus counts in the nucleus vary across CellType and SampleType. And macrophages seem to have on average more viruses in the nucleus than monocytes (0.37 and 0.33 v.s. 0.01 and 0.04). Both have low counts of viruses overall. The variability within macrophages (SD and IQR) is also greater than for monocytes which indicates heterogeneous infection across cells, consistent with the broad distributions observed in the violin plots.
 
 # Ship Valuation
 
