@@ -309,7 +309,7 @@ n = 3
 alpha = 7    
 beta = 3   #define parameters
 
-ggdat <- tibble(
+ggdat = tibble(
   x = 0:n,
   PMF = dbbinom(x, size = n, alpha = alpha, beta = beta),
   CDF = pbbinom(x, size = n, alpha = alpha, beta = beta)) #calculate PMF and CDF
@@ -323,7 +323,7 @@ PMF.plot = ggplot(ggdat) +
   theme_bw() +
   labs(x = "Number of Legs Won", y = "Probability")
 
-CDF.plot <- ggplot(ggdat) +
+CDF.plot = ggplot(ggdat) +
   geom_step(aes(x = x, y = CDF)) +
   geom_point(aes(x = x, y = CDF), size = 1) +
   geom_hline(yintercept = 0) +
@@ -340,6 +340,7 @@ beta = 3 #define parameters
 1 - pbbinom(1, size = n, alpha = alpha, beta = beta) #calculate probability player a wins using CDF
 ```
 
+Probability statement: $P(X≥2)=1−P(X≤1)=1−F(1)$
 The result, $0.76$ is a bit smaller than the result using the Binomial and Negative Binomial distributions ($0.78$), but very similar. This is because the Beta-Binomial incorporates uncertainty in Player A’s ability.
 
 ## The Why
@@ -401,8 +402,9 @@ ggdat_long = ggdat |>
                values_to = "PMF") #edit the tibble
 
 PMF.plot = ggplot(ggdat_long) + 
-  geom_linerange(aes(x = x, ymin = 0, ymax = PMF, color = theta),
-                 linewidth = 1.5, alpha = 0.7) +
+  geom_linerange(aes(x = x, ymin = 0, ymax = PMF, fill = theta), 
+                    position = position_dodge(width = 0.3),
+                    linewidth = 1.5, alpha = 0.7) +
   geom_hline(yintercept = 0) +
   theme_bw() +
   labs(x = "Number of Games Won",
@@ -412,7 +414,7 @@ PMF.plot = ggplot(ggdat_long) +
 print(PMF.plot) #plot the PMF with each value of theta as a different color
 ```
 
-As theta changes, certain outcomes become more or less likely in a best 2 out of 3 match. A theta under 1 (0.5), favors more extreme options, which is why you see more observations of 3 wins and a few of 1 wins. When theta is 1, the outcomes are more evenly distributed because each game is being interpreted individually and has the same probability of winning. When theta is 1.5, it favors more moderate outcomes, which is why these results are more concentrated in the middle (1-2).
+As theta changes, certain outcomes become more or less likely in a best 2 out of 3 match. A theta under 1 (0.5), favors more extreme options, which is why you see more observations of 3 wins and a few of 1 wins. When theta is 1, the outcomes are more evenly distributed because each game is being interpreted individually and has the same probability of winning. When theta is 1.5, it favors more moderate outcomes (2-1 or 1-2), which is why these results are more concentrated in the middle.
 
 ## Cumulative Distribution Function
 **Use your `daltbinom()` function to create a `paltbinom()` function for computing the CDF of this distribution. Use your function to plot the distribution where $p=0.70$ where $\theta=0.50$, $\theta=1$, and $\theta=1.50$.**
@@ -422,7 +424,7 @@ As theta changes, certain outcomes become more or less likely in a best 2 out of
 paltbinom = function(x, n, p, theta){
   k_vals = 0:n #create object k_vals to make more concise
   pdf_vals = daltbinom(k_vals, n, p, theta)
-  cdf = cumsum(pdf_vals) #cdf calculation is based on the pdf
+  cdf = cumsum(pdf_vals)#cdf calculation is based on the pdf
   return(cdf[x+1]) #n doesn't start at 0
 }
 ```
@@ -470,6 +472,10 @@ print(CDF.plot) #plot the CDF with each value of theta as a different color
 (p_win_15 = 1 - paltbinom(1, n = 3, p = 0.7, theta = 1.5)) #compute the probabilities of winning with each different value of theta
 ```
 
+Probability statements: 
+1. $P(X≥2∣θ=0.5)=1−P(X≤1∣θ=0.5)$
+2. $P(X≥2∣θ=1)=1−F(1;θ=1)$
+3. $P(X≥2∣θ=1.5)=1−F(1;θ=1.5)$
 The probability of Player A winning the match is the same as the Binomial and Negative Binomial results when theta = 1 (0.784), but the probability is higher when theta is 0.5 (= 0.859, is observable also in the graphs). The probability is lower when theta is 1.5 (=0.747, which is also observable in the graphs).
 
 # Altham's Multiplicative Beta-Binomial Distribution
@@ -490,9 +496,10 @@ pmf = sapply(x, function(xi) { #Apply the calculation to each possible outcome x
     choose(n, xi) * (p^xi) * ((1-p)^(n-xi)) * (theta^(xi*(n-xi))) *
       (p^(alpha-1) * (1-p)^(beta-1)) * gamma(alpha+beta)/(gamma(alpha)*gamma(beta))
   }
+
   integrate(integrand, lower=0, upper=1)$value
 })
-  pmf = pmf / sum(pmf)   #normalize the probabilities so they sum to 1
+
   return(pmf)
 }
 ```
@@ -511,7 +518,7 @@ n = 3
 alpha = 7    
 beta = 3   #define parameters
 
-ggdat <- tibble(
+ggdat = tibble(
   x = 0:n,  
   pmf_theta_05 = daltbbinom(x, n, alpha = alpha, beta = beta, theta = 0.5),
   pmf_theta_1 = daltbbinom(x, n, alpha = alpha, beta = beta, theta = 1),
@@ -524,7 +531,8 @@ ggdat_long = ggdat |>
                values_to = "PMF") #edit the tibble
 
 PMF.plot = ggplot(ggdat_long) + 
-geom_linerange(aes(x = x, ymin = 0, ymax = PMF, color = theta),
+geom_linerange(aes(x = x, ymin = 0, ymax = PMF, fill = theta),
+                position = position_dodge(width = 0.3),
                  linewidth = 1.5, alpha = 0.7) +
   geom_hline(yintercept = 0) +
   theme_bw() +
@@ -559,6 +567,8 @@ p = 0.7 #define parameters
 
 (binom_probs = dbinom(x, size = n, prob = p))
 ```
+
+0.027 represents LLL, 0.189 represents LLW, LWL, or WLL, 0.441 represents WWL, WLW, or LWW, 0.343 represents WWW
 
 * **Negative Binomial**\
 
@@ -595,10 +605,13 @@ library(extraDistr) #load library
 ```{r}
 x = 0:3
 n = 3
-p = 0.7 #define parameters
+p = 0.7 # define parameters
 
-(altham_05 = daltbinom(x, n, p, theta = 0.5))
-(altham_15 = daltbinom(x, n, p, theta = 1.5))
+altham_05 = daltbinom(x, n, p, theta = 0.5)
+altham_15 = daltbinom(x, n, p, theta = 1.5)
+
+altham_05 = altham_05 / sum(altham_05)
+altham_15 = altham_15 / sum(altham_15)
 ```
 
 * **Althman Beta-Binomial with $\theta=0.50$ and $\theta=1.5$**
@@ -607,12 +620,14 @@ p = 0.7 #define parameters
 ```{r}
 x = 0:3
 n = 3
-p = 0.7
 alpha = 7
-beta = 3 #define parameters
+beta = 3
 
-(altbb_05 = daltbbinom(x, n, alpha, beta, theta = 0.5))
-(altbb_15 = daltbbinom(x, n, alpha, beta, theta = 1.5))
+altbb_05 = daltbbinom(x, n, alpha, beta, theta = 0.5)
+altbb_15 = daltbbinom(x, n, alpha, beta, theta = 1.5)
+
+altbb_05 = altbb_05 / sum(altbb_05)
+altbb_15 = altbb_15 / sum(altbb_15)
 ```
 
 **Plotting**
