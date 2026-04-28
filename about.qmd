@@ -12,7 +12,7 @@ about:
       href: https://github.com/kphang-lang?tab=repositories
 ---
 
-I made this website to compile all of the lab work I have done for my computational statistics course this semester. Labs 1-11 are laid out in this website to show skills I have learned in R and statistics more broadly. 
+I made this website to compile all of the lab work I have done for my computational statistics course this semester. Labs 2-11 are laid out in this website to show skills I have developed in R and statistics more broadly. There is also a tidyverse review section where I created my own broad review page of tidyverse and ggplot basics and demonstrated these skills on published data from PLOS ONE.
 
 ## Education
 

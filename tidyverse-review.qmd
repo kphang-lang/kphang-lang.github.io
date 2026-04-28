@@ -1,5 +1,5 @@
 ---
-title: "Tidyverse and ggplot2 Review: Reproducing Ecological Findings Using a Case Study of Hawksbill Turtle Nesting" # Title of documnet
+title: "Tidyverse and ggplot2 Review: Reproducing Ecological Findings Using a Case Study of Hawksbill Turtle Nesting" # Title of document
 
 execute:
   warning: false
@@ -35,7 +35,7 @@ format-links: [pdf]
 
 ## Why the Tidyverse Matters
 
-In computational statistics, the **tidyverse** provides a consistent framework for working with data from cleaning to visualization. The tidyverse is a collection of R packages designed for data science that share a consistent structure and philosophy. Rather than treating data analysis as a series of disconnected steps, the tidyverse provides a unified workflow for importing, cleaning, transforming, and visualizing data.
+In computational statistics, the **tidyverse** provides a consistent framework for working with data from cleaning to visualization. The tidyverse is a collection of R packages designed for data science that share a consistent structure. Rather than treating data analysis as a series of disconnected steps, the tidyverse provides a smooth workflow for importing, cleaning, and visualizing data.
 
 A central idea is that data analysis should be:
 
@@ -51,6 +51,10 @@ The tidyverse is built around the concept of tidy data:
 
 This is important because maintaining this structure makes it much easier to apply functions and create visualizations. This matters because messy data (e.g. multiple variables in one column or inconsistent formatting) makes analysis harder and more error-prone. Converting data into tidy format is the most important preceding step in the workflow of data analyzation.
 
+Pipes:
+
+|> This symbol is called a pipe, and connects lines of code to each other while using the tidyverse. Rather than continuously updating a tibble (tidyverse version of a data frame) in individual steps, you can connect these acts together using pipes.
+
 ### Data Manipulation with Dyplr
 
 The package dplyr is used to manipulate and summarize data.
@@ -59,19 +63,19 @@ Key functions within dplyr include:
 
 * filter()      # keep specific rows
 * select()      # keep specific columns
-* mutate()      # create new variables
+* mutate()      # adds or changes columns
+* if_else()     # enables us to make two-level changes inside a mutate()
+* case_when()   # enables us to make two-or-more-level changes inside a mutate(0)
 * rename()      # rename columns
 * count()       # group by one or more variables and count the number of observations
 * group_by()    # define groups
 * summarize()   # compute summary statistics
 
-Pipes:
-
-|> This symbol is called a pipe, and connects lines of code to each other while using the tidyverse. Rather than continuously updating a tibble (tidyverse version of a data frame) in individual steps, you can connect these acts together using pipes.
-
 ### Data Reshaping with Tidyr
 
 The package tidyr helps convert messy data into tidy format.
+
+Key functions in tidyr:
 
 * pivot_longer()  # wide: long format
 * pivot_wider()   # long: wide format
@@ -79,8 +83,8 @@ The package tidyr helps convert messy data into tidy format.
 These functions are usesful for reshaping tibbles for readibility, and making them easier to perform other tidyverse tools on.
 
 ## Why ggplot Matters
-The package ggplot2 is used for creating visualizations based on the grammar of graphics.
-This means plots are built in layers:
+The package ggplot2 is used for creating visualizations.
+Plots in ggplot2 are built in layers:
 
 Core components:
 
@@ -89,18 +93,70 @@ Core components:
 * Geoms # visual elements (points, bars, lines -> what kind of graph you want to make)
 * Labels: # titles and axis descriptions
 
-Some common geoms: 
+### Plotting: 
 
-* geom_point()    # scatterplots
+* coord_polar()   # doughnut plot
+* geom_col()/geom_bar() # bar charts
+
+The above are used for when you are plotting **one categorical variable**. Grouped doughnut plots and bar charts can be used to plot **two categorical variables**.
+
 * geom_boxplot()  # boxplots
-* geom_col()      # bar charts
-* geom_smooth()   # regression lines
 * geom_violin()   # violin plots
 * geom_histogram() # histograms
 
+The above are used when plotting **one quantitative variable**. Grouped boxplots, grouped violin plots, and grouped histograms can be used for plotting **one qualitative and one quantitative variable**.
+
+* geom_point()    # scatterplots
+* geom_smooth()   # regression lines
+
+The above used for plotting **two quantitative variables**.
+
+### Other useful ggplot tools:
+
+**facet_wrap()**
+Example code:
+```{r}
+# ggplot(turtles.clean, aes(x = `Curved Carapace Length`, y = `Clutch Size`)) +
+#   geom_point() +
+#   facet_wrap(~region) +
+#   theme_bw()
+```
+
+Why it's useful: shows whether relationships differ by region
+
+**fill aesthetic** 
+Example code:
+```{r}
+# ggplot(turtles.clean, aes(x = region, y = `Clutch Size`, fill = region)) +
+#   geom_boxplot() +
+#   theme_bw()
+```
+
+Why it's useful: groups comparison inside of plots, in this case boxplots would be colored by region.
+
+### Numerical Summaries
+
+* table()
+* prop.table()
+
+Used to create contingency tables for numerically summarizing **one categorical or two categorical variables**.
+
+* mean()
+* median()
+* sd()
+* iqr()
+* e1071::skewness()
+* e1071::kurtosis()
+
+Used to numerically summarize **one quantitative variable** or **one quantitative and one qualitative variable** (grouped mean, median, sd...).
+
+* cor(..., method = )
+
+Used to numerically summarize **two quantitative variables**, showing the correlation between them. Three different methods: "pearson", "spearman", "kendall".
+
 ## Why These Tools Matter for This Project
 
-In this analysis I will be doing, the **tidyverse** allows for:
+In the analysis I will be doing, the **tidyverse** allows for:
 
 * Efficient cleaning of ecological data from a published study
 * Clear transformation and grouping of variables by region
@@ -120,10 +176,9 @@ The data comes from a study examining hawksbill turtle nesting patterns in the A
 
 We will focus on variables such as:
 - Curved Carapace Length (CCL)
-- Curved Carapace Width (CCW)
 - Clutch size (number of eggs)
 
-In this article, I will demonstrate this workflow using real ecological data on hawksbill sea turtles, a critically endangered species, using published data from PLOS ONE. I recreate several published figures from the article and explore the relationship between turtle size and reproductive output. The goal is not just to analyze the data, but to show how tools like dplyr and ggplot2 can help us think statistically.
+In this article, I will demonstrate tidyverse workflow using real ecological data on hawksbill sea turtles, a critically endangered species, using published data from PLOS ONE. I recreate several published figures from the article and explore the relationship between turtle size and reproductive output. The goal is not just to analyze the data, but to show how tools like dplyr and ggplot2 can help us think statistically.
 
 
 ### Loading and Inspecting the Data
@@ -133,7 +188,7 @@ library(tidyverse)
 turtles = read_csv("pone.0203257.s001.csv") # read the data file
 ```
 
-After loading the dataset, it is important to inspect its structure and identify potential issues. Real-world datasets are rarely perfectly formatted for analysis, and this dataset contains missing values and unclear column names that must be addressed before visualization or modeling.
+After loading the dataset, it is important to assess its structure and identify potential issues. Real-world datasets are rarely perfectly formatted for analysis, and this dataset contains missing values and unclear column names that must be addressed before visualization or modeling.
 
 
 ### Cleaning the Data
@@ -150,13 +205,13 @@ Explanation of Cleaning Steps:
 
 * Removing columns we are not using
 * Observations with missing values were removed to prevent errors in summary statistics and regression models. Since variables like CCL and clutch size are central to the analysis, incomplete rows would reduce accuracy.
-* Renaming variables (rename()): Column names were made more descriptive to improve readability and make plots easier to interpret.
+* Renaming variables (rename()): Column name CCL was made more descriptive to improve readability and make plots easier to interpret.
 
 After cleaning, the dataset is better structured for analysis: each row represents a single observation, and each column represents a clearly defined variable. This aligns with tidy data principles and ensures an easier time later using visualization tools like ggplot2.
 
 ## Recreating Figures using ggplot2
 
-Here are my recreations of their figures (2, 3, 5) using **ggplot2** tools for data visualizations and accompanied numerical summaries.
+Here are my recreations of their figures (2, 3, 5) using **ggplot2** tools for data visualizations. Each figure is accompanied by important numerical summaries.
 
 ### Figure 2 
 
@@ -190,7 +245,7 @@ turtles.clean |>
 table.2 = turtles.clean |>
   group_by(Region) |> # groups numerical summaries by region for clarity
   summarize(
-    mean.ccl = mean(`Curved Carapace Length`, na.rm = TRUE), #na.rm = T gets rid of NAs
+    mean.ccl = mean(`Curved Carapace Length`, na.rm = TRUE), #na.rm = TRUE gets rid of NAs
     median.ccl = median(`Curved Carapace Length`, na.rm = TRUE),
     sd.ccl = sd(`Curved Carapace Length`, na.rm = TRUE),
     iqr.ccl = IQR(`Curved Carapace Length`, na.rm = TRUE),
@@ -202,7 +257,7 @@ table.2 = turtles.clean |>
   knitr::kable(table.2, digits = 2)
 ```
 
-The distribution of curved carapace length (CCL) varies noticeably across regions. Both the visualization and the summary statistics indicate that turtles in the Arabian Gulf tend to have a lower mean CCL (70.89) compared to other regions, while turtles in the Caribbean tend to have the largest mean CCL (104.85) compared to other regions. This supports the conclusion that hawksbill turtles in the Arabian Gulf are physically smaller than their global counterparts.
+The distribution of curved carapace length (CCL) varies noticeably across regions. Both the visualization and the summary statistics indicate that turtles in the Arabian Gulf tend to have a lower mean CCL (70.89) and median CCL (71.00) compared to other regions. This supports the conclusion that hawksbill turtles in the Arabian Gulf are physically smaller than their global counterparts.
 
 ### Figure 3
 ```{r}
@@ -245,7 +300,7 @@ table.3 = turtles.clean |>
   knitr::kable(table.3, digits = 2)
 ```
 
-Clutch size also shows clear regional differences. The Arabian Gulf exhibits a lower mean clutch size (78.37), indicating reduced reproductive output relative to other populations. The relatively small spread (sd=16.55, iqr=20.00) in the data suggests that this is a consistent pattern rather than a result of a few unusually small clutches. Together, the numerical summaries and visualization reinforce the idea that turtles in this region produce fewer eggs, which may have important implications for population sustainability.
+Clutch size of the hawksbill turtles also shows clear regional differences. The Arabian Gulf exhibits a lower mean and median clutch size (78.37 and 80.00), indicating lower reproductive output relative to other populations. The relatively small spread (sd=16.55, iqr=20.00) in the data also suggests that this is a consistent pattern rather than a result of a few unusually small clutches. Together, the numerical summaries and visualization reinforce the idea that turtles in this region produce fewer eggs, which may have important implications for population sustainability.
 
 ### Figure 5
 
@@ -290,18 +345,18 @@ The scatterplot and regression line indicate a positive relationship between cur
 
 To formally compare differences across regions, the original study used Analysis of Variance (ANOVA). This method tests whether the means of a variable (such as CCL or clutch size) differ significantly across multiple groups. Rather than comparing regions pairwise, ANOVA evaluates all groups simultaneously to determine if at least one group mean is different.
 
-In this analysis, the visual differences observed in Figures 2 and 3 (CCL and clutch size across regions) are consistent with what ANOVA is designed to detect: systematic differences in group means rather than random variation. However, these visualizations created with ggplot2 are much clearer and more effective than those made using ANOVA.
+In this analysis, the visual differences observed in Figures 2 and 3 (CCL and clutch size across regions) are consistent with what ANOVA is designed to detect: systematic differences in group means rather than random variation. However, these visualizations created with ggplot2 are much easier to interpret and more effective than those that were made using ANOVA.
 
 Then, to examine the relationship between turtle size and reproductive output, linear regression was used. Linear regression models the relationship between an independent variable (CCL) and a response variable (clutch size), allowing us to estimate how changes in body size are associated with changes in reproductive output.
 
-This relationship was further summarized using the Pearson correlation coefficient, which quantifies the strength and direction of the linear association between the two variables. The positive correlation observed supports the trend shown in the regression plot: larger turtles tend to produce more eggs.
+This relationship was further summarized using the Pearson correlation coefficient, which quantifies the strength and direction of the linear association between the two variables. The positive correlation observed supports the trend seen in the regression plot: larger turtles tend to produce more eggs.
 
-Together, towards this study, these statistical methods complement the visualizations by providing a formal framework for interpreting differences between regions and relationships between variables.
+Together, these statistical methods complement the visualizations by providing a formal framework for interpreting differences between regions and relationships between variables.
 
 ## Reflection
 
-This project exemplifies how raw ecological data is transformed into meaningful statistical conclusions. The most important skills I used were structuring and interpreting real-world, messy data using tidyverse and visualizing the data after using ggplot2
+This project exemplifies how raw ecological data is transformed into meaningful statistical conclusions. The most important skills I used were structuring and interpreting real-world, messy data using tidyverse and visualizing the data using ggplot2.
 
-Rather than thinking of plots as final outputs, I have learned, through this course, to use them as tools for exploring patterns in the data. In this case, plots were used to examine differences between regions and relationships between variables.
+Rather than thinking of plots as final outputs, I have learned, through this course, to use them as tools for exploring patterns in the data. In the case of this study on hawksbill turtles, plots were used to examine differences between regions and relationships between variables.
 
 Most importantly, I have learned that statistical analysis is more than computing numbers. Visualization and numerical summaries work together to support interpretations, and both are necessary for drawing clear and convincing conclusions from data.

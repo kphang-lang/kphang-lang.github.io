@@ -135,14 +135,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Home</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./about.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Kirsten Phang - Work for Computational Statistics at Colgate Univeristy</span></a>
+ <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -208,7 +202,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-manipulation-with-dyplr" id="toc-data-manipulation-with-dyplr" class="nav-link" data-scroll-target="#data-manipulation-with-dyplr"><span class="header-section-number">1.1</span> Data Manipulation with Dyplr</a></li>
   <li><a href="#data-reshaping-with-tidyr" id="toc-data-reshaping-with-tidyr" class="nav-link" data-scroll-target="#data-reshaping-with-tidyr"><span class="header-section-number">1.2</span> Data Reshaping with Tidyr</a></li>
   </ul></li>
-  <li><a href="#why-ggplot-matters" id="toc-why-ggplot-matters" class="nav-link" data-scroll-target="#why-ggplot-matters"><span class="header-section-number">2</span> Why ggplot Matters</a></li>
+  <li><a href="#why-ggplot-matters" id="toc-why-ggplot-matters" class="nav-link" data-scroll-target="#why-ggplot-matters"><span class="header-section-number">2</span> Why ggplot Matters</a>
+  <ul class="collapse">
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting"><span class="header-section-number">2.1</span> Plotting:</a></li>
+  <li><a href="#other-useful-ggplot-tools" id="toc-other-useful-ggplot-tools" class="nav-link" data-scroll-target="#other-useful-ggplot-tools"><span class="header-section-number">2.2</span> Other useful ggplot tools:</a></li>
+  <li><a href="#numerical-summaries" id="toc-numerical-summaries" class="nav-link" data-scroll-target="#numerical-summaries"><span class="header-section-number">2.3</span> Numerical Summaries</a></li>
+  </ul></li>
   <li><a href="#why-these-tools-matter-for-this-project" id="toc-why-these-tools-matter-for-this-project" class="nav-link" data-scroll-target="#why-these-tools-matter-for-this-project"><span class="header-section-number">3</span> Why These Tools Matter for This Project</a></li>
   <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset"><span class="header-section-number">4</span> The Dataset</a>
   <ul class="collapse">
@@ -271,7 +270,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>filter() # keep specific rows</li>
 <li>select() # keep specific columns</li>
-<li>mutate() # create new variables</li>
+<li>mutate() # adds or changes columns</li>
+<li>if_else() # enables us to make two-level changes inside a mutate()</li>
+<li>case_when() # enables us to make two-or-more-level changes inside a mutate(0)</li>
 <li>rename() # rename columns</li>
 <li>count() # group by one or more variables and count the number of observations</li>
 <li>group_by() # define groups</li>
@@ -300,15 +301,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Geoms # visual elements (points, bars, lines -&gt; what kind of graph you want to make)</li>
 <li>Labels: # titles and axis descriptions</li>
 </ul>
-<p>Some common geoms:</p>
+<section id="plotting" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="plotting"><span class="header-section-number">2.1</span> Plotting:</h3>
 <ul>
-<li>geom_point() # scatterplots</li>
+<li>coord_polar() # doughnut plot</li>
+<li>geom_col()/geom_bar() # bar charts</li>
+</ul>
+<p>These are used for when you are plotting 1 Categorical variable. Grouped doughnut plots and bar charts can be used to plot 2 categorical variables.</p>
+<ul>
 <li>geom_boxplot() # boxplots</li>
-<li>geom_col() # bar charts</li>
-<li>geom_smooth() # regression lines</li>
 <li>geom_violin() # violin plots</li>
 <li>geom_histogram() # histograms</li>
 </ul>
+<p>These are used when plotting 1 Quantitative variable. Grouped boxplots, grouped violin plots, and grouped histograms can be used for plotting 1 Qualitative and 1 Quantitative variable.</p>
+<ul>
+<li>geom_point() # scatterplots</li>
+<li>geom_smooth() # regression lines</li>
+</ul>
+<p>These are used for plotting 2 Quantitative variables</p>
+</section>
+<section id="other-useful-ggplot-tools" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="other-useful-ggplot-tools"><span class="header-section-number">2.2</span> Other useful ggplot tools:</h3>
+<p><strong>facet_wrap()</strong> Example code:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># ggplot(turtles.clean, aes(x = `Curved Carapace Length`, y = clutch_size)) +</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#   geom_point() +</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#   facet_wrap(~region) +</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#   theme_bw()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Why it’s useful: shows whether relationships differ by region</p>
+<p><strong>fill aesthetic</strong> Example code:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># ggplot(turtles.clean, aes(x = region, y = `Clutch Size`, fill = region)) +</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#   geom_boxplot() +</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#   theme_bw()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Why it’s useful: group comparison inside of plots, in this case boxplots would be colored by region</p>
+</section>
+<section id="numerical-summaries" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="numerical-summaries"><span class="header-section-number">2.3</span> Numerical Summaries</h3>
+<ul>
+<li>table()</li>
+<li>prop.table()</li>
+</ul>
+<p>Used to create contingency tables for numerically summarizing 1 categorical or 2 categorical variables.</p>
+<ul>
+<li>mean()</li>
+<li>median()</li>
+<li>sd()</li>
+<li>iqr()</li>
+<li>e1071::skewness()</li>
+<li>e1071::kurtosis()</li>
+</ul>
+<p>Used to numerically summarize 1 quantitative variable or 1 quantitative and 1 qualitative variable (grouped mean, median, sd…).</p>
+<ul>
+<li>cor(…, method = )</li>
+</ul>
+<p>Used to numerically summarize 2 quantitative variables, showing the correlation between them. Three different methods: “pearson”, “spearman”, “kendall”.</p>
+</section>
 </section>
 <section id="why-these-tools-matter-for-this-project" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="why-these-tools-matter-for-this-project"><span class="header-section-number">3</span> Why These Tools Matter for This Project</h2>
@@ -336,9 +392,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>turtles <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"pone.0203257.s001.csv"</span>) <span class="co"># read the data file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>turtles <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"pone.0203257.s001.csv"</span>) <span class="co"># read the data file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>After loading the dataset, it is important to inspect its structure and identify potential issues. Real-world datasets are rarely perfectly formatted for analysis, and this dataset contains missing values and unclear column names that must be addressed before visualization or modeling.</p>
@@ -348,17 +404,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>turtles.clean <span class="ot">=</span> turtles <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>    <span class="fu">select</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Nesting Season Length (d)</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">SCL</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">CCW</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Reference</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="co"># get rid of columns we are not using</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>    <span class="fu">drop_na</span>(<span class="st">`</span><span class="at">CCL</span><span class="st">`</span>, <span class="st">`</span><span class="at">Clutch Size</span><span class="st">`</span>, <span class="st">`</span><span class="at">Region</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>    <span class="fu">rename</span>(<span class="st">`</span><span class="at">Curved Carapace Length</span><span class="st">`</span> <span class="ot">=</span> CCL) <span class="co"># rename columns to be clearer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a>turtles.clean <span class="ot">=</span> turtles <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="fu">select</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Nesting Season Length (d)</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">SCL</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">CCW</span><span class="st">`</span>, <span class="sc">-</span><span class="st">`</span><span class="at">Reference</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="co"># get rid of columns we are not using</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="fu">drop_na</span>(<span class="st">`</span><span class="at">CCL</span><span class="st">`</span>, <span class="st">`</span><span class="at">Clutch Size</span><span class="st">`</span>, <span class="st">`</span><span class="at">Region</span><span class="st">`</span>) <span class="sc">|&gt;</span> <span class="co"># drop missing values in useful columns</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="fu">rename</span>(<span class="st">`</span><span class="at">Curved Carapace Length</span><span class="st">`</span> <span class="ot">=</span> CCL) <span class="co"># rename columns to be clearer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>Explanation of Cleaning Steps:</p>
 <ul>
-<li>Removing missing values (drop_na()):</li>
+<li>Removing columns we are not using</li>
 <li>Observations with missing values were removed to prevent errors in summary statistics and regression models. Since variables like CCL and clutch size are central to the analysis, incomplete rows would reduce accuracy.</li>
 <li>Renaming variables (rename()): Column names were made more descriptive to improve readability and make plots easier to interpret.</li>
 </ul>
@@ -373,16 +429,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-layout-align="center" data-scale="80%">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>turtles.clean <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Region, <span class="at">y =</span> <span class="st">`</span><span class="at">Curved Carapace Length</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-7"><a href="#cb3-7"></a>    <span class="at">x =</span> <span class="st">"Region"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8"></a>    <span class="at">y =</span> <span class="st">"CCL (cm)"</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>  ) <span class="sc">+</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>turtles.clean <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Region, <span class="at">y =</span> <span class="st">`</span><span class="at">Curved Carapace Length</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-7"><a href="#cb5-7"></a>    <span class="at">x =</span> <span class="st">"Region"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="at">y =</span> <span class="st">"CCL (cm)"</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-ccl-across-regions" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -493,14 +549,14 @@ Table&nbsp;1: Curved Carapace Lengths Across Regions
 <div class="cell" data-layout-align="center" data-scale="80%">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>turtles.clean <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Region, <span class="at">y =</span> <span class="st">`</span><span class="at">Clutch Size</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    <span class="at">x =</span> <span class="st">"Region"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="at">y =</span> <span class="st">"Clutch Size (number of eggs)"</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>  ) <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>turtles.clean <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Region, <span class="at">y =</span> <span class="st">`</span><span class="at">Clutch Size</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="at">x =</span> <span class="st">"Region"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="at">y =</span> <span class="st">"Clutch Size (number of eggs)"</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-clutch-size-across-regions" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -611,15 +667,15 @@ Table&nbsp;2: Clutch Sizes Across Regions
 <div class="cell" data-layout-align="center" data-scale="80%">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>turtles.clean <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Curved Carapace Length</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Clutch Size</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-6"><a href="#cb5-6"></a>    <span class="at">x =</span> <span class="st">"CCL (cm)"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7"></a>    <span class="at">y =</span> <span class="st">"Clutch Size"</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>turtles.clean <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Curved Carapace Length</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Clutch Size</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="at">x =</span> <span class="st">"CCL (cm)"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7"></a>    <span class="at">y =</span> <span class="st">"Clutch Size"</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-turtle-size-v-clutch-size" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
