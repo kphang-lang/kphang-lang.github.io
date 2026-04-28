@@ -1,5 +1,0 @@
----
-title: "Portfolio"
----
-
-This is a Quarto website portfolio of work for a statistics course at Colgate University

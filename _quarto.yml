@@ -9,9 +9,8 @@ website:
     style: docked
     search: false
     contents:
-      - href: index.qmd
+      - href: about.qmd
         text: Home
-      - about.qmd
       - href: Lab 2/Lab2WriteUp.qmd
         text: Lab 2
       - href: Lab 3/Lab3WriteUp.qmd
@@ -26,6 +25,9 @@ website:
         text: Lab 10
       - href: Lab 11/Lab11WriteUp.qmd
         text: Lab 11
+      - href: tidyverse-review.qmd
+        text: Tidyverse Review
+
 
 format:
   html:
