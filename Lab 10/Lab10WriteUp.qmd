@@ -206,7 +206,7 @@ What is your best assessment of what $\theta$ is doing in this setting. Consider
 **Note:** In lab 8, we saw that small $\theta$ meant wins came in bunches (clumped together), so there were more 2-0 wins in a best of three series.
 
 **Solution**
-Theta, again, makes win distributions more likely to cluster around extremes (0 or 11) when it is smaller (0.5), and makes win distributions more likely in the center (5-6) when it is larger. My assessment is that when theta is smaller, it is putting more emphasis on game-to-game results and skill, meaning that if a player has won several games in a row already they are more likely to win the next game. When theta is larger, games are more independent and the results are less reliant on each other.
+The parameter theta captures dependence between legs by influencing whether outcomes tend to cluster or alternate. When theta < 1, results are more likely to occur in streaks, producing more extreme outcomes, while theta > 1 leads to more alternation and more balanced match results. However, the model does not explicitly account for the order in which legs occur. Therefore sequences with the same total number of wins are treated identically. As a result, theta captures overall clustering behavior but doesn't model the exact order of outcomes within a match.
 
 # Question 2
 
@@ -310,20 +310,6 @@ ggplot(dat.pdc.cleaned, aes(x = factor(LoserLegs))) +
     y = "Count"
   ) 
 ```
-```{r}
-#| label: tbl-summaryofpremierleaguescores
-#| tbl-cap: "Distribution of Match Outcomes"
-#| tbl-align: "center"
-#| echo: false
-
-dat.pdc.cleaned |>
-  group_by(LoserLegs) |>
-  summarize(
-    count = n(),
-    prop = n() / nrow(dat.pdc.cleaned)
-  ) |>
-  knitr::kable(digits = 3)
-```
 
 ```{r}
 #| label: tbl-summary
@@ -333,17 +319,23 @@ dat.pdc.cleaned |>
 
 dat.pdc.cleaned |>
   summarize(
-    mean_loser   = mean(LoserLegs, na.rm = TRUE),
-    sd_loser     = sd(LoserLegs, na.rm = TRUE),
-    median_loser = median(LoserLegs, na.rm = TRUE),
-    iqr_loser    = IQR(LoserLegs, na.rm = TRUE),
-    skew_loser    = e1071::skewness(LoserLegs, na.rm = TRUE),
-    kurt_loser    = e1071::kurtosis(LoserLegs, na.rm = TRUE)
+    mean.winner = mean(WinnerLegs),
+    mean.loser  = mean(LoserLegs),
+    sd.winner   = sd(WinnerLegs),
+    sd.loser    = sd(LoserLegs),
+    mean.diff = mean(WinnerLegs - LoserLegs),
+    sd.diff   = sd(WinnerLegs - LoserLegs)
   ) |>
-  knitr::kable(digits = 3)  
+  knitr::kable(digits = 3)
 ```
 
-First I cleaned the data by removing matches without valid scores, taking out byes and walkovers, and restricting the dataset to Nights 1 through 16. The score variable was then separated into WinnerLegs and LoserLegs, which were converted to numeric values. Table 2 summarizes the distribution of match outcomes by the number of legs won by the losing player. The table shows both the frequency and proportion of matches for each possible value of LoserLegs. Table 3 then shows the mean, sd, median, iqr of the scores. The results indicate that matches are generally competitive, with a higher concentration of outcomes where the losing player wins several legs (4 or 5). In contrast, matches where the losing player wins very few legs (0 or 1) occur less frequently, meaning complete blowouts are relatively uncommon. Overall, the mean number of losing legs is approximately 3.559, with a standard deviation of 1.196. The median is 4, and the interquartile range is 2, further indicating that most matches are fairly close.
+First I cleaned the data by removing matches without valid scores, taking out byes and walkovers, and restricting the dataset to Nights 1 through 16. The score variable was then separated into WinnerLegs and LoserLegs, which were converted to numeric values. 
+
+The distribution of match outcomes shows that losing players most frequently won 4 or 5 legs, indicating that many matches were competitive. Extreme outcomes such as 6–0 or 6–1 were relatively uncommon.
+
+Summary statistics further support this pattern. The average number of losing legs is approximately 3.56, while the average winning total is close to 6, as expected under the match format. The average margin of victory is small (2.44), indicating that most matches are decided by a few legs rather than being one-sided.
+
+Overall, both the distribution and summary statistics suggest that matches in the 2024 season were generally competitive, with relatively few dominant performances
 
 ## Altham's Multiplicative Binomial Distribution
 For each player in the 2024 season, use the number of legs won in each match to compute maximium likelihood estimates for $p$ and $\theta$. \
@@ -411,7 +403,11 @@ player.results = player.data |>
 knitr::kable(player.results, digits = 3)
 ```
 
-The estimated values of p and theta vary across players, showing differences in both performance and match dynamics. p represents the probability of winning an individual leg, so players with higher values of p.hat tend to win a greater proportion of legs. The parameter theta adds dependence between legs. Values of theta < 1 make outcomes cluster more, leading to streaks and more extreme match outcomes. In contrast, theta > 1 produces more alternation between players, resulting in more balanced matches. Comparing these results to the empirical distribution of match outcomes, the presence of many close matches (e.g., 6–5) is consistent with models that allow for dependence between legs. Players with higher theta values tend to show less clustered performance, while those with theta closer to 1 behave more like the independent Binomial model. Overall, these results provide evidence that Altham’s model offers a more flexible and accurate model for showing the dynamics of match play.
+The estimated values of p and theta vary across players, reflecting differences in both ability and match dynamics. The parameter p represents the probability of winning an individual leg. Players with higher estimated values of p tend to perform better in the standings, indicating a relationship between individual leg success and overall match outcomes.
+
+The parameter theta captures dependence between legs. Values of theta<1 indicate clustering of results, where players are more likely to win or lose multiple legs in succession, leading to more extreme outcomes. In contrast, large values of theta (1, 1.5) correspond to more alternating results and balanced match outcomes.
+
+This interpretation is supported by the values in Table 4, where players with smaller theta tend to exhibit more variability in match outcomes, while those with larger theta show more consistency around close scorelines. Overall, these results suggest that both skill (through p) and dependence between legs (through theta) play important roles in determining match results.
 
 ## Altham's Multiplicative Beta Binomial Distribution
 
@@ -510,33 +506,40 @@ library(ggplot2)
 x.vals = seq(0, 1, length.out = 100)
 
 # Expand the data frame so each player has a row for each x
-player.density <- player.results.bb |>
+player.density = player.results.bb |>
   select(Player, alpha.hat, beta.hat) |>
   crossing(x.val = x.vals) |>
   rowwise() |>
   mutate(density = dbeta(x.val, alpha.hat, beta.hat)) |>
   ungroup()
 
-ggplot(player.density, aes(x = x.val, y = density)) +
-  geom_line(color = "darkorchid") +    
-  facet_wrap(~ Player) +  
+ggplot(player.density, aes(x = x.val, y = density, color = Player)) +
+  geom_line() +
   labs(
     x = "Probability of Winning a Leg",
-    y = "Density",
+    y = "Density"
   ) +
   theme_bw() 
 ```
 
-The estimates of alpha, beta, and theta account for variation in player performance by allowing the probability of winning a leg to vary across matches. The mean of the Beta distribution represents the average probability of winning a leg, while the standard deviation captures variability in performance. Players with higher mean values tend to perform better overall. However, the nonzero variance indicates that performance is not constant, and may fluctuate across matches/opponents. This highlights a significant limitation of the standard Binomial model, which assumes a fixed probability of success across matches. The parameter theta continues to capture dependence between legs. As in the multiplicative binomial model, values of theta < 1 indicate clustering of outcomes, while values near 1 suggest approximate independence (same as previous observation). Compared to the simpler models, the multiplicative Beta-Binomial provides the best fit for the observed data by accounting for both differences in player ability and dependence between legs. This is particularly important for something like darts matches, where players alternate who throws first, creating potential advantages across legs and matches.
+The multiplicative Beta-Binomial model extends the Binomial framework by allowing the probability of winning a leg to vary across matches. The estimated parameters alpha and beta
+define a Beta distribution, where the mean represents the average probability of winning a leg and the standard deviation refers to variability in performance. Players with higher estimated means tend to perform better overall, while nonzero standard deviations indicate fluctuations in performance across matches and opponents.
+
+The parameter theta continues to capture dependence between legs, with values less than 1 indicating clustering and values near 1 suggesting approximate independence.
+
+This model provides a better fit to the observed data because it accounts for both differences in player ability and variability in performance. This is supported by Table 5, where players exhibit both differing means and nonzero variability, patterns that are not captured by a standard Binomial model with a fixed probability.
+
+Overall, the Beta-Binomial model offers a more realistic representation of match dynamics by incorporating both heterogeneity in player performance and dependence between legs.
 
 ## Executive Summary
 Summarize the work you've done here to provide a brief (200-300 word) data-driven summary of the 2024 Premier League season using your work in Lab 10. Your summary should be professional, clear, and all claims should be corroborated with statistical support.
 
 **Solution**
-The 2024 Premier League Darts season exhibits a strong overall level of competitiveness, with most matches decided by relatively small margins. After cleaning the dataset to include only standard-format matches (Nights 1–16), the distribution of outcomes shows that losing players most frequently won 4 or 5 legs, while extreme outcomes such as 6–0 or 6–1 were rare. The mean number of losing legs was approximately 3.56 with moderate variability (SD around 1.20), indicating that matches were typically competitive.
 
-To more deeply understand player performance and match dynamics, Altham’s multiplicative Binomial model was used to estimate each player’s probability of winning a leg (p) and the dependence parameter theta. Higher estimated values of p aligned closely with stronger players standings, confirming that leg-level success translates directly to overall match performance. The theta parameter created additional dependence between legs: values less than 1 indicated clustering (streaks of consecutive legs), while values greater than 1 suggested alternating outcomes. This highlights that match play is not purely independent from leg to leg.
+The 2024 Premier League Darts season was very competitive, with most matches decided by relatively small margins. After cleaning the dataset to include only standard-format matches (Nights 1–16), the distribution of outcomes shows that losing players most frequently won 4 or 5 legs, while extreme outcomes such as 6–0 or 6–1 wins were uncommon. Summary statistics further supported this pattern, with an average of approximately 3.56 losing legs per match and a relatively small average margin of victory, indicating that most matches were very close.
 
-Extending the model further to the multiplicative Beta-Binomial distribution allowed the probability of winning a leg to vary across matches. This added flexibility makes it possible to capture both differences in player ability and variability in performance across legs. Players with higher estimated means in the Beta distribution performed better overall, while nonzero variance indicated fluctuations in form across matches.
+To better understand player performance and match dynamics, Altham’s multiplicative Binomial model was used to estimate each player’s probability of winning a leg (p) along with the incorporation of the dependence parameter (theta). Players with higher estimated values of p generally performed better in standings, confirming that leg-level success translates into greater match success. The parameter theta captures dependence between legs, where values less than 1 indicate clustering of outcomes (streaks or extremes), while values near or above 1 suggest more alternating results. This demonstrates that match outcomes are not fully independent from leg to leg.
 
-Overall, the analysis shows that the Beta-Binomial model provides the most realistic representation of match dynamics by incorporating both leg-to-leg dependence and variability in player performance, offering the most accurate statistical description of the 2024 season.
+Extending the analysis to the multiplicative Beta-Binomial model allows the probability of winning a leg to vary across matches. The estimated means and standard deviations of the Beta distribution show both differences in player ability and variability in performance, patterns that are not captured by a standard Binomial model.
+
+Overall, the Beta-Binomial model provides the best representation of match dynamics for this case by accounting for both dependence between legs and variation in player performance, offering a more complete statistical description of the 2024 season.
