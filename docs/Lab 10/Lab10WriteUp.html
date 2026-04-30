@@ -450,7 +450,7 @@ Figure&nbsp;2: Altham’s Multiplicative Binomial PMF
 <h2 data-number="3.3" class="anchored" data-anchor-id="part-c"><span class="header-section-number">3.3</span> Part c</h2>
 <p>What is your best assessment of what <span class="math inline">\(\theta\)</span> is doing in this setting. Consider when a 6-0 blowout is most likely, and when a 5-6 nail-biter is most likely. Note here we should treat the match as a fixed <span class="math inline">\(n=11\)</span> as we did for <span class="math inline">\(n=3\)</span> in Lab 8.<br>
 <strong>Note:</strong> In lab 8, we saw that small <span class="math inline">\(\theta\)</span> meant wins came in bunches (clumped together), so there were more 2-0 wins in a best of three series.</p>
-<p><strong>Solution</strong> Theta, again, makes win distributions more likely to cluster around extremes (0 or 11) when it is smaller (0.5), and makes win distributions more likely in the center (5-6) when it is larger. My assessment is that when theta is smaller, it is putting more emphasis on game-to-game results and skill, meaning that if a player has won several games in a row already they are more likely to win the next game. When theta is larger, games are more independent and the results are less reliant on each other.</p>
+<p><strong>Solution</strong> The parameter theta captures dependence between legs by influencing whether outcomes tend to cluster or alternate. When theta &lt; 1, results are more likely to occur in streaks, producing more extreme outcomes, while theta &gt; 1 leads to more alternation and more balanced match results. However, the model does not explicitly account for the order in which legs occur. Therefore sequences with the same total number of wins are treated identically. As a result, theta captures overall clustering behavior but doesn’t model the exact order of outcomes within a match.</p>
 </section>
 </section>
 <section id="question-2" class="level1" data-number="4">
@@ -596,83 +596,32 @@ Figure&nbsp;3: Distribution of Match Outcomes by Losing Legs
 <p></p>
 <p></p>
 <div class="cell" data-tbl-align="center">
-<div id="tbl-summaryofpremierleaguescores" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-align="center">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summaryofpremierleaguescores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Distribution of Match Outcomes
-</figcaption>
-<div aria-describedby="tbl-summaryofpremierleaguescores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
-<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: right;">LoserLegs</th>
-<th style="text-align: right;">count</th>
-<th style="text-align: right;">prop</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">0.054</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">0.144</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">0.270</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">0.252</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: right;">0.279</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</figure>
-</div>
-</div>
-<p></p>
-<p></p>
-<div class="cell" data-tbl-align="center">
 <div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Summary of Premier League Scores
+Table&nbsp;1: Summary of Premier League Scores
 </figcaption>
 <div aria-describedby="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: right;">mean_loser</th>
-<th style="text-align: right;">sd_loser</th>
-<th style="text-align: right;">median_loser</th>
-<th style="text-align: right;">iqr_loser</th>
-<th style="text-align: right;">skew_loser</th>
-<th style="text-align: right;">kurt_loser</th>
+<th style="text-align: right;">mean.winner</th>
+<th style="text-align: right;">mean.loser</th>
+<th style="text-align: right;">sd.winner</th>
+<th style="text-align: right;">sd.loser</th>
+<th style="text-align: right;">mean.diff</th>
+<th style="text-align: right;">sd.diff</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: right;">6</td>
 <td style="text-align: right;">3.559</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">1.196</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">-0.374</td>
-<td style="text-align: right;">-0.846</td>
+<td style="text-align: right;">2.441</td>
+<td style="text-align: right;">1.196</td>
 </tr>
 </tbody>
 </table>
@@ -682,7 +631,10 @@ Table&nbsp;2: Summary of Premier League Scores
 </div>
 </div>
 <p></p>
-<p>First I cleaned the data by removing matches without valid scores, taking out byes and walkovers, and restricting the dataset to Nights 1 through 16. The score variable was then separated into WinnerLegs and LoserLegs, which were converted to numeric values. Table 2 summarizes the distribution of match outcomes by the number of legs won by the losing player. The table shows both the frequency and proportion of matches for each possible value of LoserLegs. Table 3 then shows the mean, sd, median, iqr of the scores. The results indicate that matches are generally competitive, with a higher concentration of outcomes where the losing player wins several legs (4 or 5). In contrast, matches where the losing player wins very few legs (0 or 1) occur less frequently, meaning complete blowouts are relatively uncommon. Overall, the mean number of losing legs is approximately 3.559, with a standard deviation of 1.196. The median is 4, and the interquartile range is 2, further indicating that most matches are fairly close.</p>
+<p>First I cleaned the data by removing matches without valid scores, taking out byes and walkovers, and restricting the dataset to Nights 1 through 16. The score variable was then separated into WinnerLegs and LoserLegs, which were converted to numeric values.</p>
+<p>The distribution of match outcomes shows that losing players most frequently won 4 or 5 legs, indicating that many matches were competitive. Extreme outcomes such as 6–0 or 6–1 were relatively uncommon.</p>
+<p>Summary statistics further support this pattern. The average number of losing legs is approximately 3.56, while the average winning total is close to 6, as expected under the match format. The average margin of victory is small (2.44), indicating that most matches are decided by a few legs rather than being one-sided.</p>
+<p>Overall, both the distribution and summary statistics suggest that matches in the 2024 season were generally competitive, with relatively few dominant performances</p>
 </section>
 <section id="althams-multiplicative-binomial-distribution-1" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="althams-multiplicative-binomial-distribution-1"><span class="header-section-number">5.2</span> Altham’s Multiplicative Binomial Distribution</h2>
@@ -745,7 +697,7 @@ Table&nbsp;2: Summary of Premier League Scores
 <div id="tbl-altham-mle" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-altham-mle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3: Maximum Likelihood Estimates for Altham’s Model by Player
+Table&nbsp;2: Maximum Likelihood Estimates for Altham’s Model by Player
 </figcaption>
 <div aria-describedby="tbl-altham-mle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="cell caption-top table table-sm table-striped small">
@@ -803,7 +755,9 @@ Table&nbsp;3: Maximum Likelihood Estimates for Altham’s Model by Player
 </figure>
 </div>
 <p></p>
-<p>The estimated values of p and theta vary across players, showing differences in both performance and match dynamics. p represents the probability of winning an individual leg, so players with higher values of p.hat tend to win a greater proportion of legs. The parameter theta adds dependence between legs. Values of theta &lt; 1 make outcomes cluster more, leading to streaks and more extreme match outcomes. In contrast, theta &gt; 1 produces more alternation between players, resulting in more balanced matches. Comparing these results to the empirical distribution of match outcomes, the presence of many close matches (e.g., 6–5) is consistent with models that allow for dependence between legs. Players with higher theta values tend to show less clustered performance, while those with theta closer to 1 behave more like the independent Binomial model. Overall, these results provide evidence that Altham’s model offers a more flexible and accurate model for showing the dynamics of match play.</p>
+<p>The estimated values of p and theta vary across players, reflecting differences in both ability and match dynamics. The parameter p represents the probability of winning an individual leg. Players with higher estimated values of p tend to perform better in the standings, indicating a relationship between individual leg success and overall match outcomes.</p>
+<p>The parameter theta captures dependence between legs. Values of theta&lt;1 indicate clustering of results, where players are more likely to win or lose multiple legs in succession, leading to more extreme outcomes. In contrast, large values of theta (1, 1.5) correspond to more alternating results and balanced match outcomes.</p>
+<p>This interpretation is supported by the values in Table 4, where players with smaller theta tend to exhibit more variability in match outcomes, while those with larger theta show more consistency around close scorelines. Overall, these results suggest that both skill (through p) and dependence between legs (through theta) play important roles in determining match results.</p>
 </section>
 <section id="althams-multiplicative-beta-binomial-distribution-1" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="althams-multiplicative-beta-binomial-distribution-1"><span class="header-section-number">5.3</span> Altham’s Multiplicative Beta Binomial Distribution</h2>
@@ -877,7 +831,7 @@ sd(X) &amp;= \sqrt{\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}}
 <div id="tbl-althambb" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-althambb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;4: MLEs for Altham Beta-Binomial Model by Player
+Table&nbsp;3: MLEs for Altham Beta-Binomial Model by Player
 </figcaption>
 <div aria-describedby="tbl-althambb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="cell caption-top table table-sm table-striped small">
@@ -973,21 +927,20 @@ Table&nbsp;4: MLEs for Altham Beta-Binomial Model by Player
 <span id="cb14-5"><a href="#cb14-5"></a>x.vals <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
 <span id="cb14-6"><a href="#cb14-6"></a></span>
 <span id="cb14-7"><a href="#cb14-7"></a><span class="co"># Expand the data frame so each player has a row for each x</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a>player.density <span class="ot">&lt;-</span> player.results.bb <span class="sc">|&gt;</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>player.density <span class="ot">=</span> player.results.bb <span class="sc">|&gt;</span></span>
 <span id="cb14-9"><a href="#cb14-9"></a>  <span class="fu">select</span>(Player, alpha.hat, beta.hat) <span class="sc">|&gt;</span></span>
 <span id="cb14-10"><a href="#cb14-10"></a>  <span class="fu">crossing</span>(<span class="at">x.val =</span> x.vals) <span class="sc">|&gt;</span></span>
 <span id="cb14-11"><a href="#cb14-11"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
 <span id="cb14-12"><a href="#cb14-12"></a>  <span class="fu">mutate</span>(<span class="at">density =</span> <span class="fu">dbeta</span>(x.val, alpha.hat, beta.hat)) <span class="sc">|&gt;</span></span>
 <span id="cb14-13"><a href="#cb14-13"></a>  <span class="fu">ungroup</span>()</span>
 <span id="cb14-14"><a href="#cb14-14"></a></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="fu">ggplot</span>(player.density, <span class="fu">aes</span>(<span class="at">x =</span> x.val, <span class="at">y =</span> density)) <span class="sc">+</span></span>
-<span id="cb14-16"><a href="#cb14-16"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"darkorchid"</span>) <span class="sc">+</span>    </span>
-<span id="cb14-17"><a href="#cb14-17"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Player) <span class="sc">+</span>  </span>
-<span id="cb14-18"><a href="#cb14-18"></a>  <span class="fu">labs</span>(</span>
-<span id="cb14-19"><a href="#cb14-19"></a>    <span class="at">x =</span> <span class="st">"Probability of Winning a Leg"</span>,</span>
-<span id="cb14-20"><a href="#cb14-20"></a>    <span class="at">y =</span> <span class="st">"Density"</span>,</span>
-<span id="cb14-21"><a href="#cb14-21"></a>  ) <span class="sc">+</span></span>
-<span id="cb14-22"><a href="#cb14-22"></a>  <span class="fu">theme_bw</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="fu">ggplot</span>(player.density, <span class="fu">aes</span>(<span class="at">x =</span> x.val, <span class="at">y =</span> density, <span class="at">color =</span> Player)) <span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-18"><a href="#cb14-18"></a>    <span class="at">x =</span> <span class="st">"Probability of Winning a Leg"</span>,</span>
+<span id="cb14-19"><a href="#cb14-19"></a>    <span class="at">y =</span> <span class="st">"Density"</span></span>
+<span id="cb14-20"><a href="#cb14-20"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-21"><a href="#cb14-21"></a>  <span class="fu">theme_bw</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-betabyplayer" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1003,15 +956,19 @@ Figure&nbsp;4: Estimated Beta Distributions by Player
 </div>
 </div>
 <p></p>
-<p>The estimates of alpha, beta, and theta account for variation in player performance by allowing the probability of winning a leg to vary across matches. The mean of the Beta distribution represents the average probability of winning a leg, while the standard deviation captures variability in performance. Players with higher mean values tend to perform better overall. However, the nonzero variance indicates that performance is not constant, and may fluctuate across matches/opponents. This highlights a significant limitation of the standard Binomial model, which assumes a fixed probability of success across matches. The parameter theta continues to capture dependence between legs. As in the multiplicative binomial model, values of theta &lt; 1 indicate clustering of outcomes, while values near 1 suggest approximate independence (same as previous observation). Compared to the simpler models, the multiplicative Beta-Binomial provides the best fit for the observed data by accounting for both differences in player ability and dependence between legs. This is particularly important for something like darts matches, where players alternate who throws first, creating potential advantages across legs and matches.</p>
+<p>The multiplicative Beta-Binomial model extends the Binomial framework by allowing the probability of winning a leg to vary across matches. The estimated parameters alpha and beta define a Beta distribution, where the mean represents the average probability of winning a leg and the standard deviation refers to variability in performance. Players with higher estimated means tend to perform better overall, while nonzero standard deviations indicate fluctuations in performance across matches and opponents.</p>
+<p>The parameter theta continues to capture dependence between legs, with values less than 1 indicating clustering and values near 1 suggesting approximate independence.</p>
+<p>This model provides a better fit to the observed data because it accounts for both differences in player ability and variability in performance. This is supported by Table 5, where players exhibit both differing means and nonzero variability, patterns that are not captured by a standard Binomial model with a fixed probability.</p>
+<p>Overall, the Beta-Binomial model offers a more realistic representation of match dynamics by incorporating both heterogeneity in player performance and dependence between legs.</p>
 </section>
 <section id="executive-summary" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="executive-summary"><span class="header-section-number">5.4</span> Executive Summary</h2>
 <p>Summarize the work you’ve done here to provide a brief (200-300 word) data-driven summary of the 2024 Premier League season using your work in Lab 10. Your summary should be professional, clear, and all claims should be corroborated with statistical support.</p>
-<p><strong>Solution</strong> The 2024 Premier League Darts season exhibits a strong overall level of competitiveness, with most matches decided by relatively small margins. After cleaning the dataset to include only standard-format matches (Nights 1–16), the distribution of outcomes shows that losing players most frequently won 4 or 5 legs, while extreme outcomes such as 6–0 or 6–1 were rare. The mean number of losing legs was approximately 3.56 with moderate variability (SD around 1.20), indicating that matches were typically competitive.</p>
-<p>To more deeply understand player performance and match dynamics, Altham’s multiplicative Binomial model was used to estimate each player’s probability of winning a leg (p) and the dependence parameter theta. Higher estimated values of p aligned closely with stronger players standings, confirming that leg-level success translates directly to overall match performance. The theta parameter created additional dependence between legs: values less than 1 indicated clustering (streaks of consecutive legs), while values greater than 1 suggested alternating outcomes. This highlights that match play is not purely independent from leg to leg.</p>
-<p>Extending the model further to the multiplicative Beta-Binomial distribution allowed the probability of winning a leg to vary across matches. This added flexibility makes it possible to capture both differences in player ability and variability in performance across legs. Players with higher estimated means in the Beta distribution performed better overall, while nonzero variance indicated fluctuations in form across matches.</p>
-<p>Overall, the analysis shows that the Beta-Binomial model provides the most realistic representation of match dynamics by incorporating both leg-to-leg dependence and variability in player performance, offering the most accurate statistical description of the 2024 season.</p>
+<p><strong>Solution</strong></p>
+<p>The 2024 Premier League Darts season was very competitive, with most matches decided by relatively small margins. After cleaning the dataset to include only standard-format matches (Nights 1–16), the distribution of outcomes shows that losing players most frequently won 4 or 5 legs, while extreme outcomes such as 6–0 or 6–1 wins were uncommon. Summary statistics further supported this pattern, with an average of approximately 3.56 losing legs per match and a relatively small average margin of victory, indicating that most matches were very close.</p>
+<p>To better understand player performance and match dynamics, Altham’s multiplicative Binomial model was used to estimate each player’s probability of winning a leg (p) along with the incorporation of the dependence parameter (theta). Players with higher estimated values of p generally performed better in standings, confirming that leg-level success translates into greater match success. The parameter theta captures dependence between legs, where values less than 1 indicate clustering of outcomes (streaks or extremes), while values near or above 1 suggest more alternating results. This demonstrates that match outcomes are not fully independent from leg to leg.</p>
+<p>Extending the analysis to the multiplicative Beta-Binomial model allows the probability of winning a leg to vary across matches. The estimated means and standard deviations of the Beta distribution show both differences in player ability and variability in performance, patterns that are not captured by a standard Binomial model.</p>
+<p>Overall, the Beta-Binomial model provides the best representation of match dynamics for this case by accounting for both dependence between legs and variation in player performance, offering a more complete statistical description of the 2024 season.</p>
 
 
 </section>

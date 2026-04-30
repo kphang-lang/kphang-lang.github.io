@@ -206,7 +206,7 @@ What is your best assessment of what $\theta$ is doing in this setting. Consider
 **Note:** In lab 8, we saw that small $\theta$ meant wins came in bunches (clumped together), so there were more 2-0 wins in a best of three series.
 
 **Solution**
-The parameter theta captures dependence between legs by influencing whether outcomes tend to cluster or alternate. When theta < 1, results are more likely to occur in streaks, producing more extreme outcomes, while theta > 1 leads to more alternation and more balanced match results. However, the model does not explicitly account for the order in which legs occur. Therefore sequences with the same total number of wins are treated identically. As a result, theta captures overall clustering behavior but doesn't model the exact order of outcomes within a match.
+The parameter $θ$ captures dependence between legs by influencing whether outcomes tend to cluster or alternate. When $θ < 1$, results are more likely to occur in streaks, producing more extreme outcomes, while $θ > 1$ leads to more alternation and more balanced match results. However, the model does not explicitly account for the order in which legs occur. Therefore sequences with the same total number of wins are treated identically. As a result, theta captures overall clustering behavior but doesn't model the exact order of outcomes within a match.
 
 # Question 2
 
@@ -225,7 +225,7 @@ E.altbinom.k = function(k, size, prob, theta){ #create function
 Describe how you can use your answer to part a to find Method of Moments estimates for the parameters $p$ and $\theta$ for Altham's Multiplicative Binomial Distribution based on data.
 
 **Solution**
-You can create a function with (par, data, size) and define the parameters p and theta as parameters 1 and 2. then you set m1 equal to the mean of the given data, m2 equal to the mean of the given data^2, and so on. Then, for E1 and E2, you set these equal to E.altbinom.k (the function from part a) with k = 1,2... Using what you wrote for m1, m2, ... and E1, E2, ... do c(E1-m1, E2-m2) which should result in (0, 0). Then use nleqslv, putting in fn, x, data, size to output the Method of Moments estimator based on the specific data. Method of Moments is an approximation, that gives back the maximum likelihood of observing a certain outcome.
+You can create a function with (par, data, size) and define the parameters p and theta as parameters 1 and 2. then you set m1 equal to the mean of the given data, m2 equal to the mean of the given data^2, and so on. Then, for E1 and E2, you set these equal to E.altbinom.k (the function from part a) with k = 1,2... Using what you wrote for m1, m2 and E1, E2 do c(E1-m1, E2-m2) which should result in (0, 0). Then use nleqslv, putting in fn, x, data, size to output the Method of Moments estimator based on the specific data. Method of Moments is an approximation, that gives back the maximum likelihood of observing a certain outcome.
 
 ## Part c
 Write a function that computes the log-likelihood for Altham's Multiplicative Binomial Distribution, given data (`x`) and proposed parameter values $p$ (`prob`) and $\theta$ (`theta`).
@@ -403,11 +403,11 @@ player.results = player.data |>
 knitr::kable(player.results, digits = 3)
 ```
 
-The estimated values of p and theta vary across players, reflecting differences in both ability and match dynamics. The parameter p represents the probability of winning an individual leg. Players with higher estimated values of p tend to perform better in the standings, indicating a relationship between individual leg success and overall match outcomes.
+The estimated values of p and $θ$ vary across players, reflecting differences in both ability and match dynamics. The parameter p represents the probability of winning an individual leg. Players with higher estimated values of p tend to perform better in the standings, indicating a relationship between individual leg success and overall match outcomes.
 
-The parameter theta captures dependence between legs. Values of theta<1 indicate clustering of results, where players are more likely to win or lose multiple legs in succession, leading to more extreme outcomes. In contrast, large values of theta (1, 1.5) correspond to more alternating results and balanced match outcomes.
+The parameter $θ$ captures dependence between legs. Values of $θ < 1$ indicate clustering of results, where players are more likely to win or lose multiple legs in succession, leading to more extreme outcomes. In contrast, large values of $θ$ (1, 1.5) correspond to more alternating results and balanced match outcomes.
 
-This interpretation is supported by the values in Table 4, where players with smaller theta tend to exhibit more variability in match outcomes, while those with larger theta show more consistency around close scorelines. Overall, these results suggest that both skill (through p) and dependence between legs (through theta) play important roles in determining match results.
+This interpretation is supported by the values in Table 4, where players with smaller $θ$ tend to exhibit more variability in match outcomes, while those with larger $θ$ show more consistency around close scorelines. Overall, these results suggest that both skill (through p) and dependence between legs (through theta) play important roles in determining match results.
 
 ## Altham's Multiplicative Beta Binomial Distribution
 
@@ -492,7 +492,7 @@ player.results.bb = player.data |>
 
 ```{r}
 #| label: fig-betabyplayer
-#| fig-cap: "Estimated Beta Distributions by Player"
+#| fig-cap: "Estimated Multiplicative Beta-Binomial Distributions by Player"
 #| fig-width: 5
 #| fig-height: 3
 #| scale: "80%"
@@ -522,10 +522,10 @@ ggplot(player.density, aes(x = x.val, y = density, color = Player)) +
   theme_bw() 
 ```
 
-The multiplicative Beta-Binomial model extends the Binomial framework by allowing the probability of winning a leg to vary across matches. The estimated parameters alpha and beta
+The multiplicative Beta-Binomial model extends the Binomial framework by allowing the probability of winning a leg to vary across matches. The estimated parameters $α$ and $β$
 define a Beta distribution, where the mean represents the average probability of winning a leg and the standard deviation refers to variability in performance. Players with higher estimated means tend to perform better overall, while nonzero standard deviations indicate fluctuations in performance across matches and opponents.
 
-The parameter theta continues to capture dependence between legs, with values less than 1 indicating clustering and values near 1 suggesting approximate independence.
+The parameter $θ$ continues to capture dependence between legs, with values less than 1 indicating clustering and values near 1 suggesting approximate independence.
 
 This model provides a better fit to the observed data because it accounts for both differences in player ability and variability in performance. This is supported by Table 5, where players exhibit both differing means and nonzero variability, patterns that are not captured by a standard Binomial model with a fixed probability.
 
@@ -538,7 +538,7 @@ Summarize the work you've done here to provide a brief (200-300 word) data-drive
 
 The 2024 Premier League Darts season was very competitive, with most matches decided by relatively small margins. After cleaning the dataset to include only standard-format matches (Nights 1–16), the distribution of outcomes shows that losing players most frequently won 4 or 5 legs, while extreme outcomes such as 6–0 or 6–1 wins were uncommon. Summary statistics further supported this pattern, with an average of approximately 3.56 losing legs per match and a relatively small average margin of victory, indicating that most matches were very close.
 
-To better understand player performance and match dynamics, Altham’s multiplicative Binomial model was used to estimate each player’s probability of winning a leg (p) along with the incorporation of the dependence parameter (theta). Players with higher estimated values of p generally performed better in standings, confirming that leg-level success translates into greater match success. The parameter theta captures dependence between legs, where values less than 1 indicate clustering of outcomes (streaks or extremes), while values near or above 1 suggest more alternating results. This demonstrates that match outcomes are not fully independent from leg to leg.
+To better understand player performance and match dynamics, Altham’s multiplicative Binomial model was used to estimate each player’s probability of winning a leg (p) along with the incorporation of the dependence parameter ($θ$). Players with higher estimated values of p generally performed better in standings, confirming that leg-level success translates into greater match success. The parameter $θ$ captures dependence between legs, where values less than 1 indicate clustering of outcomes (streaks or extremes), while values near or above 1 suggest more alternating results. This demonstrates that match outcomes are not fully independent from leg to leg.
 
 Extending the analysis to the multiplicative Beta-Binomial model allows the probability of winning a leg to vary across matches. The estimated means and standard deviations of the Beta distribution show both differences in player ability and variability in performance, patterns that are not captured by a standard Binomial model.
 

@@ -110,10 +110,10 @@ There are eight possible outcomes for Player A:
 n = 3
 p = 0.70 #define parameters
 
-ggdat <- tibble(x = 0:3,
+ggdat = tibble(x = 0:3,
                 PMF = dbinom(x, n, p),
                 CDF = pbinom(x, n, p)) #plot PMF and CDF
-PMF.plot <- ggplot(ggdat) +
+PMF.plot = ggplot(ggdat) +
   geom_linerange(aes(x = x, ymin = 0, ymax = PMF)) +
   geom_linerange(data = ggdat |> filter(x >= 2),
                  aes(x = x, ymin = 0, ymax = PMF),
@@ -122,7 +122,7 @@ PMF.plot <- ggplot(ggdat) +
   theme_bw() +
   labs(x = "Number of Legs Won", y = "Probability")
 
-CDF.plot <- ggplot(ggdat) +
+CDF.plot = ggplot(ggdat) +
   geom_step(aes(x = x, y = CDF)) +
   geom_point(aes(x = x, y = CDF)) +
   geom_hline(yintercept = 0) +
@@ -156,10 +156,10 @@ In intermediate courses, we learn the Negative Binomial distribution that we use
 r = 2
 p = 0.7 #define parameters
 
-ggdat <- tibble(x = -0:3) |>
+ggdat = tibble(x = -0:3) |>
   mutate(PMF = dnbinom(x, size=r, prob=p),
          CDF = pnbinom(x, size=r, prob=p)) #compute PMF and CDF
-PMF.plot <- ggplot(ggdat) +
+PMF.plot = ggplot(ggdat) +
   geom_linerange(aes(x = x, ymin = 0, ymax = PMF)) +
   geom_linerange(data = ggdat |> filter(x <= 1),
                  aes(x = x, ymin = 0, ymax = PMF),
@@ -168,7 +168,7 @@ PMF.plot <- ggplot(ggdat) +
   theme_bw() +
   labs(x = "Losses Before Two Wins", y = "Probability")
 
-CDF.plot <- ggplot(ggdat) +
+CDF.plot = ggplot(ggdat) +
   geom_step(aes(x = x, y = CDF)) +
   geom_point(aes(x = x, y = CDF), size = 1) +
   geom_hline(yintercept = 0) +
@@ -201,7 +201,7 @@ The primary benefit is that the Beta-Binomial enables us to specify some uncerta
 **Solution**
 ```{r}
 #| label: fig-beta
-#| fig-cap: "The Beta Distribution with alpha = 7, beta = 3"
+#| fig-cap: "The Beta Distribution with $α = 7$, $β = 3$"
 #| fig-width: 5
 #| fig-height: 3
 #| scale: "80%"
@@ -211,11 +211,11 @@ The primary benefit is that the Beta-Binomial enables us to specify some uncerta
 alpha = 7
 beta = 3 #define parameters
 
-ggdat <- tibble(x = seq(0, 1, length.out = 1000)) |>
+ggdat = tibble(x = seq(0, 1, length.out = 1000)) |>
   mutate(PDF = dbeta(x, shape1 = alpha, shape2 = beta), 
           CDF = pbeta(x, shape1 = alpha, shape2 = beta)) #compute PDF and CDF
 
-PDF.plot <- ggplot() +
+PDF.plot = ggplot() +
   geom_line(data = ggdat,
                  aes(x = x, y = PDF)) +
   geom_ribbon(data=ggdat |> filter(x >= 0.7), #p is around 0.7, beta distribution allows for uncertainty
@@ -225,7 +225,7 @@ PDF.plot <- ggplot() +
   theme_bw() +
   labs(x = "Number of Wins", y = "Density")
 
-CDF.plot <- ggplot() +
+CDF.plot = ggplot() +
   geom_line(data = ggdat,
               aes(x = x, y = CDF)) +
   geom_hline(yintercept = 0) +
@@ -284,7 +284,7 @@ qbeta(0.9, shape1 = alpha, shape2 = beta) #Inverse CDF
 **Solution**
 ```{r}
 #| label: fig-bbinomial
-#| fig-cap: "The Beta Binomial Distribution with alpha = 7, beta = 3"
+#| fig-cap: "The Beta Binomial Distribution with $α = 7$, $β = 3$"
 #| fig-width: 5
 #| fig-height: 3
 #| scale: "80%"
@@ -296,7 +296,7 @@ n = 3
 alpha = 7    
 beta = 3   #define parameters
 
-ggdat <- tibble(
+ggdat = tibble(
   x = 0:n,
   PMF = dbbinom(x, size = n, alpha = alpha, beta = beta),
   CDF = pbbinom(x, size = n, alpha = alpha, beta = beta)) #calculate PMF and CDF
@@ -310,7 +310,7 @@ PMF.plot = ggplot(ggdat) +
   theme_bw() +
   labs(x = "Number of Legs Won", y = "Probability")
 
-CDF.plot <- ggplot(ggdat) +
+CDF.plot = ggplot(ggdat) +
   geom_step(aes(x = x, y = CDF)) +
   geom_point(aes(x = x, y = CDF), size = 1) +
   geom_hline(yintercept = 0) +
@@ -388,8 +388,9 @@ ggdat_long = ggdat |>
                values_to = "PMF") #edit the tibble
 
 PMF.plot = ggplot(ggdat_long) + 
-  geom_linerange(aes(x = x, ymin = 0, ymax = PMF, color = theta),
-                 linewidth = 1.5, alpha = 0.7) +
+  geom_linerange(aes(x = x, ymin = 0, ymax = PMF, fill = theta), 
+                    position = position_dodge(width = 0.3),
+                    linewidth = 1.5, alpha = 0.7) +
   geom_hline(yintercept = 0) +
   theme_bw() +
   labs(x = "Number of Games Won",
@@ -399,7 +400,7 @@ PMF.plot = ggplot(ggdat_long) +
 print(PMF.plot) #plot the PMF with each value of theta as a different color
 ```
 
-As theta changes, certain outcomes become more or less likely in a best 2 out of 3 match. A theta under 1 (0.5), favors more extreme options, which is why you see more observations of 3 wins and a few of 1 wins. When theta is 1, the outcomes are more evenly distributed because each game is being interpreted individually and has the same probability of winning. When theta is 1.5, it favors more moderate outcomes, which is why these results are more concentrated in the middle (1-2).
+As $θ$ changes, certain outcomes become more or less likely in a best 2 out of 3 match. A $θ$ under $1$ (0.5), favors more extreme options, which is why you see more observations of $3$ wins and a few of $1$ wins. When $θ = 1$, the outcomes are more evenly distributed because each game is being interpreted individually and has the same probability of winning. When $θ = 1.5$, it favors more moderate outcomes, which is why these results are more concentrated in the middle (1-2).
 
 ## Cumulative Distribution Function
 **Use your `daltbinom()` function to create a `paltbinom()` function for computing the CDF of this distribution. Use your function to plot the distribution where $p=0.70$ where $\theta=0.50$, $\theta=1$, and $\theta=1.50$.**
@@ -457,7 +458,7 @@ print(CDF.plot) #plot the CDF with each value of theta as a different color
 (p_win_15 = 1 - paltbinom(1, n = 3, p = 0.7, theta = 1.5)) #compute the probabilities of winning with each different value of theta
 ```
 
-The probability of Player A winning the match is the same as the Binomial and Negative Binomial results when theta = 1 (0.784), but the probability is higher when theta is 0.5 (= 0.859, is observable also in the graphs). The probability is lower when theta is 1.5 (=0.747, which is also observable in the graphs).
+The probability of Player A winning the match is the same as the Binomial and Negative Binomial results when $θ = 1$ (0.784), but the probability is higher when $θ = 0.5$ (0.859, is observable also in the graphs). The probability is lower when $θ = 1.5$ (0.747, which is also observable in the graphs).
 
 # Altham's Multiplicative Beta-Binomial Distribution
 You may have wondered -- "Can we do the Beta thing with Altham's version of the Binomial Distribution?" The answer is yes!
@@ -486,7 +487,7 @@ pmf = sapply(x, function(xi) { #Apply the calculation to each possible outcome x
 
 ```{r}
 #| label: fig-daltbbinom
-#| fig-cap: "PMF of Altham's Multiplicative Beta-Binomial Distribution with alpha = 7, beta = 3"
+#| fig-cap: "PMF of Altham's Multiplicative Beta-Binomial Distribution with $α = 7$, $β = 3$"
 #| fig-width: 5
 #| fig-height: 3
 #| scale: "80%"
@@ -498,7 +499,7 @@ n = 3
 alpha = 7    
 beta = 3   #define parameters
 
-ggdat <- tibble(
+ggdat = tibble(
   x = 0:n,  
   pmf_theta_05 = daltbbinom(x, n, alpha = alpha, beta = beta, theta = 0.5),
   pmf_theta_1 = daltbbinom(x, n, alpha = alpha, beta = beta, theta = 1),
@@ -511,7 +512,8 @@ ggdat_long = ggdat |>
                values_to = "PMF") #edit the tibble
 
 PMF.plot = ggplot(ggdat_long) + 
-geom_linerange(aes(x = x, ymin = 0, ymax = PMF, color = theta),
+geom_linerange(aes(x = x, ymin = 0, ymax = PMF, fill = theta),
+                position = position_dodge(width = 0.3),
                  linewidth = 1.5, alpha = 0.7) +
   geom_hline(yintercept = 0) +
   theme_bw() +
@@ -636,7 +638,7 @@ ggplot(df, aes(x = outcome, y = prob, fill = model)) +
 **Comment on the differences in the context of a best two-out-of-three match.**
 
 **Solution**
-This part shows how every model produces slightly difference probabilities by design. First, the Binomial model assumes a fixed and constant skill level, producing a moderate distribution of match outcomes. This model is fairly static. Then, the Beta-Binomial incorporates uncertainty in Player A’s ability, giving more variation in outcomes. This leads to more extreme outcomes such as 2–0 wins and 0–2 losses (observed in column plot). Altham’s model is different from both the Binomial and Beta-Binomial models in that it incorporates dependence between games. In Altham’s model, the dependence parameter theta affects only the intermediate outcomes (2–1 and 1–2). When theta>1, these outcomes are amplified, increasing the probability of matches that go to three games. Contrastingly, when theta<1, the intermediate outcomes are downweighted, increasing the probability of sweeps (2–0 or 0–2). So, larger values of theta lead to more balanced matches, while smaller values lead to more skewed outcomes. The Altham Beta-Binomial combines both uncertainty (from the Beta-Binomial model) and dependence (from Altham's model), resulting in the greatest variability and realistic distribution. Here, theta=1.5 produces the most streak-driven outcomes. In the context of a best two-out-of-three match, this shows how variations in player skill and game-to-game dependence can alter match results.
+This part shows how every model produces slightly difference probabilities by design. First, the Binomial model assumes a fixed and constant skill level, producing a moderate distribution of match outcomes. This model is fairly static. Then, the Beta-Binomial incorporates uncertainty in Player A’s ability, giving more variation in outcomes. This leads to more extreme outcomes such as 2–0 wins and 0–2 losses (observed in column plot). Altham’s model is different from both the Binomial and Beta-Binomial models in that it incorporates dependence between games. In Altham’s model, the dependence parameter $θ$ affects only the intermediate outcomes (2–1 and 1–2). When $θ > 1$, these outcomes are amplified, increasing the probability of matches that go to three games. Contrastingly, when $θ < 1$, the intermediate outcomes are downweighted, increasing the probability of sweeps (2–0 or 0–2). So, larger values of $θ$ lead to more balanced matches, while smaller values lead to more skewed outcomes. The Altham Beta-Binomial combines both uncertainty (from the Beta-Binomial model) and dependence (from Altham's model), resulting in the greatest variability and realistic distribution. Here, $θ = 0.5$ produces the most streak-driven outcomes. In the context of a best two-out-of-three match, this shows how variations in player skill and game-to-game dependence can alter match results.
 
 ## Citations 
 The Beta-Binomial distribution was used and analyzed in this lab with the @extraDistr package, which provides additional probability distributions not available in base R. This is how I computed probabilities using dbbinom and pbbinom.
