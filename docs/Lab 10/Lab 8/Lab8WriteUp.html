@@ -340,10 +340,10 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>n <span class="ot">=</span> <span class="dv">3</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>p <span class="ot">=</span> <span class="fl">0.70</span> <span class="co">#define parameters</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>ggdat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb1-4"><a href="#cb1-4"></a>ggdat <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>,</span>
 <span id="cb1-5"><a href="#cb1-5"></a>                <span class="at">PMF =</span> <span class="fu">dbinom</span>(x, n, p),</span>
 <span id="cb1-6"><a href="#cb1-6"></a>                <span class="at">CDF =</span> <span class="fu">pbinom</span>(x, n, p)) <span class="co">#plot PMF and CDF</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>PMF.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>PMF.plot <span class="ot">=</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> PMF)) <span class="sc">+</span></span>
 <span id="cb1-9"><a href="#cb1-9"></a>  <span class="fu">geom_linerange</span>(<span class="at">data =</span> ggdat <span class="sc">|&gt;</span> <span class="fu">filter</span>(x <span class="sc">&gt;=</span> <span class="dv">2</span>),</span>
 <span id="cb1-10"><a href="#cb1-10"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> PMF),</span>
@@ -352,7 +352,7 @@ window.Quarto = {
 <span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb1-14"><a href="#cb1-14"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Legs Won"</span>, <span class="at">y =</span> <span class="st">"Probability"</span>)</span>
 <span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a>CDF.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>CDF.plot <span class="ot">=</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
 <span id="cb1-17"><a href="#cb1-17"></a>  <span class="fu">geom_step</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> CDF)) <span class="sc">+</span></span>
 <span id="cb1-18"><a href="#cb1-18"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> CDF)) <span class="sc">+</span></span>
 <span id="cb1-19"><a href="#cb1-19"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
@@ -400,10 +400,10 @@ Figure&nbsp;1: The Binomial Distribution with n = 3, p = 0.70
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>r <span class="ot">=</span> <span class="dv">2</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>p <span class="ot">=</span> <span class="fl">0.7</span> <span class="co">#define parameters</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a>ggdat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="sc">-</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>ggdat <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="sc">-</span><span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">|&gt;</span></span>
 <span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">mutate</span>(<span class="at">PMF =</span> <span class="fu">dnbinom</span>(x, <span class="at">size=</span>r, <span class="at">prob=</span>p),</span>
 <span id="cb4-6"><a href="#cb4-6"></a>         <span class="at">CDF =</span> <span class="fu">pnbinom</span>(x, <span class="at">size=</span>r, <span class="at">prob=</span>p)) <span class="co">#compute PMF and CDF</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>PMF.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>PMF.plot <span class="ot">=</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
 <span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> PMF)) <span class="sc">+</span></span>
 <span id="cb4-9"><a href="#cb4-9"></a>  <span class="fu">geom_linerange</span>(<span class="at">data =</span> ggdat <span class="sc">|&gt;</span> <span class="fu">filter</span>(x <span class="sc">&lt;=</span> <span class="dv">1</span>),</span>
 <span id="cb4-10"><a href="#cb4-10"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> PMF),</span>
@@ -412,7 +412,7 @@ Figure&nbsp;1: The Binomial Distribution with n = 3, p = 0.70
 <span id="cb4-13"><a href="#cb4-13"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb4-14"><a href="#cb4-14"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Losses Before Two Wins"</span>, <span class="at">y =</span> <span class="st">"Probability"</span>)</span>
 <span id="cb4-15"><a href="#cb4-15"></a></span>
-<span id="cb4-16"><a href="#cb4-16"></a>CDF.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a>CDF.plot <span class="ot">=</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
 <span id="cb4-17"><a href="#cb4-17"></a>  <span class="fu">geom_step</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> CDF)) <span class="sc">+</span></span>
 <span id="cb4-18"><a href="#cb4-18"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> CDF), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb4-19"><a href="#cb4-19"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
@@ -470,11 +470,11 @@ Figure&nbsp;2: The Negative Binomial Distribution with r = 2, p = 0.70
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>alpha <span class="ot">=</span> <span class="dv">7</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>beta <span class="ot">=</span> <span class="dv">3</span> <span class="co">#define parameters</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a>ggdat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>ggdat <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">mutate</span>(<span class="at">PDF =</span> <span class="fu">dbeta</span>(x, <span class="at">shape1 =</span> alpha, <span class="at">shape2 =</span> beta), </span>
 <span id="cb7-6"><a href="#cb7-6"></a>          <span class="at">CDF =</span> <span class="fu">pbeta</span>(x, <span class="at">shape1 =</span> alpha, <span class="at">shape2 =</span> beta)) <span class="co">#compute PDF and CDF</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a></span>
-<span id="cb7-8"><a href="#cb7-8"></a>PDF.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>PDF.plot <span class="ot">=</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> ggdat,</span>
 <span id="cb7-10"><a href="#cb7-10"></a>                 <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> PDF)) <span class="sc">+</span></span>
 <span id="cb7-11"><a href="#cb7-11"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data=</span>ggdat <span class="sc">|&gt;</span> <span class="fu">filter</span>(x <span class="sc">&gt;=</span> <span class="fl">0.7</span>), <span class="co">#p is around 0.7, beta distribution allows for uncertainty</span></span>
@@ -484,7 +484,7 @@ Figure&nbsp;2: The Negative Binomial Distribution with r = 2, p = 0.70
 <span id="cb7-15"><a href="#cb7-15"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb7-16"><a href="#cb7-16"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Wins"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span>
 <span id="cb7-17"><a href="#cb7-17"></a></span>
-<span id="cb7-18"><a href="#cb7-18"></a>CDF.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>CDF.plot <span class="ot">=</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb7-19"><a href="#cb7-19"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> ggdat,</span>
 <span id="cb7-20"><a href="#cb7-20"></a>              <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> CDF)) <span class="sc">+</span></span>
 <span id="cb7-21"><a href="#cb7-21"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
@@ -496,7 +496,7 @@ Figure&nbsp;2: The Negative Binomial Distribution with r = 2, p = 0.70
 <div id="fig-beta" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: The Beta Distribution with alpha = 7, beta = 3
+Figure&nbsp;3: The Beta Distribution with <span class="math inline">\(α = 7\)</span>, <span class="math inline">\(β = 3\)</span>
 </figcaption>
 <div aria-describedby="fig-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="Lab8WriteUp_files/figure-html/fig-beta-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480">
@@ -591,7 +591,7 @@ Figure&nbsp;3: The Beta Distribution with alpha = 7, beta = 3
 <span id="cb16-3"><a href="#cb16-3"></a>alpha <span class="ot">=</span> <span class="dv">7</span>    </span>
 <span id="cb16-4"><a href="#cb16-4"></a>beta <span class="ot">=</span> <span class="dv">3</span>   <span class="co">#define parameters</span></span>
 <span id="cb16-5"><a href="#cb16-5"></a></span>
-<span id="cb16-6"><a href="#cb16-6"></a>ggdat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb16-6"><a href="#cb16-6"></a>ggdat <span class="ot">=</span> <span class="fu">tibble</span>(</span>
 <span id="cb16-7"><a href="#cb16-7"></a>  <span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>n,</span>
 <span id="cb16-8"><a href="#cb16-8"></a>  <span class="at">PMF =</span> <span class="fu">dbbinom</span>(x, <span class="at">size =</span> n, <span class="at">alpha =</span> alpha, <span class="at">beta =</span> beta),</span>
 <span id="cb16-9"><a href="#cb16-9"></a>  <span class="at">CDF =</span> <span class="fu">pbbinom</span>(x, <span class="at">size =</span> n, <span class="at">alpha =</span> alpha, <span class="at">beta =</span> beta)) <span class="co">#calculate PMF and CDF</span></span>
@@ -605,7 +605,7 @@ Figure&nbsp;3: The Beta Distribution with alpha = 7, beta = 3
 <span id="cb16-17"><a href="#cb16-17"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb16-18"><a href="#cb16-18"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Legs Won"</span>, <span class="at">y =</span> <span class="st">"Probability"</span>)</span>
 <span id="cb16-19"><a href="#cb16-19"></a></span>
-<span id="cb16-20"><a href="#cb16-20"></a>CDF.plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20"></a>CDF.plot <span class="ot">=</span> <span class="fu">ggplot</span>(ggdat) <span class="sc">+</span></span>
 <span id="cb16-21"><a href="#cb16-21"></a>  <span class="fu">geom_step</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> CDF)) <span class="sc">+</span></span>
 <span id="cb16-22"><a href="#cb16-22"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> CDF), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb16-23"><a href="#cb16-23"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
@@ -617,7 +617,7 @@ Figure&nbsp;3: The Beta Distribution with alpha = 7, beta = 3
 <div id="fig-bbinomial" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-bbinomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: The Beta Binomial Distribution with alpha = 7, beta = 3
+Figure&nbsp;4: The Beta Binomial Distribution with <span class="math inline">\(α = 7\)</span>, <span class="math inline">\(β = 3\)</span>
 </figcaption>
 <div aria-describedby="fig-bbinomial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="Lab8WriteUp_files/figure-html/fig-bbinomial-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480">
@@ -696,15 +696,16 @@ Figure&nbsp;4: The Beta Binomial Distribution with alpha = 7, beta = 3
 <span id="cb20-11"><a href="#cb20-11"></a>               <span class="at">values_to =</span> <span class="st">"PMF"</span>) <span class="co">#edit the tibble</span></span>
 <span id="cb20-12"><a href="#cb20-12"></a></span>
 <span id="cb20-13"><a href="#cb20-13"></a>PMF.plot <span class="ot">=</span> <span class="fu">ggplot</span>(ggdat_long) <span class="sc">+</span> </span>
-<span id="cb20-14"><a href="#cb20-14"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> PMF, <span class="at">color =</span> theta),</span>
-<span id="cb20-15"><a href="#cb20-15"></a>                 <span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb20-16"><a href="#cb20-16"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb20-17"><a href="#cb20-17"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb20-18"><a href="#cb20-18"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Games Won"</span>,</span>
-<span id="cb20-19"><a href="#cb20-19"></a>       <span class="at">y =</span> <span class="st">"Probability"</span>,</span>
-<span id="cb20-20"><a href="#cb20-20"></a>       <span class="at">color =</span> <span class="st">"Theta"</span>)</span>
-<span id="cb20-21"><a href="#cb20-21"></a></span>
-<span id="cb20-22"><a href="#cb20-22"></a><span class="fu">print</span>(PMF.plot) <span class="co">#plot the PMF with each value of theta as a different color</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-14"><a href="#cb20-14"></a>  <span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> PMF, <span class="at">fill =</span> theta), </span>
+<span id="cb20-15"><a href="#cb20-15"></a>                    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.3</span>),</span>
+<span id="cb20-16"><a href="#cb20-16"></a>                    <span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb20-17"><a href="#cb20-17"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb20-19"><a href="#cb20-19"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Games Won"</span>,</span>
+<span id="cb20-20"><a href="#cb20-20"></a>       <span class="at">y =</span> <span class="st">"Probability"</span>,</span>
+<span id="cb20-21"><a href="#cb20-21"></a>       <span class="at">color =</span> <span class="st">"Theta"</span>)</span>
+<span id="cb20-22"><a href="#cb20-22"></a></span>
+<span id="cb20-23"><a href="#cb20-23"></a><span class="fu">print</span>(PMF.plot) <span class="co">#plot the PMF with each value of theta as a different color</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-altbinom" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -720,7 +721,7 @@ Figure&nbsp;5: PMF of Altham’s Multiplicative Binomial Distribution with p = 0
 </div>
 </div>
 <p></p>
-<p>As theta changes, certain outcomes become more or less likely in a best 2 out of 3 match. A theta under 1 (0.5), favors more extreme options, which is why you see more observations of 3 wins and a few of 1 wins. When theta is 1, the outcomes are more evenly distributed because each game is being interpreted individually and has the same probability of winning. When theta is 1.5, it favors more moderate outcomes, which is why these results are more concentrated in the middle (1-2).</p>
+<p>As <span class="math inline">\(θ\)</span> changes, certain outcomes become more or less likely in a best 2 out of 3 match. A <span class="math inline">\(θ\)</span> under <span class="math inline">\(1\)</span> (0.5), favors more extreme options, which is why you see more observations of <span class="math inline">\(3\)</span> wins and a few of <span class="math inline">\(1\)</span> wins. When <span class="math inline">\(θ = 1\)</span>, the outcomes are more evenly distributed because each game is being interpreted individually and has the same probability of winning. When <span class="math inline">\(θ = 1.5\)</span>, it favors more moderate outcomes, which is why these results are more concentrated in the middle (1-2).</p>
 </section>
 <section id="cumulative-distribution-function" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="cumulative-distribution-function"><span class="header-section-number">3.2</span> Cumulative Distribution Function</h2>
@@ -810,7 +811,7 @@ Figure&nbsp;6: CDF of Altham’s Multiplicative Binomial Distribution with p = 0
 </div>
 </div>
 <p></p>
-<p>The probability of Player A winning the match is the same as the Binomial and Negative Binomial results when theta = 1 (0.784), but the probability is higher when theta is 0.5 (= 0.859, is observable also in the graphs). The probability is lower when theta is 1.5 (=0.747, which is also observable in the graphs).</p>
+<p>The probability of Player A winning the match is the same as the Binomial and Negative Binomial results when <span class="math inline">\(θ = 1\)</span> (0.784), but the probability is higher when <span class="math inline">\(θ = 0.5\)</span> (0.859, is observable also in the graphs). The probability is lower when <span class="math inline">\(θ = 1.5\)</span> (0.747, which is also observable in the graphs).</p>
 </section>
 </section>
 <section id="althams-multiplicative-beta-binomial-distribution" class="level1" data-number="4">
@@ -850,7 +851,7 @@ Figure&nbsp;6: CDF of Altham’s Multiplicative Binomial Distribution with p = 0
 <span id="cb30-3"><a href="#cb30-3"></a>alpha <span class="ot">=</span> <span class="dv">7</span>    </span>
 <span id="cb30-4"><a href="#cb30-4"></a>beta <span class="ot">=</span> <span class="dv">3</span>   <span class="co">#define parameters</span></span>
 <span id="cb30-5"><a href="#cb30-5"></a></span>
-<span id="cb30-6"><a href="#cb30-6"></a>ggdat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb30-6"><a href="#cb30-6"></a>ggdat <span class="ot">=</span> <span class="fu">tibble</span>(</span>
 <span id="cb30-7"><a href="#cb30-7"></a>  <span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span>n,  </span>
 <span id="cb30-8"><a href="#cb30-8"></a>  <span class="at">pmf_theta_05 =</span> <span class="fu">daltbbinom</span>(x, n, <span class="at">alpha =</span> alpha, <span class="at">beta =</span> beta, <span class="at">theta =</span> <span class="fl">0.5</span>),</span>
 <span id="cb30-9"><a href="#cb30-9"></a>  <span class="at">pmf_theta_1 =</span> <span class="fu">daltbbinom</span>(x, n, <span class="at">alpha =</span> alpha, <span class="at">beta =</span> beta, <span class="at">theta =</span> <span class="dv">1</span>),</span>
@@ -863,21 +864,22 @@ Figure&nbsp;6: CDF of Altham’s Multiplicative Binomial Distribution with p = 0
 <span id="cb30-16"><a href="#cb30-16"></a>               <span class="at">values_to =</span> <span class="st">"PMF"</span>) <span class="co">#edit the tibble</span></span>
 <span id="cb30-17"><a href="#cb30-17"></a></span>
 <span id="cb30-18"><a href="#cb30-18"></a>PMF.plot <span class="ot">=</span> <span class="fu">ggplot</span>(ggdat_long) <span class="sc">+</span> </span>
-<span id="cb30-19"><a href="#cb30-19"></a><span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> PMF, <span class="at">color =</span> theta),</span>
-<span id="cb30-20"><a href="#cb30-20"></a>                 <span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb30-21"><a href="#cb30-21"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb30-22"><a href="#cb30-22"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb30-23"><a href="#cb30-23"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Games Won"</span>,</span>
-<span id="cb30-24"><a href="#cb30-24"></a>       <span class="at">y =</span> <span class="st">"Probability"</span>,</span>
-<span id="cb30-25"><a href="#cb30-25"></a>       <span class="at">color =</span> <span class="st">"Theta"</span>)</span>
-<span id="cb30-26"><a href="#cb30-26"></a></span>
-<span id="cb30-27"><a href="#cb30-27"></a><span class="fu">print</span>(PMF.plot) <span class="co">#plot the PMF, each theta is a different color</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-19"><a href="#cb30-19"></a><span class="fu">geom_linerange</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> PMF, <span class="at">fill =</span> theta),</span>
+<span id="cb30-20"><a href="#cb30-20"></a>                <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.3</span>),</span>
+<span id="cb30-21"><a href="#cb30-21"></a>                 <span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb30-22"><a href="#cb30-22"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb30-23"><a href="#cb30-23"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb30-24"><a href="#cb30-24"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Games Won"</span>,</span>
+<span id="cb30-25"><a href="#cb30-25"></a>       <span class="at">y =</span> <span class="st">"Probability"</span>,</span>
+<span id="cb30-26"><a href="#cb30-26"></a>       <span class="at">color =</span> <span class="st">"Theta"</span>)</span>
+<span id="cb30-27"><a href="#cb30-27"></a></span>
+<span id="cb30-28"><a href="#cb30-28"></a><span class="fu">print</span>(PMF.plot) <span class="co">#plot the PMF, each theta is a different color</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-daltbbinom" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-daltbbinom-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: PMF of Altham’s Multiplicative Beta-Binomial Distribution with alpha = 7, beta = 3
+Figure&nbsp;7: PMF of Altham’s Multiplicative Beta-Binomial Distribution with <span class="math inline">\(α = 7\)</span>, <span class="math inline">\(β = 3\)</span>
 </figcaption>
 <div aria-describedby="fig-daltbbinom-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="Lab8WriteUp_files/figure-html/fig-daltbbinom-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480">
@@ -1063,7 +1065,7 @@ Figure&nbsp;8: Player A Best-of-Three Match Outcome Probabilities Across Models
 </div>
 <p></p>
 <p><strong>Comment on the differences in the context of a best two-out-of-three match.</strong></p>
-<p><strong>Solution</strong> This part shows how every model produces slightly difference probabilities by design. First, the Binomial model assumes a fixed and constant skill level, producing a moderate distribution of match outcomes. This model is fairly static. Then, the Beta-Binomial incorporates uncertainty in Player A’s ability, giving more variation in outcomes. This leads to more extreme outcomes such as 2–0 wins and 0–2 losses (observed in column plot). Altham’s model is different from both the Binomial and Beta-Binomial models in that it incorporates dependence between games. In Altham’s model, the dependence parameter theta affects only the intermediate outcomes (2–1 and 1–2). When theta&gt;1, these outcomes are amplified, increasing the probability of matches that go to three games. Contrastingly, when theta&lt;1, the intermediate outcomes are downweighted, increasing the probability of sweeps (2–0 or 0–2). So, larger values of theta lead to more balanced matches, while smaller values lead to more skewed outcomes. The Altham Beta-Binomial combines both uncertainty (from the Beta-Binomial model) and dependence (from Altham’s model), resulting in the greatest variability and realistic distribution. Here, theta=1.5 produces the most streak-driven outcomes. In the context of a best two-out-of-three match, this shows how variations in player skill and game-to-game dependence can alter match results.</p>
+<p><strong>Solution</strong> This part shows how every model produces slightly difference probabilities by design. First, the Binomial model assumes a fixed and constant skill level, producing a moderate distribution of match outcomes. This model is fairly static. Then, the Beta-Binomial incorporates uncertainty in Player A’s ability, giving more variation in outcomes. This leads to more extreme outcomes such as 2–0 wins and 0–2 losses (observed in column plot). Altham’s model is different from both the Binomial and Beta-Binomial models in that it incorporates dependence between games. In Altham’s model, the dependence parameter <span class="math inline">\(θ\)</span> affects only the intermediate outcomes (2–1 and 1–2). When <span class="math inline">\(θ &gt; 1\)</span>, these outcomes are amplified, increasing the probability of matches that go to three games. Contrastingly, when <span class="math inline">\(θ &lt; 1\)</span>, the intermediate outcomes are downweighted, increasing the probability of sweeps (2–0 or 0–2). So, larger values of <span class="math inline">\(θ\)</span> lead to more balanced matches, while smaller values lead to more skewed outcomes. The Altham Beta-Binomial combines both uncertainty (from the Beta-Binomial model) and dependence (from Altham’s model), resulting in the greatest variability and realistic distribution. Here, <span class="math inline">\(θ = 0.5\)</span> produces the most streak-driven outcomes. In the context of a best two-out-of-three match, this shows how variations in player skill and game-to-game dependence can alter match results.</p>
 <section id="citations" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="citations"><span class="header-section-number">5.1</span> Citations</h2>
 <p>The Beta-Binomial distribution was used and analyzed in this lab with the <span class="citation" data-cites="extraDistr">Wolodzko (<a href="#ref-extraDistr" role="doc-biblioref">2026</a>)</span> package, which provides additional probability distributions not available in base R. This is how I computed probabilities using dbbinom and pbbinom.</p>
